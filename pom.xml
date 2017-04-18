@@ -35,6 +35,12 @@
             <version>${java.plugin.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.smartsquare.ddd</groupId>
+            <artifactId>ddd-annotations</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- vvv TESTING DEPENDENCIES vvv -->
 
         <dependency>
