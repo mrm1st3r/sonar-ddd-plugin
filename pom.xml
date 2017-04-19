@@ -24,6 +24,14 @@
         <dependency>
             <groupId>org.sonarsource.java</groupId>
             <artifactId>sonar-java-plugin</artifactId>
+            <type>sonar-plugin</type>
+            <version>${java.plugin.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sonarsource.java</groupId>
+            <artifactId>sonar-java-plugin</artifactId>
+            <type>jar</type>
             <version>${java.plugin.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -105,6 +113,9 @@
                     <sonarLintSupported>true</sonarLintSupported>
                 </configuration>
             </plugin>
+
+            <!-- vvv TESTING PLUGINS vvv -->
+
             <!-- copy dependencies into target/test-jars to be used when verifying sonar checks -->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -120,8 +131,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- vvv TESTING PLUGINS vvv -->
 
             <plugin>
                 <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
