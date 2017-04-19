@@ -24,14 +24,8 @@
         <dependency>
             <groupId>org.sonarsource.java</groupId>
             <artifactId>sonar-java-plugin</artifactId>
-            <type>sonar-plugin</type>
             <version>${java.plugin.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sonarsource.java</groupId>
-            <artifactId>java-frontend</artifactId>
-            <version>${java.plugin.version}</version>
         </dependency>
 
         <dependency>
