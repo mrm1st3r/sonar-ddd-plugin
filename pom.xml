@@ -21,7 +21,6 @@
             <version>${sonar.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.sonarsource.java</groupId>
             <artifactId>sonar-java-plugin</artifactId>
@@ -124,6 +123,21 @@
                         <configuration>
                             <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
+                visit https://github.com/groovy/GMavenPlus/wiki -->
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
