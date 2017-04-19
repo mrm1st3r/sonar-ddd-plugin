@@ -18,6 +18,7 @@ import java.util.List;
 @Rule(key = "ddd.entity.identity")
 public class IdentityProvidedRule extends IssuableSubscriptionVisitor {
 
+    @Override
     public List<Kind> nodesToVisit() {
         return ImmutableList.of(Kind.CLASS);
     }
@@ -44,6 +45,6 @@ public class IdentityProvidedRule extends IssuableSubscriptionVisitor {
         return classTree.members().stream()
                 .filter(m -> m.is(Kind.METHOD))
                 .map(m -> (MethodTree) m)
-                .anyMatch(m -> m.simpleName().name().equals("getId"));
+                .anyMatch(m -> "getId".equals(m.simpleName().name()));
     }
 }

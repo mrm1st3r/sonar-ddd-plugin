@@ -9,3 +9,7 @@ class SampleEntity2 { // Noncompliant
 
     public int getFoo() {return 0;}
 }
+class SampleEntity3 {
+
+    public int getFoo() {return 0;}
+}

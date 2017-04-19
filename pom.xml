@@ -116,7 +116,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>test-compile</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
@@ -126,6 +126,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- vvv TESTING PLUGINS vvv -->
 
             <plugin>
                 <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
@@ -137,6 +139,25 @@
                     <execution>
                         <goals>
                             <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>code-coverage</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
