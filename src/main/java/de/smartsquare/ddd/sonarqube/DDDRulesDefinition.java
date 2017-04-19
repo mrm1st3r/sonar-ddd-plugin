@@ -17,12 +17,19 @@ public class DDDRulesDefinition implements RulesDefinition {
     @Override
     @ParametersAreNonnullByDefault
     public void define(Context context) {
-        NewRepository repository = context
-                .createRepository(REPOSITORY_KEY, Java.KEY)
-                .setName("MyCompany Custom Repository");
+        NewRepository repository = createRepository(context);
+        addRulesToRepository(repository);
+        repository.done();
+    }
 
+    private NewRepository createRepository(Context context) {
+        return context
+                .createRepository(REPOSITORY_KEY, Java.KEY)
+                .setName(SonarDDDPlugin.REPOSITORY_NAME);
+    }
+
+    private void addRulesToRepository(NewRepository repository) {
         new AnnotationBasedRulesDefinition(repository, Java.KEY)
                 .addRuleClasses(false, ImmutableList.copyOf(RulesList.checkClasses()));
-
     }
 }
