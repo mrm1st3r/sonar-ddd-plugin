@@ -9,9 +9,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 public class SonarDDDPlugin implements Plugin {
 
+    static final String REPOSITORY_KEY = "smartsquare-ddd-checks";
+
     @Override
     @ParametersAreNonnullByDefault
     public void define(Context context) {
-        // todo: register extensions
+        context.addExtension(DDDCheckRegistrar.class);
     }
 }
