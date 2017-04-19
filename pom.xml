@@ -55,6 +55,11 @@
             <version>${java.plugin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>2.5.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.spockframework</groupId>
@@ -106,6 +111,21 @@
                     <sonarQubeMinVersion>5.6</sonarQubeMinVersion>
                     <sonarLintSupported>true</sonarLintSupported>
                 </configuration>
+            </plugin>
+            <!-- copy dependencies into target/test-jars to be used when verifying sonar checks -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

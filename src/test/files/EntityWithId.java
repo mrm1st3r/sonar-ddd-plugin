@@ -5,7 +5,7 @@ class SampleEntity {
 }
 
 @de.smartsquare.ddd.annotations.DDDEntity
-class SampleEntity2 {
+class SampleEntity2 { // Noncompliant
 
     public int getFoo() {return 0;}
 }

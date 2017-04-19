@@ -1,0 +1,12 @@
+{
+  "title": "Entity must have an identity",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Critical"
+}

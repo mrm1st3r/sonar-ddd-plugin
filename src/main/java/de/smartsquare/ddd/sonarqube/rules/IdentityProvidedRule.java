@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.annotations.DDDEntity;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
-import org.sonar.plugins.java.api.tree.AnnotationTree;
-import org.sonar.plugins.java.api.tree.ClassTree;
-import org.sonar.plugins.java.api.tree.MethodTree;
-import org.sonar.plugins.java.api.tree.Tree;
+import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
 import java.util.List;
@@ -34,8 +31,9 @@ public class IdentityProvidedRule extends IssuableSubscriptionVisitor {
         }
         Optional<MethodTree> method = classTree.members().stream().filter(m -> m.is(Kind.METHOD)).map(m -> (MethodTree) m).filter(m -> m.simpleName().name().equals("getId")).findFirst();
 
-        if (!method.isPresent()) {
-            reportIssue(classTree, "DDD Entity should have an identity");
+        IdentifierTree className = classTree.simpleName();
+        if (!method.isPresent() && className != null) {
+            reportIssue(className, "DDD Entity should have an identity");
         }
     }
 }
