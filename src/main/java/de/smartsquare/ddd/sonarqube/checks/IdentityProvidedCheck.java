@@ -1,4 +1,4 @@
-package de.smartsquare.ddd.sonarqube.rules;
+package de.smartsquare.ddd.sonarqube.checks;
 
 import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.annotations.DDDEntity;
@@ -15,13 +15,8 @@ import java.util.List;
 /**
  * Rule to check Entities for identity.
  */
-@Rule(
-        key = "ddd.entity.identity",
-        name = "Entity must have an identity",
-        description = "BlaBlaBla, Mr. Freeman",
-        tags = {"ddd"}
-)
-public class IdentityProvidedRule extends IssuableSubscriptionVisitor {
+@Rule(key = "IdentityProvided")
+public class IdentityProvidedCheck extends IssuableSubscriptionVisitor {
 
     @Override
     public List<Kind> nodesToVisit() {

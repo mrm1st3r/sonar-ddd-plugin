@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube
 
-import de.smartsquare.ddd.sonarqube.rules.IdentityProvidedRule
+import de.smartsquare.ddd.sonarqube.checks.IdentityProvidedCheck
 import org.sonar.plugins.java.api.CheckRegistrar
 import spock.lang.Specification
 
@@ -16,6 +16,6 @@ class DDDCheckRegistrarTest extends Specification {
 
         then:
         context.checkClasses().size() == 1
-        context.checkClasses().contains(IdentityProvidedRule)
+        context.checkClasses().contains(IdentityProvidedCheck)
     }
 }

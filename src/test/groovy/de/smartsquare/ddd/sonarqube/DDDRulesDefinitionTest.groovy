@@ -25,7 +25,7 @@ class DDDRulesDefinitionTest extends Specification {
         definition.define(context)
 
         then:
-        def rule = context.repositories()[0].rule("ddd.entity.identity")
+        def rule = context.repositories()[0].rule("IdentityProvided")
         rule.name() == "Entity must have an identity"
         rule.tags().contains("ddd")
         rule.severity() == "CRITICAL"
@@ -36,7 +36,7 @@ class DDDRulesDefinitionTest extends Specification {
         definition.define(context)
 
         then:
-        def rule = context.repositories()[0].rule("ddd.entity.identity")
+        def rule = context.repositories()[0].rule("IdentityProvided")
         rule.htmlDescription() != null
         rule.htmlDescription().contains("<p>")
     }
