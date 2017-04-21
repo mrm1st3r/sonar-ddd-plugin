@@ -17,5 +17,6 @@ public class SonarDDDPlugin implements Plugin {
     public void define(Context context) {
         context.addExtension(DDDCheckRegistrar.class);
         context.addExtension(DDDRulesDefinition.class);
+        context.addExtension(JavaDDDProfile.class);
     }
 }
