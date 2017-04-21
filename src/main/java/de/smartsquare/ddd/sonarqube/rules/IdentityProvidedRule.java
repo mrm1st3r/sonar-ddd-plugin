@@ -15,9 +15,12 @@ import java.util.List;
 /**
  * Rule to check Entities for identity.
  */
-@Rule(key = "ddd.entity.identity",
-name = "Entity must have an identity",
-description = "BlaBlaBla, Mr. Freeman")
+@Rule(
+        key = "ddd.entity.identity",
+        name = "Entity must have an identity",
+        description = "BlaBlaBla, Mr. Freeman",
+        tags = {"ddd"}
+)
 public class IdentityProvidedRule extends IssuableSubscriptionVisitor {
 
     @Override

@@ -1,11 +1,12 @@
 package de.smartsquare.ddd.sonarqube;
 
-import com.google.common.collect.ImmutableList;
 import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionAnnotationLoader;
 import org.sonar.plugins.java.Java;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
+import org.sonar.plugins.java.api.JavaCheck;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 import static de.smartsquare.ddd.sonarqube.SonarDDDPlugin.REPOSITORY_KEY;
 
@@ -19,6 +20,7 @@ public class DDDRulesDefinition implements RulesDefinition {
     public void define(Context context) {
         NewRepository repository = createRepository(context);
         addRulesToRepository(repository);
+        enrichRules(repository, Java.KEY);
         repository.done();
     }
 
@@ -29,7 +31,11 @@ public class DDDRulesDefinition implements RulesDefinition {
     }
 
     private void addRulesToRepository(NewRepository repository) {
-        new AnnotationBasedRulesDefinition(repository, Java.KEY)
-                .addRuleClasses(false, ImmutableList.copyOf(RulesList.checkClasses()));
+        List<Class<? extends JavaCheck>> checkClasses = RulesList.checkClasses();
+        new RulesDefinitionAnnotationLoader().load(repository, checkClasses.toArray(new Class[checkClasses.size()]));
+    }
+
+    private void enrichRules(NewRepository repository, String key) {
+        //new RuleEnricher(repository, key).enrich();
     }
 }

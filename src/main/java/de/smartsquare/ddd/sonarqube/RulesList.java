@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.sonarqube.rules.IdentityProvidedRule;
 import org.sonar.plugins.java.api.JavaCheck;
 
+import java.util.List;
+
 /**
  * List of all rules provided by this plugin.
  */
@@ -13,11 +15,11 @@ class RulesList {
         throw new InstantiationException("You shall not construct");
     }
 
-    static Iterable<Class<? extends JavaCheck>> checkClasses() {
+    static List<Class<? extends JavaCheck>> checkClasses() {
         return ImmutableList.of(IdentityProvidedRule.class);
     }
 
-    static Iterable<Class<? extends JavaCheck>> testCheckClasses() {
+    static List<Class<? extends JavaCheck>> testCheckClasses() {
         return ImmutableList.of();
     }
 }
