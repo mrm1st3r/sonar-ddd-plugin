@@ -2,6 +2,7 @@ package de.smartsquare.ddd.sonarqube;
 
 import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.sonarqube.checks.IdentityProvidedCheck;
+import de.smartsquare.ddd.sonarqube.checks.ImmutabilityCheck;
 import org.sonar.plugins.java.api.JavaCheck;
 
 import java.util.List;
@@ -16,7 +17,7 @@ class RulesList {
     }
 
     static List<Class<? extends JavaCheck>> checkClasses() {
-        return ImmutableList.of(IdentityProvidedCheck.class);
+        return ImmutableList.of(IdentityProvidedCheck.class, ImmutabilityCheck.class);
     }
 
     static List<Class<? extends JavaCheck>> testCheckClasses() {
