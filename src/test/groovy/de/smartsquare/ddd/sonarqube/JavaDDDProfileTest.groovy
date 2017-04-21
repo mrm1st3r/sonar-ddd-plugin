@@ -10,13 +10,14 @@ class JavaDDDProfileTest extends Specification{
         given:
         def rulesFinder = Mock(RuleFinder)
         def profileDefinition = new JavaDDDProfile(rulesFinder)
-        def rule = Rule.create(SonarDDDPlugin.REPOSITORY_KEY, "IdentityProvided")
 
         when:
         def profile = profileDefinition.createProfile(null)
 
         then:
-        1 * rulesFinder.findByKey(SonarDDDPlugin.REPOSITORY_KEY, "IdentityProvided") >> rule
+        (1.._) * rulesFinder.findByKey(SonarDDDPlugin.REPOSITORY_KEY, (String) _) >> {
+            args -> Rule.create(SonarDDDPlugin.REPOSITORY_KEY, args[1])
+        }
         profile.getActiveRules().size() == RulesList.checkClasses().size()
         profile.getName() == JavaDDDProfile.PROFILE_NAME
     }

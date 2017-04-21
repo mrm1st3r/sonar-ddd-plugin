@@ -15,7 +15,7 @@ class DDDCheckRegistrarTest extends Specification {
         registrar.register(context)
 
         then:
-        context.checkClasses().size() == 1
+        context.checkClasses().size() > 0
         context.checkClasses().contains(IdentityProvidedCheck)
     }
 }

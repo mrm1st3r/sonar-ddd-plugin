@@ -13,7 +13,7 @@ class DDDRulesDefinitionTest extends Specification {
         definition.define(context)
 
         then:
-        context.repositories().size() == 1
+        context.repositories().size() > 0
         def repo = context.repositories()[0]
         repo.key() == SonarDDDPlugin.REPOSITORY_KEY
         repo.name() == SonarDDDPlugin.REPOSITORY_NAME

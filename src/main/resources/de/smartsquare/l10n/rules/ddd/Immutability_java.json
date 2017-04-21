@@ -1,0 +1,12 @@
+{
+  "title": "Value objects should be immutable",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Major"
+}
