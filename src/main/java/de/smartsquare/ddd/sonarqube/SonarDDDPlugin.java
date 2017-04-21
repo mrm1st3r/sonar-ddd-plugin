@@ -9,7 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 public class SonarDDDPlugin implements Plugin {
 
-    static final String REPOSITORY_KEY = "smartsquare-ddd-checks";
+    static final String REPOSITORY_KEY = "ddd";
     static final String REPOSITORY_NAME = "Domain Driven Design";
 
     @Override

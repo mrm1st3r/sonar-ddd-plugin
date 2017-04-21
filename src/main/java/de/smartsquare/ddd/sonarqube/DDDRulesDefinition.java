@@ -36,6 +36,6 @@ public class DDDRulesDefinition implements RulesDefinition {
     }
 
     private void enrichRules(NewRepository repository, String key) {
-        //new RuleEnricher(repository, key).enrich();
+        new RuleEnricher(repository, key).enrich();
     }
 }
