@@ -13,16 +13,23 @@ import static org.sonar.api.config.PropertyDefinition.builder;
  */
 class DDDProperties {
 
+    private DDDProperties() throws InstantiationException {
+        throw new InstantiationException("You shall not construct!");
+    }
+
     static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
         properties.add(
                 builder("sonar.ddd.entityAnnotations")
+                .category("Entities")
                 .name("Entity Annotations")
                 .type(PropertyType.STRING).build());
         properties.add(builder("sonar.ddd.valueObjectAnnotations")
+                .category("Value Objects")
                 .name("Value Object Annotations")
                 .type(PropertyType.STRING).build());
         properties.add(builder("sonar.ddd.identityMethods")
+                .category("Entities")
                 .name("Identity Methods")
                 .type(PropertyType.STRING)
                 .defaultValue("getId").build());
