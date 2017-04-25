@@ -22,17 +22,17 @@ class DDDProperties {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
         properties.add(
                 builder("sonar.ddd.entityAnnotations")
-                .category("Entities")
+                .subCategory("Entities")
                 .name("Entity Annotations")
                 .onQualifiers(Qualifiers.PROJECT)
                 .type(PropertyType.STRING).build());
         properties.add(builder("sonar.ddd.valueObjectAnnotations")
-                .category("Value Objects")
+                .subCategory("Value Objects")
                 .name("Value Object Annotations")
                 .onQualifiers(Qualifiers.PROJECT)
                 .type(PropertyType.STRING).build());
         properties.add(builder("sonar.ddd.identityMethods")
-                .category("Entities")
+                .subCategory("Entities")
                 .name("Identity Methods")
                 .onQualifiers(Qualifiers.PROJECT)
                 .type(PropertyType.STRING)
