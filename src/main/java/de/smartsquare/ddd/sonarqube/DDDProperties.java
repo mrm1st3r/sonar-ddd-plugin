@@ -14,29 +14,35 @@ import static org.sonar.api.config.PropertyDefinition.builder;
  */
 class DDDProperties {
 
+    private static final String ROOT_KEY = "sonar.ddd.";
+    private static final String CAT_ENTITIES = "Entities";
+    private static final String CAT_VAL_OBJ = "Value Objects";
+
     private DDDProperties() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
     }
 
     static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
-        properties.add(
-                builder("sonar.ddd.entityAnnotations")
-                .subCategory("Entities")
-                .name("Entity Annotations")
-                .onQualifiers(Qualifiers.PROJECT)
-                .type(PropertyType.STRING).build());
-        properties.add(builder("sonar.ddd.valueObjectAnnotations")
-                .subCategory("Value Objects")
-                .name("Value Object Annotations")
-                .onQualifiers(Qualifiers.PROJECT)
-                .type(PropertyType.STRING).build());
-        properties.add(builder("sonar.ddd.identityMethods")
-                .subCategory("Entities")
-                .name("Identity Methods")
-                .onQualifiers(Qualifiers.PROJECT)
-                .type(PropertyType.STRING)
-                .defaultValue("getId").build());
+        properties.add(newProperty("entityAnnotations", "Annotations", CAT_ENTITIES, null));
+        properties.add(newProperty("entityNames", "Names", CAT_ENTITIES, null));
+        properties.add(newProperty("entityHierarchy", "Hierarchy", CAT_ENTITIES, null));
+        properties.add(newProperty("identityMethods", "Identity Methods", CAT_ENTITIES, "getId"));
+        properties.add(newProperty("valueObjectAnnotations", "Annotations", CAT_VAL_OBJ, null));
+        properties.add(newProperty("valueObjectNames", "Names", CAT_VAL_OBJ, null));
+        properties.add(newProperty("valueObjectHierarchy", "Hierarchy", CAT_VAL_OBJ, null));
         return properties.build();
+    }
+
+    private static PropertyDefinition newProperty(String key, String name, String subCategory, String defaultValue) {
+        PropertyDefinition.Builder builder = builder(ROOT_KEY + key)
+                .name(name)
+                .subCategory(subCategory)
+                .type(PropertyType.STRING)
+                .onQualifiers(Qualifiers.PROJECT);
+        if (defaultValue != null) {
+            builder.defaultValue(defaultValue);
+        }
+        return builder.build();
     }
 }
