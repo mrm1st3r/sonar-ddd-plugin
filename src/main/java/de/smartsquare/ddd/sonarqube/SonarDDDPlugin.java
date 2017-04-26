@@ -15,7 +15,7 @@ public class SonarDDDPlugin implements Plugin {
     @Override
     @ParametersAreNonnullByDefault
     public void define(Context context) {
-        context.addExtension(DDDCheckRegistrar.class);
+        context.addExtension(DDDSensor.class);
         context.addExtension(DDDRulesDefinition.class);
         context.addExtension(JavaDDDProfile.class);
         context.addExtensions(DDDProperties.propertyDefinitions());

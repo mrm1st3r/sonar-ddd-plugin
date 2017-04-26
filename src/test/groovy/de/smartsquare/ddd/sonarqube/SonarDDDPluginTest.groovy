@@ -18,7 +18,7 @@ class SonarDDDPluginTest extends Specification {
 
         then:
         def extensions = context.getExtensions()
-        extensions.contains(DDDCheckRegistrar)
+        extensions.contains(DDDSensor)
         extensions.contains(DDDRulesDefinition)
     }
 }
