@@ -12,6 +12,7 @@
     <properties>
         <sonar.version>6.3</sonar.version>
         <java.plugin.version>4.8.0.9441</java.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -50,7 +51,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.2</version>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -101,7 +107,6 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>3.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency> <!-- enables mocking of classes without default constructor (together with CGLIB) -->
             <groupId>org.objenesis</groupId>
@@ -135,6 +140,32 @@
                     <sonarQubeMinVersion>5.6</sonarQubeMinVersion>
                     <sonarLintSupported>true</sonarLintSupported>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <!-- can't minimize dependencies because of some classes of sonar-duplications
+                            that required by sonar-batch
+                            <minimizeJar>false</minimizeJar>-->
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.sonar.java</pattern>
+                                    <shadedPattern>de.smartsquare.internal.sonar.java</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- vvv TESTING PLUGINS vvv -->
