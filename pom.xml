@@ -133,6 +133,7 @@
                 <version>1.17</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <basePlugin>java</basePlugin>
                     <pluginKey>ddd</pluginKey>
                     <pluginClass>de.smartsquare.ddd.sonarqube.SonarDDDPlugin</pluginClass>
                     <pluginName>Domain Driven Design analysis</pluginName>
@@ -140,32 +141,6 @@
                     <sonarQubeMinVersion>5.6</sonarQubeMinVersion>
                     <sonarLintSupported>true</sonarLintSupported>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <!-- can't minimize dependencies because of some classes of sonar-duplications
-                            that required by sonar-batch
-                            <minimizeJar>false</minimizeJar>-->
-                            <createDependencyReducedPom>true</createDependencyReducedPom>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.sonar.java</pattern>
-                                    <shadedPattern>de.smartsquare.internal.sonar.java</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <!-- vvv TESTING PLUGINS vvv -->
