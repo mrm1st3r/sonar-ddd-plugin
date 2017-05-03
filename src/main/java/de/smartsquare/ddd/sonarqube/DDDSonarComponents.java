@@ -51,17 +51,17 @@ public class DDDSonarComponents extends SonarComponents {
 
         @Override
         public NewSymbolTable onFile(InputFile inputFile) {
-            return null;
+            return this;
         }
 
         @Override
         public NewSymbol newSymbol(int startOffset, int endOffset) {
-            return null;
+            return new MockNewSymbol();
         }
 
         @Override
         public NewSymbol newSymbol(TextRange range) {
-            return null;
+            return new MockNewSymbol();
         }
 
         @Override
@@ -71,6 +71,10 @@ public class DDDSonarComponents extends SonarComponents {
 
         @Override
         public void save() {
+            /*
+            Symbols are saved by the main java-plugin.
+            Doing so here results in an exception
+            */
         }
 
     }
