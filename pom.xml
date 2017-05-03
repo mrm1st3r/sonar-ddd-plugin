@@ -7,7 +7,7 @@
     <groupId>de.smartsquare.ddd</groupId>
     <artifactId>sonar-ddd-plugin</artifactId>
     <packaging>sonar-plugin</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <properties>
         <sonar.version>6.3</sonar.version>
