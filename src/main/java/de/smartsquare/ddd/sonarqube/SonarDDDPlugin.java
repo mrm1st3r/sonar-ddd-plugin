@@ -1,5 +1,7 @@
 package de.smartsquare.ddd.sonarqube;
 
+import de.smartsquare.ddd.sonarqube.sensor.DDDSensor;
+import de.smartsquare.ddd.sonarqube.sensor.DDDSonarComponents;
 import org.sonar.api.Plugin;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -9,7 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 public class SonarDDDPlugin implements Plugin {
 
-    static final String REPOSITORY_KEY = "ddd";
+    public static final String REPOSITORY_KEY = "ddd";
     static final String REPOSITORY_NAME = "Domain Driven Design";
 
     @Override

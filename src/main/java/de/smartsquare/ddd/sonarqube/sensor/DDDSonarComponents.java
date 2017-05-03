@@ -1,5 +1,6 @@
-package de.smartsquare.ddd.sonarqube;
+package de.smartsquare.ddd.sonarqube.sensor;
 
+import de.smartsquare.ddd.sonarqube.SonarDDDPlugin;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
@@ -18,6 +19,7 @@ import org.sonar.plugins.java.api.JavaCheck;
 import org.sonarsource.api.sonarlint.SonarLintSide;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 
 /**
@@ -26,6 +28,7 @@ import java.io.File;
  */
 @ScannerSide
 @SonarLintSide
+@ParametersAreNonnullByDefault
 public class DDDSonarComponents extends SonarComponents {
 
     public DDDSonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs, JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory) {

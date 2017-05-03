@@ -10,13 +10,13 @@ import java.util.List;
 /**
  * List of all rules provided by this plugin.
  */
-class RulesList {
+public class RulesList {
 
     private RulesList() throws InstantiationException {
         throw new InstantiationException("You shall not construct");
     }
 
-    static List<Class<? extends JavaCheck>> checkClasses() {
+    public static List<Class<? extends JavaCheck>> checkClasses() {
         return ImmutableList.of(IdentityProvidedCheck.class, ImmutabilityCheck.class);
     }
 

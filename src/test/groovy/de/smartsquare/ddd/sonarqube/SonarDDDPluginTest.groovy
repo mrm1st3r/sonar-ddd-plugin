@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube
 
+import de.smartsquare.ddd.sonarqube.sensor.DDDSensor
 import org.sonar.api.Plugin
 import org.sonar.api.internal.SonarRuntimeImpl
 import org.sonar.api.utils.Version

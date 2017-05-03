@@ -1,5 +1,6 @@
-package de.smartsquare.ddd.sonarqube
+package de.smartsquare.ddd.sonarqube.sensor
 
+import de.smartsquare.ddd.sonarqube.SonarDDDPlugin
 import org.sonar.api.batch.fs.internal.DefaultFileSystem
 import org.sonar.api.batch.rule.CheckFactory
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor
