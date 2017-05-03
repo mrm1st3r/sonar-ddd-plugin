@@ -68,7 +68,7 @@ public class DDDSensor implements Sensor {
     @Override
     @ParametersAreNonnullByDefault
     public void execute(SensorContext context) {
-        if (!hasActiveRules()) {
+        if (hasNoActiveRules()) {
             return;
         }
         LOG.info("Starting DDD Analysis");
@@ -76,6 +76,24 @@ public class DDDSensor implements Sensor {
         JavaAstScanner astScanner = createAstScanner(getJavaVersion(), createChecks());
         astScanner.scan(getSourceFiles());
         LOG.info("Finished DDD Analysis");
+    }
+
+    private boolean hasNoActiveRules() {
+        return profile.getActiveRulesByRepository(SonarDDDPlugin.REPOSITORY_KEY).isEmpty();
+    }
+
+    private JavaAstScanner createAstScanner(JavaVersion javaVersion, Collection<? extends CodeVisitor> visitors) {
+        ActionParser<Tree> parser = JavaParser.createParser();
+        JavaAstScanner astScanner = new JavaAstScanner(parser, sonarComponents);
+        VisitorsBridge visitorsBridge = new VisitorsBridge(visitors,
+                classpath.getElements(), sonarComponents, false);
+        visitorsBridge.setJavaVersion(javaVersion);
+        astScanner.setVisitorBridge(visitorsBridge);
+        return astScanner;
+    }
+
+    private JavaVersion getJavaVersion() {
+        return JavaVersionImpl.fromString(settings.getString(Java.SOURCE_VERSION));
     }
 
     private Collection<JavaCheck> createChecks() {
@@ -92,28 +110,10 @@ public class DDDSensor implements Sensor {
                 // todo: (statically) inject dependencies
                 checks.add(check);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.warn("Could not instantiate check: " + c.getSimpleName(), e);
             }
         }
         return checks;
-    }
-
-    private boolean hasActiveRules() {
-        return !profile.getActiveRulesByRepository(SonarDDDPlugin.REPOSITORY_KEY).isEmpty();
-    }
-
-    private JavaAstScanner createAstScanner(JavaVersion javaVersion, Collection<? extends CodeVisitor> visitors) {
-        ActionParser<Tree> parser = JavaParser.createParser();
-        JavaAstScanner astScanner = new JavaAstScanner(parser, sonarComponents);
-        VisitorsBridge visitorsBridge = new VisitorsBridge(visitors,
-                classpath.getElements(), sonarComponents, false);
-        visitorsBridge.setJavaVersion(javaVersion);
-        astScanner.setVisitorBridge(visitorsBridge);
-        return astScanner;
-    }
-
-    private JavaVersion getJavaVersion() {
-        return JavaVersionImpl.fromString(settings.getString(Java.SOURCE_VERSION));
     }
 
     private Iterable<File> getSourceFiles() {
