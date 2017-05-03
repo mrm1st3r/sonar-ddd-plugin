@@ -15,8 +15,8 @@ class JavaDDDProfileTest extends Specification{
         def profile = profileDefinition.createProfile(null)
 
         then:
-        (1.._) * rulesFinder.findByKey(SonarDDDPlugin.REPOSITORY_KEY, (String) _) >> {
-            args -> Rule.create(SonarDDDPlugin.REPOSITORY_KEY, args[1])
+        (1.._) * rulesFinder.findByKey(RulesList.REPOSITORY_KEY, (String) _) >> {
+            args -> Rule.create(RulesList.REPOSITORY_KEY, args[1])
         }
         profile.getActiveRules().size() == RulesList.checkClasses().size()
         profile.getName() == JavaDDDProfile.PROFILE_NAME

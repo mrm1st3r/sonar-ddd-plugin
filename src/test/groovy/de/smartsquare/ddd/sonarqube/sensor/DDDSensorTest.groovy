@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor
 
-import de.smartsquare.ddd.sonarqube.SonarDDDPlugin
+import de.smartsquare.ddd.sonarqube.RulesList
 import org.sonar.api.batch.fs.internal.DefaultFileSystem
 import org.sonar.api.batch.rule.CheckFactory
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor
@@ -39,7 +39,7 @@ class DDDSensorTest extends Specification {
         sensor.execute(SensorContextTester.create(new File("")))
 
         then:
-        profile.getActiveRulesByRepository(SonarDDDPlugin.REPOSITORY_KEY) >> Collections.emptyList()
+        profile.getActiveRulesByRepository(RulesList.REPOSITORY_KEY) >> Collections.emptyList()
         0 * components.setSensorContext(_)
     }
 }

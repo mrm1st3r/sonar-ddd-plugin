@@ -8,8 +8,6 @@ import org.sonar.plugins.java.api.JavaCheck;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-import static de.smartsquare.ddd.sonarqube.SonarDDDPlugin.REPOSITORY_KEY;
-
 /**
  * Rule repository definition for web ui.
  */
@@ -26,8 +24,8 @@ public class DDDRulesDefinition implements RulesDefinition {
 
     private NewRepository createRepository(Context context) {
         return context
-                .createRepository(REPOSITORY_KEY, Java.KEY)
-                .setName(SonarDDDPlugin.REPOSITORY_NAME);
+                .createRepository(RulesList.REPOSITORY_KEY, Java.KEY)
+                .setName(RulesList.REPOSITORY_NAME);
     }
 
     private void addRulesToRepository(NewRepository repository) {

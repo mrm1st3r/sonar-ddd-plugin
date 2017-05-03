@@ -2,7 +2,6 @@ package de.smartsquare.ddd.sonarqube.sensor;
 
 import com.sonar.sslr.api.typed.ActionParser;
 import de.smartsquare.ddd.sonarqube.RulesList;
-import de.smartsquare.ddd.sonarqube.SonarDDDPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
@@ -81,7 +80,7 @@ public class DDDSensor implements Sensor {
     }
 
     private boolean hasNoActiveRules() {
-        return profile.getActiveRulesByRepository(SonarDDDPlugin.REPOSITORY_KEY).isEmpty();
+        return profile.getActiveRulesByRepository(RulesList.REPOSITORY_KEY).isEmpty();
     }
 
     private JavaAstScanner createAstScanner(JavaVersion javaVersion, Collection<? extends CodeVisitor> visitors) {
@@ -99,7 +98,7 @@ public class DDDSensor implements Sensor {
     }
 
     private Collection<JavaCheck> createChecks() {
-        Checks<JavaCheck> checks = checkFactory.create(SonarDDDPlugin.REPOSITORY_KEY);
+        Checks<JavaCheck> checks = checkFactory.create(RulesList.REPOSITORY_KEY);
         checks.addAnnotatedChecks(instantiateChecks(RulesList.checkClasses()));
         return checks.all();
     }

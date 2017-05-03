@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import de.smartsquare.ddd.sonarqube.SonarDDDPlugin;
+import de.smartsquare.ddd.sonarqube.RulesList;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
@@ -42,7 +42,7 @@ public class DDDSonarComponents extends SonarComponents {
     @Override
     public RuleKey getRuleKey(JavaCheck check) {
         String ruleKey = check.getClass().getAnnotation(Rule.class).key();
-        return RuleKey.of(SonarDDDPlugin.REPOSITORY_KEY, ruleKey);
+        return RuleKey.of(RulesList.REPOSITORY_KEY, ruleKey);
     }
 
     @Override

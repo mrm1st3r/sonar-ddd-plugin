@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor
 
-import de.smartsquare.ddd.sonarqube.SonarDDDPlugin
+import de.smartsquare.ddd.sonarqube.RulesList
 import de.smartsquare.ddd.sonarqube.checks.ImmutabilityCheck
 import org.sonar.api.batch.fs.TextRange
 import org.sonar.api.rule.RuleKey
@@ -10,7 +10,7 @@ class DDDSonarComponentsTest extends Specification {
 
     def "should lookup RuleKey"() {
         given:
-        def expectedKey = RuleKey.of(SonarDDDPlugin.REPOSITORY_KEY, "Immutability")
+        def expectedKey = RuleKey.of(RulesList.REPOSITORY_KEY, "Immutability")
         def check = new ImmutabilityCheck()
         DDDSonarComponents components = createComponents()
 

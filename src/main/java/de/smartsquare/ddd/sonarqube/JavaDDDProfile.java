@@ -29,7 +29,7 @@ public class JavaDDDProfile extends ProfileDefinition {
         RulesProfile profile = RulesProfile.create(PROFILE_NAME, Java.KEY);
         for (Class<? extends JavaCheck> check : RulesList.checkClasses()) {
             String ruleKey = check.getAnnotation(Rule.class).key();
-            profile.activateRule(rules.findByKey(SonarDDDPlugin.REPOSITORY_KEY, ruleKey), null);
+            profile.activateRule(rules.findByKey(RulesList.REPOSITORY_KEY, ruleKey), null);
         }
         return profile;
     }

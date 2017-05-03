@@ -11,9 +11,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 public class SonarDDDPlugin implements Plugin {
 
-    public static final String REPOSITORY_KEY = "ddd";
-    static final String REPOSITORY_NAME = "Domain Driven Design";
-
     @Override
     @ParametersAreNonnullByDefault
     public void define(Context context) {
