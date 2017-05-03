@@ -5,6 +5,7 @@ import org.sonar.api.batch.rule.CheckFactory
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor
 import org.sonar.api.config.MapSettings
 import org.sonar.api.profiles.RulesProfile
+import org.sonar.java.SonarComponents
 import org.sonar.plugins.java.Java
 import spock.lang.Specification
 
@@ -16,7 +17,7 @@ class DDDSensorTest extends Specification {
     def setup() {
         fileSystem = new DefaultFileSystem((File) null)
         sensor = new DDDSensor(new MapSettings(), RulesProfile.create(),
-                this.fileSystem, new CheckFactory(null))
+                this.fileSystem, new CheckFactory(null), Mock(SonarComponents))
     }
 
     def "should execute only on Java projects"() {

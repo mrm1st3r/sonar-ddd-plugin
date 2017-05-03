@@ -1,6 +1,8 @@
 package de.smartsquare.ddd.sonarqube;
 
 import com.sonar.sslr.api.typed.ActionParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
@@ -11,6 +13,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.java.JavaClasspath;
+import org.sonar.java.SonarComponents;
 import org.sonar.java.ast.JavaAstScanner;
 import org.sonar.java.ast.parser.JavaParser;
 import org.sonar.java.model.JavaVersionImpl;
@@ -24,7 +27,7 @@ import org.sonar.squidbridge.api.CodeVisitor;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -36,17 +39,21 @@ import java.util.stream.StreamSupport;
  */
 public class DDDSensor implements Sensor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DDDSensor.class);
+
     private final Settings settings;
     private final RulesProfile profile;
+    private final SonarComponents sonarComponents;
     private final JavaClasspath classpath;
     private final CheckFactory checkFactory;
     private final FileSystem fs;
 
     public DDDSensor(Settings settings, RulesProfile profile, FileSystem fs,
-                     CheckFactory checkFactory) {
+                     CheckFactory checkFactory, DDDSonarComponents sonarComponents) {
         this.fs = fs;
         this.settings = settings;
         this.profile = profile;
+        this.sonarComponents = sonarComponents;
         this.classpath = new JavaClasspath(settings, fs);
         this.checkFactory = checkFactory;
     }
@@ -64,14 +71,17 @@ public class DDDSensor implements Sensor {
         if (!hasActiveRules()) {
             return;
         }
+        LOG.info("Starting DDD Analysis");
+        sonarComponents.setSensorContext(context);
         JavaAstScanner astScanner = createAstScanner(getJavaVersion(), createChecks());
         astScanner.scan(getSourceFiles());
+        LOG.info("Finished DDD Analysis");
     }
 
-    private List<CodeVisitor> createChecks() {
+    private Collection<JavaCheck> createChecks() {
         Checks<JavaCheck> checks = checkFactory.create(SonarDDDPlugin.REPOSITORY_KEY);
         checks.addAnnotatedChecks(instantiateChecks(RulesList.checkClasses()));
-        return Collections.emptyList();
+        return checks.all();
     }
 
     private Iterable instantiateChecks(List<Class<? extends JavaCheck>> classes) {
@@ -92,11 +102,11 @@ public class DDDSensor implements Sensor {
         return !profile.getActiveRulesByRepository(SonarDDDPlugin.REPOSITORY_KEY).isEmpty();
     }
 
-    private JavaAstScanner createAstScanner(JavaVersion javaVersion, List<CodeVisitor> visitors) {
+    private JavaAstScanner createAstScanner(JavaVersion javaVersion, Collection<? extends CodeVisitor> visitors) {
         ActionParser<Tree> parser = JavaParser.createParser();
-        JavaAstScanner astScanner = new JavaAstScanner(parser, null);
+        JavaAstScanner astScanner = new JavaAstScanner(parser, sonarComponents);
         VisitorsBridge visitorsBridge = new VisitorsBridge(visitors,
-                classpath.getElements(), null, false);
+                classpath.getElements(), sonarComponents, false);
         visitorsBridge.setJavaVersion(javaVersion);
         astScanner.setVisitorBridge(visitorsBridge);
         return astScanner;
