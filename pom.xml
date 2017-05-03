@@ -136,10 +136,12 @@
                     <basePlugin>java</basePlugin>
                     <pluginKey>ddd</pluginKey>
                     <pluginClass>de.smartsquare.ddd.sonarqube.SonarDDDPlugin</pluginClass>
-                    <pluginName>Domain Driven Design analysis</pluginName>
-                    <pluginDescription>Plugin for analyzing implementations of Domain Driven Design</pluginDescription>
+                    <pluginName>Java DDD</pluginName>
+                    <pluginDescription>Domain Driven Design Analyzer for Java</pluginDescription>
                     <sonarQubeMinVersion>5.6</sonarQubeMinVersion>
                     <sonarLintSupported>true</sonarLintSupported>
+                    <pluginOrganizationName>Smartsquare</pluginOrganizationName>
+                    <pluginOrganizationUrl>http://www.smartsquare.de/</pluginOrganizationUrl>
                 </configuration>
             </plugin>
 
