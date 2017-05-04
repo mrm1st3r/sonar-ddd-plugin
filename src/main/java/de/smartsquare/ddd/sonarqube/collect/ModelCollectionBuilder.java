@@ -36,7 +36,7 @@ public class ModelCollectionBuilder {
         add(Type.REPOSITORY, fqn);
     }
 
-    private void add(Type type, String fqn) {
+    void add(Type type, String fqn) {
         listBuilders.get(type).add(fqn);
     }
 
