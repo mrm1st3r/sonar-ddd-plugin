@@ -39,4 +39,21 @@ class EntityCollectorTest extends Specification {
         collection.hasEntity("EntityWithAbstractParent")
         !collection.hasEntity("UnmarkedEntity")
     }
+
+    def "should collect entities by name pattern"() {
+        given:
+        def builder = new ModelCollectionBuilder()
+        def settings = new MapSettings()
+        settings.setProperty("sonar.ddd.entityNamePattern", ".*Entity\$")
+
+        when:
+        JavaCheckVerifier.verifyNoIssue("src/test/files/EntityCollector_sample_name.java",
+                new EntityCollector(settings, builder))
+        def collection = builder.build()
+
+        then:
+        collection.hasEntity("SampleEntity")
+        collection.hasEntity("Sample2Entity")
+        !collection.hasEntity("SampleEntity3")
+    }
 }

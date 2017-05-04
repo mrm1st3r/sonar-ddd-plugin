@@ -8,6 +8,8 @@ import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.Tree;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /**
  * Abstract class to collect domain model parts
@@ -15,6 +17,7 @@ import java.util.List;
 public abstract class ModelCollector extends IssuableSubscriptionVisitor {
 
     private final ModelCollectionBuilder builder;
+    private Predicate<String> namePattern;
 
     ModelCollector(ModelCollectionBuilder builder) {
         this.builder = builder;
@@ -28,7 +31,7 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
     @Override
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
-        if (isAnnotated(classTree) || isInHierarchy(classTree)) {
+        if (isAnnotated(classTree) || isInHierarchy(classTree) || matchesNamePattern(classTree)) {
             builder.add(getModelType(), getFqn(classTree));
         }
     }
@@ -47,6 +50,16 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
     private boolean isInHierarchy(ClassTree classTree) {
         Type type = classTree.symbol().type();
         return getSuperClasses().stream().anyMatch(sc -> type.isSubtypeOf(sc) && !type.is(sc));
+    }
+
+    private boolean matchesNamePattern(ClassTree classTree) {
+        if (getNamePattern() == null || getNamePattern().equals("")) {
+            return false;
+        }
+        if (namePattern == null) {
+            namePattern = Pattern.compile(getNamePattern()).asPredicate();
+        }
+        return namePattern.test(classTree.symbol().name());
     }
 
     abstract ModelCollection.Type getModelType();

@@ -35,6 +35,6 @@ public class EntityCollector extends ModelCollector {
 
     @Override
     String getNamePattern() {
-        return null;
+        return settings.getString("sonar.ddd.entityNamePattern");
     }
 }
