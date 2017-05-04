@@ -25,7 +25,10 @@ public class EntityCollector extends ModelCollector {
 
     @Override
     List<String> getAnnotations() {
-        return ImmutableList.of(DDDEntity.class.getName());
+        return ImmutableList.<String>builder()
+                .add(DDDEntity.class.getName())
+                .add(settings.getStringArray("sonar.ddd.entityAnnotations"))
+                .build();
     }
 
     @Override

@@ -53,7 +53,7 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
     }
 
     private boolean matchesNamePattern(ClassTree classTree) {
-        if (getNamePattern() == null || getNamePattern().equals("")) {
+        if (getNamePattern() == null || "".equals(getNamePattern().trim())) {
             return false;
         }
         if (namePattern == null) {
