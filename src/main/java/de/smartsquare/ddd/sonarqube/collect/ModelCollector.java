@@ -1,6 +1,7 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
 import com.google.common.collect.ImmutableList;
+import org.sonar.api.config.Settings;
 import org.sonar.java.resolve.JavaSymbol;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.Type;
@@ -11,16 +12,20 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey;
+
 /**
  * Abstract class to collect domain model parts
  */
 public abstract class ModelCollector extends IssuableSubscriptionVisitor {
 
     private final ModelCollectionBuilder builder;
+    private final Settings settings;
     private Predicate<String> namePattern;
 
-    ModelCollector(ModelCollectionBuilder builder) {
+    ModelCollector(ModelCollectionBuilder builder, Settings settings) {
         this.builder = builder;
+        this.settings = settings;
     }
 
     @Override
@@ -62,11 +67,28 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
         return namePattern.test(classTree.symbol().name());
     }
 
+    private List<String> getAnnotations() {
+        return ImmutableList.<String>builder()
+                .add(getStaticAnnotation())
+                .add(settings.getStringArray(buildKey(getAnnotationSetting())))
+                .build();
+    }
+
+    private List<String> getSuperClasses() {
+        return ImmutableList.<String>builder().add(settings.getStringArray(buildKey(getHierarchySetting()))).build();
+    }
+
+    private String getNamePattern() {
+        return settings.getString(buildKey(getNamePatternSetting()));
+    }
+
     abstract ModelCollection.Type getModelType();
 
-    abstract List<String> getAnnotations();
+    abstract String getStaticAnnotation();
 
-    abstract List<String> getSuperClasses();
+    abstract String getAnnotationSetting();
 
-    abstract String getNamePattern();
+    abstract String getHierarchySetting();
+
+    abstract String getNamePatternSetting();
 }

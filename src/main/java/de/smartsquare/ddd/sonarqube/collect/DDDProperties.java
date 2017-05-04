@@ -1,4 +1,4 @@
-package de.smartsquare.ddd.sonarqube;
+package de.smartsquare.ddd.sonarqube.collect;
 
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.PropertyType;
@@ -12,7 +12,7 @@ import static org.sonar.api.config.PropertyDefinition.builder;
 /**
  * Property definitions for plugin.
  */
-class DDDProperties {
+public class DDDProperties {
 
     private static final String ROOT_KEY = "sonar.ddd.";
     private static final String CAT_ENTITIES = "Entities";
@@ -22,7 +22,7 @@ class DDDProperties {
         throw new InstantiationException("You shall not construct!");
     }
 
-    static List<PropertyDefinition> propertyDefinitions() {
+    public static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
         properties.add(newProperty("entityAnnotations", "Annotations", CAT_ENTITIES, null));
         properties.add(newProperty("entityNames", "Names", CAT_ENTITIES, null));
@@ -44,5 +44,9 @@ class DDDProperties {
             builder.defaultValue(defaultValue);
         }
         return builder.build();
+    }
+
+    static String buildKey(String property) {
+        return ROOT_KEY + property;
     }
 }

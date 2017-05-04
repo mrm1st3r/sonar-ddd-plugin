@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube;
 
+import de.smartsquare.ddd.sonarqube.collect.DDDProperties;
 import de.smartsquare.ddd.sonarqube.sensor.DDDSensor;
 import de.smartsquare.ddd.sonarqube.sensor.DDDSonarComponents;
 import org.sonar.api.Plugin;
