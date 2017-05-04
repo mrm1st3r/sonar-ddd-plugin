@@ -19,13 +19,16 @@ import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey;
  */
 public abstract class ModelCollector extends IssuableSubscriptionVisitor {
 
-    private final ModelCollectionBuilder builder;
+    private ModelCollectionBuilder builder;
     private final Settings settings;
     private Predicate<String> namePattern;
 
-    ModelCollector(ModelCollectionBuilder builder, Settings settings) {
-        this.builder = builder;
+    ModelCollector(Settings settings) {
         this.settings = settings;
+    }
+
+    public void setBuilder(ModelCollectionBuilder builder) {
+        this.builder = builder;
     }
 
     @Override
@@ -35,6 +38,9 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
 
     @Override
     public void visitNode(Tree tree) {
+        if (builder == null) {
+            throw new IllegalStateException("Cannot collect before ModelCollectionBuilder is set");
+        }
         ClassTree classTree = (ClassTree) tree;
         if (isAnnotated(classTree) || isInHierarchy(classTree) || matchesNamePattern(classTree)) {
             builder.add(getModelType(), getFqn(classTree));

@@ -8,8 +8,8 @@ import org.sonar.api.config.Settings;
  */
 public class EntityCollector extends ModelCollector {
 
-    public EntityCollector(Settings settings, ModelCollectionBuilder builder) {
-        super(builder, settings);
+    public EntityCollector(Settings settings) {
+        super(settings);
     }
 
     @Override

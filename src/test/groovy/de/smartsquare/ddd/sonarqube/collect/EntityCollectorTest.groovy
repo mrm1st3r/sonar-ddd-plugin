@@ -1,19 +1,27 @@
 package de.smartsquare.ddd.sonarqube.collect
 
 import org.sonar.api.config.MapSettings
-import org.sonar.java.checks.verifier.JavaCheckVerifier
+import org.sonar.api.config.Settings
 import spock.lang.Specification
+
+import static de.smartsquare.ddd.sonarqube.collect.CollectUtils.runCollector
+import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey
 
 class EntityCollectorTest extends Specification {
 
-    def "should collect entities by annotation"() {
-        given:
-        ModelCollectionBuilder builder = new ModelCollectionBuilder()
+    private ModelCollectionBuilder builder
+    private Settings settings
+    private EntityCollector collector
 
+    def setup() {
+        builder = new ModelCollectionBuilder()
+        settings = new MapSettings()
+        collector = new EntityCollector(settings)
+    }
+
+    def "should collect entities by annotation"() {
         when:
-        JavaCheckVerifier.verifyNoIssue("src/test/files/EntityCollector_sample_annotations.java",
-                new EntityCollector(new MapSettings(), builder))
-        def collection = builder.build()
+        def collection = runCollector(collector, builder, "annotations")
 
         then:
         collection.hasEntity("SampleEntity")
@@ -23,14 +31,10 @@ class EntityCollectorTest extends Specification {
 
     def "should collect entities by hierarchy"() {
         given:
-        def builder = new ModelCollectionBuilder()
-        def settings = new MapSettings()
-        settings.setProperty("sonar.ddd.entityHierarchy", "EntityInterface, AbstractEntity")
+        settings.setProperty(buildKey("entityHierarchy"), "EntityInterface, AbstractEntity")
 
         when:
-        JavaCheckVerifier.verifyNoIssue("src/test/files/EntityCollector_sample_hierarchy.java",
-                new EntityCollector(settings, builder))
-        def collection = builder.build()
+        def collection = runCollector(collector, builder, "hierarchy")
 
         then:
         !collection.hasEntity("EntityInterface")
@@ -42,14 +46,10 @@ class EntityCollectorTest extends Specification {
 
     def "should collect entities by name pattern"() {
         given:
-        def builder = new ModelCollectionBuilder()
-        def settings = new MapSettings()
-        settings.setProperty("sonar.ddd.entityNamePattern", ".*Entity\$")
+        settings.setProperty(buildKey("entityNamePattern"), ".*Entity\$")
 
         when:
-        JavaCheckVerifier.verifyNoIssue("src/test/files/EntityCollector_sample_name.java",
-                new EntityCollector(settings, builder))
-        def collection = builder.build()
+        def collection = runCollector(collector, builder, "name")
 
         then:
         collection.hasEntity("SampleEntity")
