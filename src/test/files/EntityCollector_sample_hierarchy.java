@@ -1,17 +1,17 @@
-interface Entity {}
+interface EntityInterface {}
 
 abstract class AbstractEntity {}
 
-class SampleEntity implements Entity {
+class EntityWithInterface implements EntityInterface {
 
     public int getId() {return 0;}
 }
 
-class SampleEntity2 extends AbstractEntity {
+class EntityWithAbstractParent extends AbstractEntity {
 
     public int getFoo() {return 0;}
 }
-class SampleEntity3 {
+class UnmarkedEntity {
 
     public int getFoo() {return 0;}
 }

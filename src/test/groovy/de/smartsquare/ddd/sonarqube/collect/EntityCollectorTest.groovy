@@ -25,7 +25,7 @@ class EntityCollectorTest extends Specification {
         given:
         def builder = new ModelCollectionBuilder()
         def settings = new MapSettings()
-        settings.setProperty("sonar.ddd.entityHierarchy", "Entity, AbstractEntity")
+        settings.setProperty("sonar.ddd.entityHierarchy", "EntityInterface, AbstractEntity")
 
         when:
         JavaCheckVerifier.verifyNoIssue("src/test/files/EntityCollector_sample_hierarchy.java",
@@ -33,10 +33,10 @@ class EntityCollectorTest extends Specification {
         def collection = builder.build()
 
         then:
-        collection.hasEntity("SampleEntity")
-        collection.hasEntity("SampleEntity2")
-        !collection.hasEntity("Entity")
+        !collection.hasEntity("EntityInterface")
         !collection.hasEntity("AbstractEntity")
-        !collection.hasEntity("SampleEntity3")
+        collection.hasEntity("EntityWithInterface")
+        collection.hasEntity("EntityWithAbstractParent")
+        !collection.hasEntity("UnmarkedEntity")
     }
 }
