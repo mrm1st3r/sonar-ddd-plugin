@@ -3,6 +3,7 @@ package de.smartsquare.ddd.sonarqube.collect;
 import com.google.common.collect.ImmutableList;
 import org.sonar.java.resolve.JavaSymbol;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.Tree;
 
@@ -27,7 +28,7 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
     @Override
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
-        if (isAnnotated(classTree)) {
+        if (isAnnotated(classTree) || isInHierarchy(classTree)) {
             builder.add(getModelType(), getFqn(classTree));
         }
     }
@@ -41,6 +42,11 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
         return classTree.modifiers().annotations().stream().anyMatch(
                 t -> getAnnotations().stream().anyMatch(a -> t.annotationType().symbolType().isSubtypeOf(a))
         );
+    }
+
+    private boolean isInHierarchy(ClassTree classTree) {
+        Type type = classTree.symbol().type();
+        return getSuperClasses().stream().anyMatch(sc -> type.isSubtypeOf(sc) && !type.is(sc));
     }
 
     abstract ModelCollection.Type getModelType();

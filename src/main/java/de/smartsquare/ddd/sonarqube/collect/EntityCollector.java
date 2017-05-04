@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.annotations.DDDEntity;
 import org.sonar.api.config.Settings;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public class EntityCollector extends ModelCollector {
 
     @Override
     List<String> getSuperClasses() {
-        return Collections.emptyList();
+        return ImmutableList.<String>builder().add(settings.getStringArray("sonar.ddd.entityHierarchy")).build();
     }
 
     @Override
