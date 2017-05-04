@@ -9,7 +9,7 @@ class ModelCollectionBuilderTest extends Specification {
         def collector = new ModelCollectionBuilder()
 
         when:
-        collector.addEntity("de.foo.TestEntity")
+        collector.add(ModelCollection.Type.ENTITY, "de.foo.TestEntity")
         def collection = collector.build()
 
         then:
@@ -22,7 +22,7 @@ class ModelCollectionBuilderTest extends Specification {
         def collector = new ModelCollectionBuilder()
 
         when:
-        collector.addValueObject("de.foo.ValueObject")
+        collector.add(ModelCollection.Type.VALUE_OBJECT, "de.foo.ValueObject")
         def collection = collector.build()
 
         then:
@@ -35,7 +35,7 @@ class ModelCollectionBuilderTest extends Specification {
         def collector = new ModelCollectionBuilder()
 
         when:
-        collector.addService("de.foo.Service")
+        collector.add(ModelCollection.Type.SERVICE, "de.foo.Service")
         def collection = collector.build()
 
         then:
@@ -48,7 +48,7 @@ class ModelCollectionBuilderTest extends Specification {
         def collector = new ModelCollectionBuilder()
 
         when:
-        collector.addRepository("de.foo.Repository")
+        collector.add(ModelCollection.Type.REPOSITORY, "de.foo.Repository")
         def collection = collector.build()
 
         then:

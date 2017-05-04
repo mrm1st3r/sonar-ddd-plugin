@@ -7,11 +7,11 @@ import de.smartsquare.ddd.sonarqube.collect.ModelCollection.Type;
 /**
  * Builder for immutable type {@link ModelCollection}.
  */
-public class ModelCollectionBuilder {
+class ModelCollectionBuilder {
 
     private ImmutableMap<Type, ImmutableList.Builder<String>> listBuilders;
 
-    public ModelCollectionBuilder() {
+    ModelCollectionBuilder() {
         listBuilders = ImmutableMap.<Type, ImmutableList.Builder<String>>builder()
                 .put(Type.ENTITY, new ImmutableList.Builder<>())
                 .put(Type.VALUE_OBJECT, new ImmutableList.Builder<>())
@@ -20,27 +20,11 @@ public class ModelCollectionBuilder {
                 .build();
     }
 
-    public void addEntity(String fqn) {
-        add(Type.ENTITY, fqn);
-    }
-
-    public void addValueObject(String fqn) {
-        add(Type.VALUE_OBJECT, fqn);
-    }
-
-    public void addService(String fqn) {
-        add(Type.SERVICE, fqn);
-    }
-
-    public void addRepository(String fqn) {
-        add(Type.REPOSITORY, fqn);
-    }
-
     void add(Type type, String fqn) {
         listBuilders.get(type).add(fqn);
     }
 
-    public ModelCollection build() {
+    ModelCollection build() {
         return new ModelCollection(
                 listBuilders.get(Type.ENTITY).build(),
                 listBuilders.get(Type.VALUE_OBJECT).build(),
