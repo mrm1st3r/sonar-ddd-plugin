@@ -3,7 +3,6 @@ package de.smartsquare.ddd.sonarqube.rules;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionAnnotationLoader;
 import org.sonar.plugins.java.Java;
-import org.sonar.plugins.java.api.JavaCheck;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -29,7 +28,7 @@ public class DDDRulesDefinition implements RulesDefinition {
     }
 
     private void addRulesToRepository(NewRepository repository) {
-        List<Class<? extends JavaCheck>> checkClasses = RulesList.checkClasses();
+        List<Class<? extends DDDAwareCheck>> checkClasses = RulesList.checkClasses();
         new RulesDefinitionAnnotationLoader().load(repository, checkClasses.toArray(new Class[checkClasses.size()]));
     }
 

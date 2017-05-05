@@ -1,7 +1,6 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
-import org.sonar.plugins.java.api.JavaCheck;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class RulesList {
         throw new InstantiationException("You shall not construct");
     }
 
-    public static List<Class<? extends JavaCheck>> checkClasses() {
+    public static List<Class<? extends DDDAwareCheck>> checkClasses() {
         return ImmutableList.of(IdentityProvidedCheck.class, ImmutabilityCheck.class);
     }
 }

@@ -67,6 +67,10 @@ public class DDDSensor implements Sensor {
         collectorRun.registerChecks(ImmutableList.of(EntityCollector.class, ValueObjectCollector.class));
         collectorRun.scan(getSourceFiles());
 
+        RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), collectorRun.build());
+        rulesRun.registerChecks(RulesList.checkClasses());
+        rulesRun.scan(getSourceFiles());
+
         LOG.info("Finished DDD Analysis");
     }
 
