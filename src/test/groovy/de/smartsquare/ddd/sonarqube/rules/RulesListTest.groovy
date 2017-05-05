@@ -1,9 +1,8 @@
-package de.smartsquare.ddd.sonarqube
+package de.smartsquare.ddd.sonarqube.rules
 
 import org.reflections.Reflections
 import org.sonar.check.Rule
 import spock.lang.Specification
-
 
 class RulesListTest extends Specification {
 
@@ -17,7 +16,7 @@ class RulesListTest extends Specification {
 
     def "should contain all checks"() {
         given:
-        Reflections reflections = new Reflections("de.smartsquare.ddd.sonarqube.checks")
+        Reflections reflections = new Reflections("de.smartsquare.ddd.sonarqube.rules")
         def checks = reflections.getTypesAnnotatedWith(Rule)
 
         when:

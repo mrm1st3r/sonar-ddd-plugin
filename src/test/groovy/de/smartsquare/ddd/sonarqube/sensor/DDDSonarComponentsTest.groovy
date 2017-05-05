@@ -1,7 +1,7 @@
 package de.smartsquare.ddd.sonarqube.sensor
 
-import de.smartsquare.ddd.sonarqube.RulesList
-import de.smartsquare.ddd.sonarqube.checks.ImmutabilityCheck
+import de.smartsquare.ddd.sonarqube.rules.RulesList
+import de.smartsquare.ddd.sonarqube.rules.ImmutabilityCheck
 import org.sonar.api.batch.fs.TextRange
 import org.sonar.api.batch.fs.internal.DefaultInputFile
 import org.sonar.api.rule.RuleKey

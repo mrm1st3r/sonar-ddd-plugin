@@ -1,4 +1,4 @@
-package de.smartsquare.ddd.sonarqube.checks
+package de.smartsquare.ddd.sonarqube.rules
 
 import org.sonar.java.checks.verifier.JavaCheckVerifier
 import spock.lang.Specification

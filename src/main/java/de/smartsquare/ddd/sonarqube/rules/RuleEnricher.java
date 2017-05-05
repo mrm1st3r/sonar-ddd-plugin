@@ -1,4 +1,4 @@
-package de.smartsquare.ddd.sonarqube;
+package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

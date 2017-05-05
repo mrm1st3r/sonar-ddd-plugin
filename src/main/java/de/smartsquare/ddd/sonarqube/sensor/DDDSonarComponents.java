@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import de.smartsquare.ddd.sonarqube.RulesList;
+import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;

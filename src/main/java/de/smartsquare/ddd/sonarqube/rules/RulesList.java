@@ -1,8 +1,6 @@
-package de.smartsquare.ddd.sonarqube;
+package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
-import de.smartsquare.ddd.sonarqube.checks.IdentityProvidedCheck;
-import de.smartsquare.ddd.sonarqube.checks.ImmutabilityCheck;
 import org.sonar.plugins.java.api.JavaCheck;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
 import com.sonar.sslr.api.typed.ActionParser;
-import de.smartsquare.ddd.sonarqube.RulesList;
+import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;

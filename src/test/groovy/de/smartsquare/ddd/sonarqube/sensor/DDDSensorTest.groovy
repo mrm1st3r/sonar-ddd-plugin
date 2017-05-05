@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor
 
-import de.smartsquare.ddd.sonarqube.RulesList
+import de.smartsquare.ddd.sonarqube.rules.RulesList
 import org.sonar.api.batch.fs.internal.DefaultFileSystem
 import org.sonar.api.batch.rule.CheckFactory
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor

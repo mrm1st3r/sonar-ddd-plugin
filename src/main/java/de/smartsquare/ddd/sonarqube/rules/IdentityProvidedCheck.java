@@ -1,4 +1,4 @@
-package de.smartsquare.ddd.sonarqube.checks;
+package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.annotations.DDDEntity;

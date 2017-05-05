@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube
 
+import de.smartsquare.ddd.sonarqube.rules.RulesList
 import org.sonar.api.rules.Rule
 import org.sonar.api.rules.RuleFinder
 import spock.lang.Specification

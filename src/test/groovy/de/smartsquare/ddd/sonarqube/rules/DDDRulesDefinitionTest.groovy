@@ -1,4 +1,4 @@
-package de.smartsquare.ddd.sonarqube
+package de.smartsquare.ddd.sonarqube.rules
 
 import org.sonar.api.server.rule.RulesDefinition
 import spock.lang.Specification

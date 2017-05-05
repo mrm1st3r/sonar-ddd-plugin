@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube;
 
+import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
