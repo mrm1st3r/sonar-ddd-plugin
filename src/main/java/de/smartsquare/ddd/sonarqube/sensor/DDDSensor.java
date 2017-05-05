@@ -1,13 +1,15 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import com.sonar.sslr.api.typed.ActionParser;
+import com.google.common.collect.ImmutableList;
+import de.smartsquare.ddd.sonarqube.collect.EntityCollector;
+import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
+import de.smartsquare.ddd.sonarqube.collect.ValueObjectCollector;
 import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -15,21 +17,12 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.java.JavaClasspath;
 import org.sonar.java.SonarComponents;
-import org.sonar.java.ast.JavaAstScanner;
-import org.sonar.java.ast.parser.JavaParser;
 import org.sonar.java.model.JavaVersionImpl;
-import org.sonar.java.model.VisitorsBridge;
 import org.sonar.plugins.java.Java;
-import org.sonar.plugins.java.api.JavaCheck;
 import org.sonar.plugins.java.api.JavaVersion;
-import org.sonar.plugins.java.api.tree.Tree;
-import org.sonar.squidbridge.api.CodeVisitor;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -74,8 +67,11 @@ public class DDDSensor implements Sensor {
         }
         LOG.info("Starting DDD Analysis");
         sonarComponents.setSensorContext(context);
-        JavaAstScanner astScanner = createAstScanner(getJavaVersion(), createChecks());
-        astScanner.scan(getSourceFiles());
+
+        CollectorScannerRun collectorRun = new CollectorScannerRun(sonarComponents, classpath, checkFactory, getJavaVersion());
+        collectorRun.registerChecks(RulesList.REPOSITORY_KEY, ImmutableList.of(EntityCollector.class, ValueObjectCollector.class));
+        collectorRun.scan(getSourceFiles());
+
         LOG.info("Finished DDD Analysis");
     }
 
@@ -83,38 +79,8 @@ public class DDDSensor implements Sensor {
         return profile.getActiveRulesByRepository(RulesList.REPOSITORY_KEY).isEmpty();
     }
 
-    private JavaAstScanner createAstScanner(JavaVersion javaVersion, Collection<? extends CodeVisitor> visitors) {
-        ActionParser<Tree> parser = JavaParser.createParser();
-        JavaAstScanner astScanner = new JavaAstScanner(parser, sonarComponents);
-        VisitorsBridge visitorsBridge = new VisitorsBridge(visitors,
-                classpath.getElements(), sonarComponents, false);
-        visitorsBridge.setJavaVersion(javaVersion);
-        astScanner.setVisitorBridge(visitorsBridge);
-        return astScanner;
-    }
-
     private JavaVersion getJavaVersion() {
         return JavaVersionImpl.fromString(settings.getString(Java.SOURCE_VERSION));
-    }
-
-    private Collection<JavaCheck> createChecks() {
-        Checks<JavaCheck> checks = checkFactory.create(RulesList.REPOSITORY_KEY);
-        checks.addAnnotatedChecks(instantiateChecks(RulesList.checkClasses()));
-        return checks.all();
-    }
-
-    private Iterable instantiateChecks(List<Class<? extends JavaCheck>> classes) {
-        ArrayList<JavaCheck> checks = new ArrayList<>();
-        for (Class<? extends JavaCheck> c : classes) {
-            try {
-                JavaCheck check = c.newInstance();
-                // todo: (statically) inject dependencies
-                checks.add(check);
-            } catch (Exception e) {
-                LOG.warn("Could not instantiate check: " + c.getSimpleName(), e);
-            }
-        }
-        return checks;
     }
 
     private Iterable<File> getSourceFiles() {
