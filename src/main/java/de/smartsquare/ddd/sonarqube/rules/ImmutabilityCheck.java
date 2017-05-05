@@ -1,9 +1,7 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
-import de.smartsquare.ddd.annotations.DDDValueObject;
 import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.MethodTree;
 import org.sonar.plugins.java.api.tree.Tree;
@@ -16,7 +14,7 @@ import static org.sonar.plugins.java.api.tree.Tree.Kind.CLASS;
  * Check value objects for immutability.
  */
 @Rule(key = "Immutability")
-public class ImmutabilityCheck extends IssuableSubscriptionVisitor {
+public class ImmutabilityCheck extends DDDAwareCheck {
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
@@ -30,12 +28,6 @@ public class ImmutabilityCheck extends IssuableSubscriptionVisitor {
             return;
         }
         searchForSetters(classTree);
-    }
-
-    private boolean isValueObject(ClassTree classTree) {
-        return classTree.modifiers().annotations().stream().anyMatch(
-                t -> t.annotationType().symbolType().isSubtypeOf(DDDValueObject.class.getName())
-        );
     }
 
     private void searchForSetters(ClassTree classTree) {

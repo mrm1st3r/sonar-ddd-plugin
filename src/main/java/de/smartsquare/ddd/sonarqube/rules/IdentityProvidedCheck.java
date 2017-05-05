@@ -1,9 +1,7 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
-import de.smartsquare.ddd.annotations.DDDEntity;
 import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.IdentifierTree;
 import org.sonar.plugins.java.api.tree.MethodTree;
@@ -16,7 +14,7 @@ import java.util.List;
  * Rule to check Entities for identity.
  */
 @Rule(key = "IdentityProvided")
-public class IdentityProvidedCheck extends IssuableSubscriptionVisitor {
+public class IdentityProvidedCheck extends DDDAwareCheck {
 
     @Override
     public List<Kind> nodesToVisit() {
@@ -33,12 +31,6 @@ public class IdentityProvidedCheck extends IssuableSubscriptionVisitor {
         if (!hasGetIdMethod(classTree) && className != null) {
             reportIssue(className, "DDD Entity should have an identity");
         }
-    }
-
-    private boolean isEntity(ClassTree classTree) {
-        return classTree.modifiers().annotations().stream().anyMatch(
-                    t -> t.annotationType().symbolType().isSubtypeOf(DDDEntity.class.getName())
-            );
     }
 
     private boolean hasGetIdMethod(ClassTree classTree) {

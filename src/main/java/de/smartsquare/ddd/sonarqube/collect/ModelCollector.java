@@ -2,7 +2,6 @@ package de.smartsquare.ddd.sonarqube.collect;
 
 import com.google.common.collect.ImmutableList;
 import org.sonar.api.config.Settings;
-import org.sonar.java.resolve.JavaSymbol;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.ClassTree;
@@ -13,6 +12,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey;
+import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 
 /**
  * Abstract class to collect domain model parts
@@ -45,11 +45,6 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
         if (isAnnotated(classTree) || isInHierarchy(classTree) || matchesNamePattern(classTree)) {
             builder.add(getModelType(), getFqn(classTree));
         }
-    }
-
-    private String getFqn(ClassTree tree) {
-        JavaSymbol.TypeJavaSymbol type = (JavaSymbol.TypeJavaSymbol) tree.symbol();
-        return type.getFullyQualifiedName();
     }
 
     private boolean isAnnotated(ClassTree classTree) {
