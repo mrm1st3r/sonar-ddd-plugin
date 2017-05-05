@@ -12,7 +12,8 @@ class ValueObjectCollectorTest extends Specification {
         given:
         def settings = new MapSettings()
         def builder = new ModelCollectionBuilder()
-        def collector = new ValueObjectCollector(settings)
+        def collector = new ValueObjectCollector()
+        collector.setSettings(settings)
         settings.setProperty(buildKey("valueObjectHierarchy"), "ValueObjectInterface, AbstractValueObject")
         settings.setProperty(buildKey("valueObjectNamePattern"), "^VO.*")
 

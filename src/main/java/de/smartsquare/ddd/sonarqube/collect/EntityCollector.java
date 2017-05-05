@@ -1,16 +1,11 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
 import de.smartsquare.ddd.annotations.DDDEntity;
-import org.sonar.api.config.Settings;
 
 /**
  * Collector for entity classes.
  */
 public class EntityCollector extends ModelCollector {
-
-    public EntityCollector(Settings settings) {
-        super(settings);
-    }
 
     @Override
     ModelCollection.Type getModelType() {

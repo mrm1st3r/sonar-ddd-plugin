@@ -2,7 +2,6 @@ package de.smartsquare.ddd.sonarqube.sensor
 
 import de.smartsquare.ddd.sonarqube.rules.RulesList
 import org.sonar.api.batch.fs.internal.DefaultFileSystem
-import org.sonar.api.batch.rule.CheckFactory
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor
 import org.sonar.api.batch.sensor.internal.SensorContextTester
 import org.sonar.api.config.MapSettings
@@ -22,7 +21,7 @@ class DDDSensorTest extends Specification {
         profile = Mock(RulesProfile)
         components = Mock(DDDSonarComponents)
         sensor = new DDDSensor(new MapSettings(), profile,
-                this.fileSystem, new CheckFactory(null), components)
+                this.fileSystem, components)
     }
 
     def "should execute only on Java projects"() {

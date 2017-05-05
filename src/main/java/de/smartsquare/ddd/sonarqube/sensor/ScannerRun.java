@@ -3,9 +3,6 @@ package de.smartsquare.ddd.sonarqube.sensor;
 import com.sonar.sslr.api.typed.ActionParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.batch.rule.Checks;
-import org.sonar.java.JavaClasspath;
 import org.sonar.java.SonarComponents;
 import org.sonar.java.ast.JavaAstScanner;
 import org.sonar.java.ast.parser.JavaParser;
@@ -17,7 +14,6 @@ import org.sonar.squidbridge.api.CodeVisitor;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,22 +24,18 @@ abstract class ScannerRun<T extends JavaCheck> {
     private static final Logger LOG = LoggerFactory.getLogger(ScannerRun.class);
 
     private final SonarComponents sonarComponents;
-    private final JavaClasspath classpath;
-    private final CheckFactory checkFactory;
     private final JavaVersion javaVersion;
-    private Collection<JavaCheck> javaChecks;
+    private Iterable<T> javaChecks;
+    private List<File> javaClasspath;
 
-    ScannerRun(SonarComponents sonarComponents, JavaClasspath classpath, CheckFactory checkFactory, JavaVersion javaVersion) {
+    ScannerRun(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion) {
         this.sonarComponents = sonarComponents;
-        this.classpath = classpath;
-        this.checkFactory = checkFactory;
+        this.javaClasspath = classpath;
         this.javaVersion = javaVersion;
     }
 
-    void registerChecks(String repositoryKey, List<Class<? extends T>> classes) {
-        Checks<JavaCheck> checks = checkFactory.create(repositoryKey);
-        checks.addAnnotatedChecks(instantiateChecks(classes));
-        javaChecks = checks.all();
+    void registerChecks(List<Class<? extends T>> classes) {
+        javaChecks = instantiateChecks(classes);
     }
 
     private Iterable<T> instantiateChecks(List<Class<? extends T>> classes) {
@@ -67,11 +59,11 @@ abstract class ScannerRun<T extends JavaCheck> {
         scanner.scan(sourceFiles);
     }
 
-    private JavaAstScanner createAstScanner(JavaVersion javaVersion, Collection<? extends CodeVisitor> visitors) {
+    private JavaAstScanner createAstScanner(JavaVersion javaVersion, Iterable<? extends CodeVisitor> visitors) {
         ActionParser<Tree> parser = JavaParser.createParser();
         JavaAstScanner astScanner = new JavaAstScanner(parser, sonarComponents);
         VisitorsBridge visitorsBridge = new VisitorsBridge(visitors,
-                classpath.getElements(), sonarComponents, false);
+                javaClasspath, sonarComponents, false);
         visitorsBridge.setJavaVersion(javaVersion);
         astScanner.setVisitorBridge(visitorsBridge);
         return astScanner;

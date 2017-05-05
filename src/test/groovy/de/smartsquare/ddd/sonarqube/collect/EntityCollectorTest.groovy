@@ -16,7 +16,8 @@ class EntityCollectorTest extends Specification {
     def setup() {
         builder = new ModelCollectionBuilder()
         settings = new MapSettings()
-        collector = new EntityCollector(settings)
+        collector = new EntityCollector()
+        collector.setSettings(settings)
     }
 
     def "should collect entities by annotation"() {

@@ -2,14 +2,12 @@ package de.smartsquare.ddd.sonarqube.sensor;
 
 import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.sonarqube.collect.EntityCollector;
-import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import de.smartsquare.ddd.sonarqube.collect.ValueObjectCollector;
 import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -39,17 +37,14 @@ public class DDDSensor implements Sensor {
     private final RulesProfile profile;
     private final SonarComponents sonarComponents;
     private final JavaClasspath classpath;
-    private final CheckFactory checkFactory;
     private final FileSystem fs;
 
-    public DDDSensor(Settings settings, RulesProfile profile, FileSystem fs,
-                     CheckFactory checkFactory, DDDSonarComponents sonarComponents) {
+    public DDDSensor(Settings settings, RulesProfile profile, FileSystem fs, DDDSonarComponents sonarComponents) {
         this.fs = fs;
         this.settings = settings;
         this.profile = profile;
         this.sonarComponents = sonarComponents;
         this.classpath = new JavaClasspath(settings, fs);
-        this.checkFactory = checkFactory;
     }
 
     @Override
@@ -68,8 +63,8 @@ public class DDDSensor implements Sensor {
         LOG.info("Starting DDD Analysis");
         sonarComponents.setSensorContext(context);
 
-        CollectorScannerRun collectorRun = new CollectorScannerRun(sonarComponents, classpath, checkFactory, getJavaVersion());
-        collectorRun.registerChecks(RulesList.REPOSITORY_KEY, ImmutableList.of(EntityCollector.class, ValueObjectCollector.class));
+        CollectorScannerRun collectorRun = new CollectorScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), settings);
+        collectorRun.registerChecks(ImmutableList.of(EntityCollector.class, ValueObjectCollector.class));
         collectorRun.scan(getSourceFiles());
 
         LOG.info("Finished DDD Analysis");
