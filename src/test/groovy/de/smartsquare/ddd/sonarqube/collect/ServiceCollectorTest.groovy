@@ -14,8 +14,8 @@ class ServiceCollectorTest extends Specification {
         def builder = new ModelCollectionBuilder()
         def collector = new ServiceCollector()
         collector.setSettings(settings)
-        settings.setProperty(buildKey("serviceHierarchy"), "ServiceInterface, AbstractService")
-        settings.setProperty(buildKey("serviceNamePattern"), "^SERV.*")
+        settings.setProperty(buildKey("service.hierarchy"), "ServiceInterface, AbstractService")
+        settings.setProperty(buildKey("service.namePattern"), "^SERV.*")
 
         when:
         def collection = runCollector(collector, builder)

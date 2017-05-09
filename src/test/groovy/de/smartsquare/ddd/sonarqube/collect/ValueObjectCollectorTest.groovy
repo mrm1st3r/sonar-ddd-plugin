@@ -14,8 +14,8 @@ class ValueObjectCollectorTest extends Specification {
         def builder = new ModelCollectionBuilder()
         def collector = new ValueObjectCollector()
         collector.setSettings(settings)
-        settings.setProperty(buildKey("valueObjectHierarchy"), "ValueObjectInterface, AbstractValueObject")
-        settings.setProperty(buildKey("valueObjectNamePattern"), "^VO.*")
+        settings.setProperty(buildKey("valueObject.hierarchy"), "ValueObjectInterface, AbstractValueObject")
+        settings.setProperty(buildKey("valueObject.namePattern"), "^VO.*")
 
         when:
         def collection = runCollector(collector, builder)

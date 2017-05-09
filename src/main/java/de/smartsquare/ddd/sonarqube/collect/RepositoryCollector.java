@@ -18,16 +18,16 @@ public class RepositoryCollector extends ModelCollector {
 
     @Override
     String getAnnotationSetting() {
-        return "repositoryAnnotations";
+        return "repository.annotations";
     }
 
     @Override
     String getHierarchySetting() {
-        return "repositoryHierarchy";
+        return "repository.hierarchy";
     }
 
     @Override
     String getNamePatternSetting() {
-        return "repositoryNamePattern";
+        return "repository.namePattern";
     }
 }

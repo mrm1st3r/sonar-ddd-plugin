@@ -12,21 +12,27 @@ import java.lang.annotation.Annotation;
  */
 public enum ModelType {
 
-    ENTITY(DDDEntity.class),
+    ENTITY(DDDEntity.class, "entity"),
 
-    VALUE_OBJECT(DDDValueObject.class),
+    VALUE_OBJECT(DDDValueObject.class, "valueObject"),
 
-    SERVICE(DDDService.class),
+    SERVICE(DDDService.class, "service"),
 
-    REPOSITORY(DDDRepository.class);
+    REPOSITORY(DDDRepository.class, "repository");
 
     private final Class<? extends Annotation> staticAnnotation;
+    private final String propertyKey;
 
-    ModelType(Class<? extends Annotation> staticAnnotation) {
+    ModelType(Class<? extends Annotation> staticAnnotation, String propertyKey) {
         this.staticAnnotation = staticAnnotation;
+        this.propertyKey = propertyKey;
     }
 
     public Class<? extends Annotation> getStaticAnnotation() {
         return staticAnnotation;
+    }
+
+    public String getPropertyKey() {
+        return propertyKey;
     }
 }

@@ -19,16 +19,16 @@ public class ValueObjectCollector extends ModelCollector {
 
     @Override
     String getAnnotationSetting() {
-        return "valueObjectAnnotations";
+        return "valueObject.annotations";
     }
 
     @Override
     String getHierarchySetting() {
-        return "valueObjectHierarchy";
+        return "valueObject.hierarchy";
     }
 
     @Override
     String getNamePatternSetting() {
-        return "valueObjectNamePattern";
+        return "valueObject.namePattern";
     }
 }

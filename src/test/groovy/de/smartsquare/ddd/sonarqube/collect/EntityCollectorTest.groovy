@@ -32,7 +32,7 @@ class EntityCollectorTest extends Specification {
 
     def "should collect entities by hierarchy"() {
         given:
-        settings.setProperty(buildKey("entityHierarchy"), "EntityInterface, AbstractEntity")
+        settings.setProperty(buildKey("entity.hierarchy"), "EntityInterface, AbstractEntity")
 
         when:
         def collection = runCollector(collector, builder, "hierarchy")
@@ -47,7 +47,7 @@ class EntityCollectorTest extends Specification {
 
     def "should collect entities by name pattern"() {
         given:
-        settings.setProperty(buildKey("entityNamePattern"), ".*Entity\$")
+        settings.setProperty(buildKey("entity.namePattern"), ".*Entity\$")
 
         when:
         def collection = runCollector(collector, builder, "name")

@@ -14,8 +14,8 @@ class RepositoryCollectorTest extends Specification {
         def builder = new ModelCollectionBuilder()
         def collector = new RepositoryCollector()
         collector.setSettings(settings)
-        settings.setProperty(buildKey("repositoryHierarchy"), "RepositoryInterface, AbstractRepository")
-        settings.setProperty(buildKey("repositoryNamePattern"), "^REPO.*")
+        settings.setProperty(buildKey("repository.hierarchy"), "RepositoryInterface, AbstractRepository")
+        settings.setProperty(buildKey("repository.namePattern"), "^REPO.*")
 
         when:
         def collection = runCollector(collector, builder)

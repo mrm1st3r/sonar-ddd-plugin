@@ -5,7 +5,9 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.sonar.api.config.PropertyDefinition.builder;
 
@@ -15,36 +17,40 @@ import static org.sonar.api.config.PropertyDefinition.builder;
 public class DDDProperties {
 
     private static final String ROOT_KEY = "sonar.ddd.";
-    private static final String CAT_ENTITIES = "Entities";
-    private static final String CAT_VAL_OBJ = "Value Objects";
     private static final String CAT_GENERAL = "General";
-    private static final String CAT_SERVICES = "Services";
-    private static final String CAT_REPOSITORY = "Repositories";
 
-    private DDDProperties() throws InstantiationException {
-        throw new InstantiationException("You shall not construct!");
+    private static final Map<ModelType, String> CATEGORIES = new HashMap<>();
+
+    public DDDProperties() {
+        CATEGORIES.put(ModelType.ENTITY, "Entities");
+        CATEGORIES.put(ModelType.VALUE_OBJECT, "Value Objects");
+        CATEGORIES.put(ModelType.SERVICE, "Services");
+        CATEGORIES.put(ModelType.REPOSITORY, "Repositories");
     }
 
-    public static List<PropertyDefinition> propertyDefinitions() {
+    public List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
-        properties.add(modelTypeProperties("entity", CAT_ENTITIES));
-        properties.add(newProperty("identityMethods", "Identity Methods", CAT_ENTITIES, "getId"));
-        properties.add(modelTypeProperties("valueObject", CAT_VAL_OBJ));
-        properties.add(modelTypeProperties("service", CAT_SERVICES));
-        properties.add(modelTypeProperties("repository", CAT_REPOSITORY));
+        for (ModelType t : ModelType.values()) {
+            properties.add(modelTypeProperties(t));
+        }
+        properties.add(newTypeProperty(ModelType.ENTITY, "identityMethods", "Identity Methods", "getId"));
         properties.add(newProperty("applicationPackage", "Application Package", CAT_GENERAL, null));
         return properties.build();
     }
 
-    private static PropertyDefinition[] modelTypeProperties(String type, String category) {
+    private PropertyDefinition[] modelTypeProperties(ModelType type) {
         return new PropertyDefinition[]{
-                newProperty(type + "Annotations", "Annotations", category, null),
-                newProperty(type + "NamePattern", "Name Pattern", category, null),
-                newProperty(type + "Hierarchy", "Hierarchy", category, null)
+                newTypeProperty(type, "annotations", "Annotations", null),
+                newTypeProperty(type, "namePattern", "Name Pattern", null),
+                newTypeProperty(type, "hierarchy", "Hierarchy", null),
         };
     }
 
-    private static PropertyDefinition newProperty(String key, String name, String subCategory, String defaultValue) {
+    private PropertyDefinition newTypeProperty(ModelType t, String key, String name, String defaultValue) {
+        return newProperty(t.getPropertyKey() + "." + key, name, CATEGORIES.get(t), defaultValue);
+    }
+
+    private PropertyDefinition newProperty(String key, String name, String subCategory, String defaultValue) {
         PropertyDefinition.Builder builder = builder(ROOT_KEY + key)
                 .name(name)
                 .subCategory(subCategory)

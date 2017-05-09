@@ -19,16 +19,16 @@ public class EntityCollector extends ModelCollector {
 
     @Override
     String getAnnotationSetting() {
-        return "entityAnnotations";
+        return "entity.annotations";
     }
 
     @Override
     String getHierarchySetting() {
-        return "entityHierarchy";
+        return "entity.hierarchy";
     }
 
     @Override
     String getNamePatternSetting() {
-        return "entityNamePattern";
+        return "entity.namePattern";
     }
 }

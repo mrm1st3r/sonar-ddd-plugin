@@ -18,16 +18,16 @@ public class ServiceCollector extends ModelCollector {
 
     @Override
     String getAnnotationSetting() {
-        return "serviceAnnotations";
+        return "service.annotations";
     }
 
     @Override
     String getHierarchySetting() {
-        return "serviceHierarchy";
+        return "service.hierarchy";
     }
 
     @Override
     String getNamePatternSetting() {
-        return "serviceNamePattern";
+        return "service.namePattern";
     }
 }
