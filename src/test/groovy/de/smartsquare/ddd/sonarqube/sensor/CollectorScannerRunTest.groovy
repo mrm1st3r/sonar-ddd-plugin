@@ -19,7 +19,7 @@ class CollectorScannerRunTest extends Specification {
 
         expect:
         run.registerModelTypes(ModelType.values())
-        run.scan([new File("src/test/files/ModelCollector_sample_annotations.java")])
-        run.build().hasEntity("SampleEntity")
+        run.scan([new File("src/test/files/ModelCollector_sample_entity.java")])
+        run.build().hasEntity("AnnotatedEntity")
     }
 }

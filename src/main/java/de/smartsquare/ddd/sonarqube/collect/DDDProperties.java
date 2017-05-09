@@ -65,4 +65,8 @@ public class DDDProperties {
     static String buildKey(String property) {
         return ROOT_KEY + property;
     }
+
+    static String buildKey(ModelType type, String property) {
+        return buildKey(type.getPropertyKey() + "." + property);
+    }
 }
