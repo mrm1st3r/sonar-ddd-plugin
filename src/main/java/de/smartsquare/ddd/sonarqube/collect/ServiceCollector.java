@@ -7,8 +7,8 @@ import de.smartsquare.ddd.annotations.DDDService;
  */
 public class ServiceCollector extends ModelCollector {
     @Override
-    ModelCollection.Type getModelType() {
-        return ModelCollection.Type.SERVICE;
+    ModelType getModelType() {
+        return ModelType.SERVICE;
     }
 
     @Override

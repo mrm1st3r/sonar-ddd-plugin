@@ -83,7 +83,7 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
         return settings.getString(buildKey(getNamePatternSetting()));
     }
 
-    abstract ModelCollection.Type getModelType();
+    abstract ModelType getModelType();
 
     abstract String getStaticAnnotation();
 

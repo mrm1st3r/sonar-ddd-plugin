@@ -8,8 +8,8 @@ import de.smartsquare.ddd.annotations.DDDValueObject;
 public class ValueObjectCollector extends ModelCollector {
 
     @Override
-    ModelCollection.Type getModelType() {
-        return ModelCollection.Type.VALUE_OBJECT;
+    ModelType getModelType() {
+        return ModelType.VALUE_OBJECT;
     }
 
     @Override

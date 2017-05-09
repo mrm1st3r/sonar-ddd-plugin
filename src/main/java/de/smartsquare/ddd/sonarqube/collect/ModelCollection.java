@@ -8,38 +8,34 @@ import com.google.common.collect.ImmutableMap;
  */
 public class ModelCollection {
 
-    private final ImmutableMap<Type, ImmutableList<String>> types;
+    private final ImmutableMap<ModelType, ImmutableList<String>> types;
 
     ModelCollection(ImmutableList<String> entities, ImmutableList<String> valueObjects, ImmutableList<String> services, ImmutableList<String> repositories) {
-        types = ImmutableMap.<Type, ImmutableList<String>>builder()
-                .put(Type.ENTITY, entities)
-                .put(Type.VALUE_OBJECT, valueObjects)
-                .put(Type.SERVICE, services)
-                .put(Type.REPOSITORY, repositories)
+        types = ImmutableMap.<ModelType, ImmutableList<String>>builder()
+                .put(ModelType.ENTITY, entities)
+                .put(ModelType.VALUE_OBJECT, valueObjects)
+                .put(ModelType.SERVICE, services)
+                .put(ModelType.REPOSITORY, repositories)
                 .build();
     }
 
     public boolean hasEntity(String fqn) {
-        return has(Type.ENTITY, fqn);
+        return has(ModelType.ENTITY, fqn);
     }
 
     public boolean hasValueObject(String fqn) {
-        return has(Type.VALUE_OBJECT, fqn);
+        return has(ModelType.VALUE_OBJECT, fqn);
     }
 
     public boolean hasService(String fqn) {
-        return has(Type.SERVICE, fqn);
+        return has(ModelType.SERVICE, fqn);
     }
 
     public boolean hasRepository(String fqn) {
-        return has(Type.REPOSITORY, fqn);
+        return has(ModelType.REPOSITORY, fqn);
     }
 
-    private boolean has(Type type, String fqn) {
+    private boolean has(ModelType type, String fqn) {
         return types.get(type).contains(fqn);
-    }
-
-    public enum Type {
-        ENTITY, VALUE_OBJECT, SERVICE, REPOSITORY
     }
 }

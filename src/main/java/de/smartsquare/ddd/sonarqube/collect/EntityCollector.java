@@ -8,8 +8,8 @@ import de.smartsquare.ddd.annotations.DDDEntity;
 public class EntityCollector extends ModelCollector {
 
     @Override
-    ModelCollection.Type getModelType() {
-        return ModelCollection.Type.ENTITY;
+    ModelType getModelType() {
+        return ModelType.ENTITY;
     }
 
     @Override

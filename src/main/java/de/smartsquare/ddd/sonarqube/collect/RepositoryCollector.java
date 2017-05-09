@@ -7,8 +7,8 @@ import de.smartsquare.ddd.annotations.DDDRepository;
  */
 public class RepositoryCollector extends ModelCollector {
     @Override
-    ModelCollection.Type getModelType() {
-        return ModelCollection.Type.REPOSITORY;
+    ModelType getModelType() {
+        return ModelType.REPOSITORY;
     }
 
     @Override
