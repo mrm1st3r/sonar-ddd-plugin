@@ -17,6 +17,7 @@ public class DDDProperties {
     private static final String ROOT_KEY = "sonar.ddd.";
     private static final String CAT_ENTITIES = "Entities";
     private static final String CAT_VAL_OBJ = "Value Objects";
+    private static final String CAT_GENERAL = "General";
 
     private DDDProperties() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
@@ -31,6 +32,7 @@ public class DDDProperties {
         properties.add(newProperty("valueObjectAnnotations", "Annotations", CAT_VAL_OBJ, null));
         properties.add(newProperty("valueObjectNames", "Names", CAT_VAL_OBJ, null));
         properties.add(newProperty("valueObjectHierarchy", "Hierarchy", CAT_VAL_OBJ, null));
+        properties.add(newProperty("applicationPackage", "Application Package", CAT_GENERAL, null));
         return properties.build();
     }
 
