@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Helper class to instantiate check classes and to run a code scanner
+ * to execute them on a given set of files.
+ * Dependencies to checks can be injected by subclasses.
  */
 abstract class ScannerRun<T extends JavaCheck> {
 
