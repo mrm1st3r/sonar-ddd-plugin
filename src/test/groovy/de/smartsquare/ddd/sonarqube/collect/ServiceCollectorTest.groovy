@@ -12,13 +12,13 @@ class ServiceCollectorTest extends Specification {
         given:
         def settings = new MapSettings()
         def builder = new ModelCollectionBuilder()
-        def collector = new ServiceCollector()
+        def collector = new ModelCollector(ModelType.SERVICE)
         collector.setSettings(settings)
         settings.setProperty(buildKey("service.hierarchy"), "ServiceInterface, AbstractService")
         settings.setProperty(buildKey("service.namePattern"), "^SERV.*")
 
         when:
-        def collection = runCollector(collector, builder)
+        def collection = runCollector(collector, builder, "service")
 
         then:
         collection.hasService("AnnotatedService")

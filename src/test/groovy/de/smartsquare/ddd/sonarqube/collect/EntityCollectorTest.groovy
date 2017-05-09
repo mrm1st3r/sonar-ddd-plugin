@@ -11,12 +11,12 @@ class EntityCollectorTest extends Specification {
 
     private ModelCollectionBuilder builder
     private Settings settings
-    private EntityCollector collector
+    private ModelCollector collector
 
     def setup() {
         builder = new ModelCollectionBuilder()
         settings = new MapSettings()
-        collector = new EntityCollector()
+        collector = new ModelCollector(ModelType.ENTITY)
         collector.setSettings(settings)
     }
 

@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
+import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.typed.ActionParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,13 @@ abstract class ScannerRun<T extends JavaCheck> {
 
     void registerChecks(List<Class<? extends T>> classes) {
         javaChecks = instantiateChecks(classes);
+    }
+
+    void registerCheckInstances(List<? extends T> checks) {
+        for (T check : checks) {
+            inject(check);
+        }
+        javaChecks = ImmutableList.copyOf(checks);
     }
 
     private Iterable<T> instantiateChecks(List<Class<? extends T>> classes) {

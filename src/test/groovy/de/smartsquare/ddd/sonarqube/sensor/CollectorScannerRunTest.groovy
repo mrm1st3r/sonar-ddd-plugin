@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor
 
-import de.smartsquare.ddd.sonarqube.collect.EntityCollector
+import de.smartsquare.ddd.sonarqube.collect.ModelType
 import org.sonar.api.config.MapSettings
 import org.sonar.java.checks.verifier.JavaCheckVerifier
 import org.sonar.plugins.java.api.JavaVersion
@@ -18,8 +18,8 @@ class CollectorScannerRunTest extends Specification {
                 new MapSettings())
 
         expect:
-        run.registerChecks([EntityCollector])
-        run.scan([new File("src/test/files/EntityCollector_sample_annotations.java")])
+        run.registerModelTypes(ModelType.values())
+        run.scan([new File("src/test/files/ModelCollector_sample_annotations.java")])
         run.build().hasEntity("SampleEntity")
     }
 }

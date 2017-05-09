@@ -17,11 +17,16 @@ import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 /**
  * Abstract class to collect domain model parts
  */
-public abstract class ModelCollector extends IssuableSubscriptionVisitor {
+public class ModelCollector extends IssuableSubscriptionVisitor {
 
+    private final ModelType type;
     private ModelCollectionBuilder builder;
     private Settings settings;
     private Predicate<String> namePattern;
+
+    public ModelCollector(ModelType type) {
+        this.type = type;
+    }
 
     public void setSettings(Settings settings) {
         this.settings = settings;
@@ -83,13 +88,23 @@ public abstract class ModelCollector extends IssuableSubscriptionVisitor {
         return settings.getString(buildKey(getNamePatternSetting()));
     }
 
-    abstract ModelType getModelType();
+    ModelType getModelType() {
+        return type;
+    }
 
-    abstract String getStaticAnnotation();
+    String getStaticAnnotation() {
+        return type.getStaticAnnotation().getName();
+    }
 
-    abstract String getAnnotationSetting();
+    String getAnnotationSetting() {
+        return type.getPropertyKey() + ".annotations";
+    }
 
-    abstract String getHierarchySetting();
+    String getHierarchySetting() {
+        return type.getPropertyKey() + ".hierarchy";
+    }
 
-    abstract String getNamePatternSetting();
+    String getNamePatternSetting() {
+        return type.getPropertyKey() + ".namePattern";
+    }
 }
