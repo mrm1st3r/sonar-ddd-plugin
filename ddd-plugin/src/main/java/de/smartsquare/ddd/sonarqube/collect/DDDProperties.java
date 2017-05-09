@@ -40,7 +40,7 @@ public class DDDProperties {
 
     private PropertyDefinition[] modelTypeProperties(ModelType type) {
         return new PropertyDefinition[]{
-                newTypeProperty(type, "annotations", "Annotations", null),
+                newTypeProperty(type, "de/smartsquare/ddd/annotations", "Annotations", null),
                 newTypeProperty(type, "namePattern", "Name Pattern", null),
                 newTypeProperty(type, "hierarchy", "Hierarchy", null),
         };
