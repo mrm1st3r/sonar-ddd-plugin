@@ -59,8 +59,8 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
     }
 
     private boolean isInHierarchy(ClassTree classTree) {
-        Type type = classTree.symbol().type();
-        return getSuperClasses().stream().anyMatch(sc -> type.isSubtypeOf(sc) && !type.is(sc));
+        Type classType = classTree.symbol().type();
+        return getSuperClasses().stream().anyMatch(sc -> classType.isSubtypeOf(sc) && !classType.is(sc));
     }
 
     private boolean matchesNamePattern(ClassTree classTree) {
@@ -88,23 +88,23 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
         return settings.getString(buildKey(getNamePatternSetting()));
     }
 
-    ModelType getModelType() {
+    private ModelType getModelType() {
         return type;
     }
 
-    String getStaticAnnotation() {
+    private String getStaticAnnotation() {
         return type.getStaticAnnotation().getName();
     }
 
-    String getAnnotationSetting() {
+    private String getAnnotationSetting() {
         return type.getPropertyKey() + ".annotations";
     }
 
-    String getHierarchySetting() {
+    private String getHierarchySetting() {
         return type.getPropertyKey() + ".hierarchy";
     }
 
-    String getNamePatternSetting() {
+    private String getNamePatternSetting() {
         return type.getPropertyKey() + ".namePattern";
     }
 }

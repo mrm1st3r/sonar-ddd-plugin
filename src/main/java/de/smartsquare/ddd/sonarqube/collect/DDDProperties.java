@@ -5,7 +5,7 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public class DDDProperties {
     private static final String ROOT_KEY = "sonar.ddd.";
     private static final String CAT_GENERAL = "General";
 
-    private static final Map<ModelType, String> CATEGORIES = new HashMap<>();
+    private static final Map<ModelType, String> CATEGORIES = new EnumMap<>(ModelType.class);
 
     public DDDProperties() {
         CATEGORIES.put(ModelType.ENTITY, "Entities");
