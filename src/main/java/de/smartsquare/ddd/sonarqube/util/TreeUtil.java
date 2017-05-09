@@ -8,6 +8,10 @@ import org.sonar.plugins.java.api.tree.ClassTree;
  */
 public class TreeUtil {
 
+    private TreeUtil() throws InstantiationException {
+        throw new InstantiationException("You shall not construct!");
+    }
+
     public static String getFqn(ClassTree tree) {
         JavaSymbol.TypeJavaSymbol type = (JavaSymbol.TypeJavaSymbol) tree.symbol();
         return type.getFullyQualifiedName();
