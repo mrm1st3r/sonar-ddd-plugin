@@ -19,6 +19,7 @@ public class DDDProperties {
     private static final String CAT_VAL_OBJ = "Value Objects";
     private static final String CAT_GENERAL = "General";
     private static final String CAT_SERVICES = "Services";
+    private static final String CAT_REPOSITORY = "Repositories";
 
     private DDDProperties() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
@@ -30,6 +31,7 @@ public class DDDProperties {
         properties.add(newProperty("identityMethods", "Identity Methods", CAT_ENTITIES, "getId"));
         properties.add(modelTypeProperties("valueObject", CAT_VAL_OBJ));
         properties.add(modelTypeProperties("service", CAT_SERVICES));
+        properties.add(modelTypeProperties("repository", CAT_REPOSITORY));
         properties.add(newProperty("applicationPackage", "Application Package", CAT_GENERAL, null));
         return properties.build();
     }
