@@ -19,7 +19,7 @@ public class SonarDDDPlugin implements Plugin {
         context.addExtension(DDDSensor.class);
         context.addExtension(DDDRulesDefinition.class);
         context.addExtension(JavaDDDProfile.class);
-        context.addExtensions(new DDDProperties().propertyDefinitions());
+        context.addExtensions(DDDProperties.propertyDefinitions());
         context.addExtension(DDDSonarComponents.class);
     }
 }

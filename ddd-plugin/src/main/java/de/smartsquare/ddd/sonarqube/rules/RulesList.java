@@ -16,6 +16,9 @@ public class RulesList {
         throw new InstantiationException("You shall not construct");
     }
 
+    /**
+     * Get a list of all java checks provided by this plugin.
+     */
     public static List<Class<? extends DDDAwareCheck>> checkClasses() {
         return ImmutableList.of(IdentityProvidedCheck.class, ImmutabilityCheck.class);
     }

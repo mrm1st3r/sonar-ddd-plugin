@@ -37,6 +37,9 @@ public class DDDSensor implements Sensor {
     private final JavaClasspath classpath;
     private final FileSystem fs;
 
+    /**
+     * Dependency injection constructor.
+     */
     public DDDSensor(Settings settings, RulesProfile profile, FileSystem fs, DDDSonarComponents sonarComponents) {
         this.fs = fs;
         this.settings = settings;

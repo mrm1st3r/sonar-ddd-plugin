@@ -5,6 +5,9 @@ import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
 
+/**
+ * Superclass for all ddd related checks.
+ */
 public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
     private ModelCollection modelCollection;

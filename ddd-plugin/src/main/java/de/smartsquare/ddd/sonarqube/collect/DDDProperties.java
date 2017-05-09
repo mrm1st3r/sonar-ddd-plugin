@@ -1,13 +1,12 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.sonar.api.config.PropertyDefinition.builder;
 
@@ -19,16 +18,20 @@ public class DDDProperties {
     private static final String ROOT_KEY = "sonar.ddd.";
     private static final String CAT_GENERAL = "General";
 
-    private static final Map<ModelType, String> CATEGORIES = new EnumMap<>(ModelType.class);
+    private static final ImmutableMap<ModelType, String> CATEGORIES = ImmutableMap.<ModelType, String>builder()
+            .put(ModelType.ENTITY, "Entities")
+            .put(ModelType.VALUE_OBJECT, "Value Objects")
+            .put(ModelType.SERVICE, "Services")
+            .put(ModelType.REPOSITORY, "Repositories").build();
 
-    public DDDProperties() {
-        CATEGORIES.put(ModelType.ENTITY, "Entities");
-        CATEGORIES.put(ModelType.VALUE_OBJECT, "Value Objects");
-        CATEGORIES.put(ModelType.SERVICE, "Services");
-        CATEGORIES.put(ModelType.REPOSITORY, "Repositories");
+    private DDDProperties() throws InstantiationException {
+        throw new InstantiationException("You shall not construct!");
     }
 
-    public List<PropertyDefinition> propertyDefinitions() {
+    /**
+     * Build a list of all properties used by the plugin.
+     */
+    public static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
         for (ModelType t : ModelType.values()) {
             properties.add(modelTypeProperties(t));
@@ -38,7 +41,7 @@ public class DDDProperties {
         return properties.build();
     }
 
-    private PropertyDefinition[] modelTypeProperties(ModelType type) {
+    private static PropertyDefinition[] modelTypeProperties(ModelType type) {
         return new PropertyDefinition[]{
                 newTypeProperty(type, "de/smartsquare/ddd/annotations", "Annotations", null),
                 newTypeProperty(type, "namePattern", "Name Pattern", null),
@@ -46,11 +49,11 @@ public class DDDProperties {
         };
     }
 
-    private PropertyDefinition newTypeProperty(ModelType t, String key, String name, String defaultValue) {
+    private static PropertyDefinition newTypeProperty(ModelType t, String key, String name, String defaultValue) {
         return newProperty(t.getPropertyKey() + "." + key, name, CATEGORIES.get(t), defaultValue);
     }
 
-    private PropertyDefinition newProperty(String key, String name, String subCategory, String defaultValue) {
+    private static PropertyDefinition newProperty(String key, String name, String subCategory, String defaultValue) {
         PropertyDefinition.Builder builder = builder(ROOT_KEY + key)
                 .name(name)
                 .subCategory(subCategory)

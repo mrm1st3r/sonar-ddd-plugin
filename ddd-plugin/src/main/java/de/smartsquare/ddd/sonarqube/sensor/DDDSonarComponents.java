@@ -14,11 +14,9 @@ import org.sonar.check.Rule;
 import org.sonar.java.JavaClasspath;
 import org.sonar.java.JavaTestClasspath;
 import org.sonar.java.SonarComponents;
-import org.sonar.plugins.java.api.CheckRegistrar;
 import org.sonar.plugins.java.api.JavaCheck;
 import org.sonarsource.api.sonarlint.SonarLintSide;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 
@@ -31,12 +29,11 @@ import java.io.File;
 @ParametersAreNonnullByDefault
 public class DDDSonarComponents extends SonarComponents {
 
+    /**
+     * Dependency injection constructor.
+     */
     public DDDSonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs, JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory) {
         super(fileLinesContextFactory, fs, javaClasspath, javaTestClasspath, checkFactory);
-    }
-
-    public DDDSonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs, JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory, @Nullable CheckRegistrar[] checkRegistrars) {
-        super(fileLinesContextFactory, fs, javaClasspath, javaTestClasspath, checkFactory, checkRegistrars);
     }
 
     @Override

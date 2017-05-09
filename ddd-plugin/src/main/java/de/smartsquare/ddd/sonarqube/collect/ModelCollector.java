@@ -24,6 +24,9 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
     private Settings settings;
     private Predicate<String> namePattern;
 
+    /**
+     * Create a new ModelCollector to collect model classes of a given type.
+     */
     public ModelCollector(ModelType type) {
         this.type = type;
     }

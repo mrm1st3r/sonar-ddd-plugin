@@ -12,6 +12,9 @@ public class TreeUtil {
         throw new InstantiationException("You shall not construct!");
     }
 
+    /**
+     * Returns the fully qualified name for a ClassTree object.
+     */
     public static String getFqn(ClassTree tree) {
         JavaSymbol.TypeJavaSymbol type = (JavaSymbol.TypeJavaSymbol) tree.symbol();
         return type.getFullyQualifiedName();

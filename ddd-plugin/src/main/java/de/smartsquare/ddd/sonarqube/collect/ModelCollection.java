@@ -19,18 +19,30 @@ public class ModelCollection {
                 .build();
     }
 
+    /**
+     * Check if the given class represents an entity in the collected model.
+     */
     public boolean hasEntity(String fqn) {
         return has(ModelType.ENTITY, fqn);
     }
 
+    /**
+     * Check if the given class represents a value object in the collected model.
+     */
     public boolean hasValueObject(String fqn) {
         return has(ModelType.VALUE_OBJECT, fqn);
     }
 
+    /**
+     * Check if the given class represents a service in the collected model.
+     */
     public boolean hasService(String fqn) {
         return has(ModelType.SERVICE, fqn);
     }
 
+    /**
+     * Check if the given class represents a repository in the collected model.
+     */
     public boolean hasRepository(String fqn) {
         return has(ModelType.REPOSITORY, fqn);
     }
