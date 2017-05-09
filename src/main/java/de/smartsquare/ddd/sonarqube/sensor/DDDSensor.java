@@ -2,6 +2,7 @@ package de.smartsquare.ddd.sonarqube.sensor;
 
 import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.sonarqube.collect.EntityCollector;
+import de.smartsquare.ddd.sonarqube.collect.ServiceCollector;
 import de.smartsquare.ddd.sonarqube.collect.ValueObjectCollector;
 import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.slf4j.Logger;
@@ -64,7 +65,7 @@ public class DDDSensor implements Sensor {
         sonarComponents.setSensorContext(context);
 
         CollectorScannerRun collectorRun = new CollectorScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), settings);
-        collectorRun.registerChecks(ImmutableList.of(EntityCollector.class, ValueObjectCollector.class));
+        collectorRun.registerChecks(ImmutableList.of(EntityCollector.class, ValueObjectCollector.class, ServiceCollector.class));
         collectorRun.scan(getSourceFiles());
 
         RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), collectorRun.build());

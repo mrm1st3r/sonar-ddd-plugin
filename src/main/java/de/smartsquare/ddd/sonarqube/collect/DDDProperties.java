@@ -18,6 +18,7 @@ public class DDDProperties {
     private static final String CAT_ENTITIES = "Entities";
     private static final String CAT_VAL_OBJ = "Value Objects";
     private static final String CAT_GENERAL = "General";
+    private static final String CAT_SERVICES = "Services";
 
     private DDDProperties() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");
@@ -25,15 +26,20 @@ public class DDDProperties {
 
     public static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
-        properties.add(newProperty("entityAnnotations", "Annotations", CAT_ENTITIES, null));
-        properties.add(newProperty("entityNames", "Names", CAT_ENTITIES, null));
-        properties.add(newProperty("entityHierarchy", "Hierarchy", CAT_ENTITIES, null));
+        properties.add(modelTypeProperties("entity", CAT_ENTITIES));
         properties.add(newProperty("identityMethods", "Identity Methods", CAT_ENTITIES, "getId"));
-        properties.add(newProperty("valueObjectAnnotations", "Annotations", CAT_VAL_OBJ, null));
-        properties.add(newProperty("valueObjectNames", "Names", CAT_VAL_OBJ, null));
-        properties.add(newProperty("valueObjectHierarchy", "Hierarchy", CAT_VAL_OBJ, null));
+        properties.add(modelTypeProperties("valueObject", CAT_VAL_OBJ));
+        properties.add(modelTypeProperties("service", CAT_SERVICES));
         properties.add(newProperty("applicationPackage", "Application Package", CAT_GENERAL, null));
         return properties.build();
+    }
+
+    private static PropertyDefinition[] modelTypeProperties(String type, String category) {
+        return new PropertyDefinition[]{
+                newProperty(type + "Annotations", "Annotations", category, null),
+                newProperty(type + "NamePattern", "Name Pattern", category, null),
+                newProperty(type + "Hierarchy", "Hierarchy", category, null)
+        };
     }
 
     private static PropertyDefinition newProperty(String key, String name, String subCategory, String defaultValue) {
