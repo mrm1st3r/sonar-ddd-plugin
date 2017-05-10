@@ -36,11 +36,9 @@ public class AnaemicModelCheck extends DDDAwareCheck {
     }
 
     private boolean complexityBelowThreshold(ClassTree classTree) {
-        Stream<Tree> methodStream = classTree.members().stream().filter(m -> m.is(Tree.Kind.METHOD));
-        long methodCount = methodStream.count();
-        int complexitySum = methodStream.mapToInt(m -> {
-            MethodTree method = (MethodTree) m;
-            List<Tree> complexityNodes = context.getComplexityNodes(method);
+        long methodCount = methodStream(classTree).count();
+        int complexitySum = methodStream(classTree).mapToInt(m -> {
+            List<Tree> complexityNodes = context.getComplexityNodes(m);
             return complexityNodes.size();
         }).sum();
 
@@ -52,11 +50,12 @@ public class AnaemicModelCheck extends DDDAwareCheck {
                 .map(v -> (VariableTree) v)
                 .allMatch(v -> {
                     String name = StringUtils.capitalize(v.simpleName().name());
-                    Stream<MethodTree> methods = classTree.members().stream()
-                            .filter(m -> m.is(Tree.Kind.METHOD))
-                            .map(m -> (MethodTree) m);
-                    return methods.anyMatch(m -> ("get" + name).equals(m.simpleName().name()))
-                            && methods.anyMatch(m -> ("set" + name).equals(m.simpleName().name()));
+                    return methodStream(classTree).anyMatch(m -> ("get" + name).equals(m.simpleName().name()))
+                            && methodStream(classTree).anyMatch(m -> ("set" + name).equals(m.simpleName().name()));
                 });
+    }
+
+    private Stream<MethodTree> methodStream(ClassTree classTree) {
+        return classTree.members().stream().filter(m -> m.is(Tree.Kind.METHOD)).map(m -> (MethodTree) m);
     }
 }
