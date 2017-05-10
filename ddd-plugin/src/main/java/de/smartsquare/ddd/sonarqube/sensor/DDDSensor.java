@@ -39,6 +39,10 @@ public class DDDSensor implements Sensor {
 
     /**
      * Dependency injection constructor.
+     * @param settings property settings to use
+     * @param profile active quality profile
+     * @param fs the current projects file system
+     * @param sonarComponents main integration point to sonar api
      */
     public DDDSensor(Settings settings, RulesProfile profile, FileSystem fs, DDDSonarComponents sonarComponents) {
         this.fs = fs;

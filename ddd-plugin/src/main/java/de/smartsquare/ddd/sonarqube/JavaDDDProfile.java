@@ -23,6 +23,7 @@ public class JavaDDDProfile extends ProfileDefinition {
 
     /**
      * Dependency injection constructor.
+     * @param rules RuleFinder to find rules
      */
     public JavaDDDProfile(RuleFinder rules) {
         this.rules = rules;

@@ -14,6 +14,8 @@ public class TreeUtil {
 
     /**
      * Returns the fully qualified name for a ClassTree object.
+     * @param tree the classTree to lookup
+     * @return the classTrees fully qualified name
      */
     public static String getFqn(ClassTree tree) {
         JavaSymbol.TypeJavaSymbol type = (JavaSymbol.TypeJavaSymbol) tree.symbol();

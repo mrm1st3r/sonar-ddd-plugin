@@ -31,8 +31,14 @@ public class DDDSonarComponents extends SonarComponents {
 
     /**
      * Dependency injection constructor.
+     * @param fileLinesContextFactory see {@link SonarComponents}
+     * @param fs see {@link SonarComponents}
+     * @param javaClasspath see {@link SonarComponents}
+     * @param javaTestClasspath see {@link SonarComponents}
+     * @param checkFactory see {@link SonarComponents}
      */
-    public DDDSonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs, JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory) {
+    public DDDSonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs,
+                              JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory) {
         super(fileLinesContextFactory, fs, javaClasspath, javaTestClasspath, checkFactory);
     }
 

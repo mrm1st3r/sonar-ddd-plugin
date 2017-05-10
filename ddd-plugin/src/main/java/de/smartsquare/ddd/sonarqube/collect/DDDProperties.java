@@ -30,6 +30,7 @@ public class DDDProperties {
 
     /**
      * Build a list of all properties used by the plugin.
+     * @return A list of all property definitions
      */
     public static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();

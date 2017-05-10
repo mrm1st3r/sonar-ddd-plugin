@@ -26,6 +26,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
 
     /**
      * Create a new ModelCollector to collect model classes of a given type.
+     * @param type the model type to collect
      */
     public ModelCollector(ModelType type) {
         this.type = type;

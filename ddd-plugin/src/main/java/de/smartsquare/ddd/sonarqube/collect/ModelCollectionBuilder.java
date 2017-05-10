@@ -18,6 +18,8 @@ public class ModelCollectionBuilder {
 
     /**
      * Add a class specified as a type to the builder.
+     * @param type Model type the class has been identified as
+     * @param fqn Fully qualified class name
      */
     public void add(ModelType type, String fqn) {
         listBuilders.get(type).add(fqn);
@@ -25,6 +27,7 @@ public class ModelCollectionBuilder {
 
     /**
      * Build a ModelCollection from the builders contents.
+     * @return A ModelCollection containing all added classes
      */
     public ModelCollection build() {
         return new ModelCollection(
