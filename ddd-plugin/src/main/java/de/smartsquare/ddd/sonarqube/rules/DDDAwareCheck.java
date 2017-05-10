@@ -31,4 +31,8 @@ public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
     boolean isService(ClassTree classTree) {
         return modelCollection.hasService(TreeUtil.getFqn(classTree));
     }
+
+    boolean belongsToModel(ClassTree classTree) {
+        return modelCollection.contains(TreeUtil.getFqn(classTree));
+    }
 }

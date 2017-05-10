@@ -79,4 +79,13 @@ public class ModelCollection {
         types.forEach((k,v) -> builder.addAll(v));
         return builder.build();
     }
+
+    /**
+     * Check if a class is contained as any type in this collection.
+     * @param fqn fully qualified class name to check
+     * @return true if class if found, false otherwise
+     */
+    public boolean contains(String fqn) {
+        return types.entrySet().stream().anyMatch(t -> t.getValue().contains(fqn));
+    }
 }
