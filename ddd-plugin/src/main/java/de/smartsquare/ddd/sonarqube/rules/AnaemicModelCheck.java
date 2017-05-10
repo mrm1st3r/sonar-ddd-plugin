@@ -3,10 +3,7 @@ package de.smartsquare.ddd.sonarqube.rules;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.tree.ClassTree;
-import org.sonar.plugins.java.api.tree.MethodTree;
-import org.sonar.plugins.java.api.tree.Tree;
-import org.sonar.plugins.java.api.tree.VariableTree;
+import org.sonar.plugins.java.api.tree.*;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -30,8 +27,9 @@ public class AnaemicModelCheck extends DDDAwareCheck {
         if (!belongsToModel(classTree)) {
             return;
         }
-        if (complexityBelowThreshold(classTree) || isBean(classTree)) {
-            reportIssue(classTree, "Anaemic model class");
+        IdentifierTree className = classTree.simpleName();
+        if ((complexityBelowThreshold(classTree) || isBean(classTree)) && className != null) {
+            reportIssue(className, "Anaemic model class");
         }
     }
 
@@ -46,7 +44,8 @@ public class AnaemicModelCheck extends DDDAwareCheck {
     }
 
     private boolean isBean(ClassTree classTree) {
-        return classTree.members().stream().filter(m -> m.is(Tree.Kind.VARIABLE))
+        boolean hasProperties = classTree.members().stream().filter(m -> m.is(Tree.Kind.VARIABLE)).count() > 0;
+        return hasProperties && classTree.members().stream().filter(m -> m.is(Tree.Kind.VARIABLE))
                 .map(v -> (VariableTree) v)
                 .allMatch(v -> {
                     String name = StringUtils.capitalize(v.simpleName().name());

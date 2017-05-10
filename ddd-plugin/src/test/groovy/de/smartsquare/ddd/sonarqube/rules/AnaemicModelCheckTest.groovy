@@ -9,7 +9,7 @@ class AnaemicModelCheckTest extends Specification {
 
     def "test"() {
         given:
-        def check = new IdentityProvidedCheck()
+        def check = new AnaemicModelCheck()
         def collection = Mock(ModelCollection)
         check.setModelCollection(collection)
 
@@ -17,8 +17,8 @@ class AnaemicModelCheckTest extends Specification {
         JavaCheckVerifier.verify("src/test/files/AnaemicModelCheck_sample.java", check)
 
         then:
-        collection.hasEntity("BeanEntity") >> true
-        collection.hasEntity("NoncomplexEntity") >> true
-        collection.hasEntity(_) >> false
+        collection.contains("BeanEntity") >> true
+        collection.contains("NoncomplexEntity") >> true
+        collection.contains(_) >> false
     }
 }
