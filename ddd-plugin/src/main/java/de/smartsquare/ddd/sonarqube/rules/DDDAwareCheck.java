@@ -20,6 +20,10 @@ public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
         return modelCollection.hasEntity(TreeUtil.getFqn(classTree));
     }
 
+    boolean isEntity(String fqn) {
+        return modelCollection.hasEntity(fqn);
+    }
+
     boolean isValueObject(ClassTree classTree) {
         return modelCollection.hasValueObject(TreeUtil.getFqn(classTree));
     }

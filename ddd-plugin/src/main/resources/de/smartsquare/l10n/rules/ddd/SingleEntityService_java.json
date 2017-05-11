@@ -1,0 +1,12 @@
+{
+  "title": "Services should always operate on multiple Entity types",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Major"
+}

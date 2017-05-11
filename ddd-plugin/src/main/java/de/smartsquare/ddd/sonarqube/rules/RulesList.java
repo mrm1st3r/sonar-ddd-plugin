@@ -24,6 +24,7 @@ public class RulesList {
                 .add(IdentityProvidedCheck.class)
                 .add(ImmutabilityCheck.class)
                 .add(AnaemicModelCheck.class)
+                .add(SingleEntityServiceCheck.class)
                 .build();
     }
 }
