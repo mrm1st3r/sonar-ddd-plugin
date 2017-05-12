@@ -57,14 +57,18 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
     }
 
     private boolean isAnnotated(ClassTree classTree) {
-        return classTree.modifiers().annotations().stream().anyMatch(
-                t -> getAnnotations().stream().anyMatch(a -> t.annotationType().symbolType().isSubtypeOf(a))
-        );
+        return classTree.modifiers().annotations()
+                .stream()
+                .anyMatch(t -> getConfiguredAnnotations()
+                        .stream()
+                        .anyMatch(a -> t.annotationType().symbolType().isSubtypeOf(a)));
     }
 
     private boolean isInHierarchy(ClassTree classTree) {
         Type classType = classTree.symbol().type();
-        return getSuperClasses().stream().anyMatch(sc -> classType.isSubtypeOf(sc) && !classType.is(sc));
+        return getConfiguredSuperClasses()
+                .stream()
+                .anyMatch(sc -> classType.isSubtypeOf(sc) && !classType.is(sc));
     }
 
     private boolean matchesNamePattern(ClassTree classTree) {
@@ -77,15 +81,15 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
         return namePattern.test(classTree.symbol().name());
     }
 
-    private List<String> getAnnotations() {
+    private List<String> getConfiguredAnnotations() {
         return ImmutableList.<String>builder()
                 .add(getStaticAnnotation())
                 .add(settings.getStringArray(buildKey(getAnnotationSetting())))
                 .build();
     }
 
-    private List<String> getSuperClasses() {
-        return ImmutableList.<String>builder().add(settings.getStringArray(buildKey(getHierarchySetting()))).build();
+    private List<String> getConfiguredSuperClasses() {
+        return ImmutableList.copyOf(settings.getStringArray(buildKey(getHierarchySetting())));
     }
 
     private String getNamePattern() {

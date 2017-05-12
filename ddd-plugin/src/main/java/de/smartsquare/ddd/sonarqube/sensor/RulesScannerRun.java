@@ -22,7 +22,8 @@ public class RulesScannerRun extends ScannerRun<DDDAwareCheck> {
     }
 
     @Override
-    void inject(DDDAwareCheck check) {
+    DDDAwareCheck inject(DDDAwareCheck check) {
         check.setModelCollection(collection);
+        return check;
     }
 }

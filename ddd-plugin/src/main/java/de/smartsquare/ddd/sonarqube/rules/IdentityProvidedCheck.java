@@ -34,7 +34,8 @@ public class IdentityProvidedCheck extends DDDAwareCheck {
     }
 
     private boolean hasGetIdMethod(ClassTree classTree) {
-        return classTree.members().stream()
+        return classTree.members()
+                .stream()
                 .filter(m -> m.is(Kind.METHOD))
                 .map(m -> (MethodTree) m)
                 .anyMatch(m -> "getId".equals(m.simpleName().name()));

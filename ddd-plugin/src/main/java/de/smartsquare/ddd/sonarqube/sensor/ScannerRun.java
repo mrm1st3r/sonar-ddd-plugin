@@ -1,6 +1,5 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.typed.ActionParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,9 @@ import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.squidbridge.api.CodeVisitor;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Helper class to instantiate check classes and to run a code scanner
@@ -42,27 +42,30 @@ abstract class ScannerRun<T extends JavaCheck> {
     }
 
     void registerCheckInstances(List<? extends T> checks) {
-        for (T check : checks) {
-            inject(check);
-        }
-        javaChecks = ImmutableList.copyOf(checks);
+        javaChecks = checks.stream()
+                .map(this::inject)
+                .collect(Collectors.toList());
     }
 
     private Iterable<T> instantiateChecks(List<Class<? extends T>> classes) {
-        ArrayList<T> checks = new ArrayList<>();
-        for (Class<? extends T> c : classes) {
-            try {
-                T check = c.newInstance();
-                inject(check);
-                checks.add(check);
-            } catch (Exception e) {
-                LOG.warn("Could not instantiate check: " + c.getSimpleName(), e);
-            }
-        }
-        return checks;
+        return classes
+                .stream()
+                .map(this::instantiate)
+                .filter(Objects::nonNull)
+                .map(this::inject)
+                .collect(Collectors.toList());
     }
 
-    abstract void inject(T check);
+    private T instantiate(Class<? extends T> c) {
+        try {
+            return c.newInstance();
+        } catch (Exception e) {
+            LOG.warn("Could not instantiate check: " + c.getSimpleName(), e);
+            return null;
+        }
+    }
+
+    abstract T inject(T check);
 
     void scan(Iterable<File> sourceFiles) {
         JavaAstScanner scanner = createAstScanner(javaVersion, javaChecks);

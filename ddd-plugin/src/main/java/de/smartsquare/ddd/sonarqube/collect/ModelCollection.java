@@ -86,6 +86,8 @@ public class ModelCollection {
      * @return true if class if found, false otherwise
      */
     public boolean contains(String fqn) {
-        return types.entrySet().stream().anyMatch(t -> t.getValue().contains(fqn));
+        return types.entrySet()
+                .stream()
+                .anyMatch(t -> t.getValue().contains(fqn));
     }
 }

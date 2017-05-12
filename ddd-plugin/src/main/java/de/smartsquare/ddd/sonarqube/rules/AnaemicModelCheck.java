@@ -3,10 +3,14 @@ package de.smartsquare.ddd.sonarqube.rules;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.tree.*;
+import org.sonar.plugins.java.api.tree.ClassTree;
+import org.sonar.plugins.java.api.tree.IdentifierTree;
+import org.sonar.plugins.java.api.tree.Tree;
 
 import java.util.List;
-import java.util.stream.Stream;
+
+import static de.smartsquare.ddd.sonarqube.util.TreeUtil.methodStream;
+import static de.smartsquare.ddd.sonarqube.util.TreeUtil.propertyStream;
 
 /**
  * Check all domain model elements for anaemic behaviour.
@@ -34,27 +38,22 @@ public class AnaemicModelCheck extends DDDAwareCheck {
     }
 
     private boolean complexityBelowThreshold(ClassTree classTree) {
-        long methodCount = methodStream(classTree).count();
-        int complexitySum = methodStream(classTree).mapToInt(m -> {
-            List<Tree> complexityNodes = context.getComplexityNodes(m);
-            return complexityNodes.size();
-        }).sum();
+        long methodCount = methodStream(classTree)
+                .count();
+        int complexitySum = methodStream(classTree)
+                .mapToInt(m -> context.getComplexityNodes(m).size())
+                .sum();
 
         return (complexitySum / (double) methodCount) < COMPLEXITY_THRESHOLD;
     }
 
     private boolean isBean(ClassTree classTree) {
-        boolean hasProperties = classTree.members().stream().filter(m -> m.is(Tree.Kind.VARIABLE)).count() > 0;
-        return hasProperties && classTree.members().stream().filter(m -> m.is(Tree.Kind.VARIABLE))
-                .map(v -> (VariableTree) v)
-                .allMatch(v -> {
-                    String name = StringUtils.capitalize(v.simpleName().name());
-                    return methodStream(classTree).anyMatch(m -> ("get" + name).equals(m.simpleName().name()))
-                            && methodStream(classTree).anyMatch(m -> ("set" + name).equals(m.simpleName().name()));
-                });
-    }
-
-    private Stream<MethodTree> methodStream(ClassTree classTree) {
-        return classTree.members().stream().filter(m -> m.is(Tree.Kind.METHOD)).map(m -> (MethodTree) m);
+        boolean hasProperties = propertyStream(classTree)
+                .count() > 0;
+        return hasProperties && propertyStream(classTree)
+                .map(v -> StringUtils.capitalize(v.simpleName().name()))
+                .allMatch(name -> methodStream(classTree).anyMatch(m -> ("get" + name).equals(m.simpleName().name()))
+                        && methodStream(classTree).anyMatch(m -> ("set" + name).equals(m.simpleName().name())));
+        //todo: check for other methods
     }
 }

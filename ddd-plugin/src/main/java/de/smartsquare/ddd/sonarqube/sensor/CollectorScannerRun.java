@@ -9,8 +9,9 @@ import org.sonar.java.SonarComponents;
 import org.sonar.plugins.java.api.JavaVersion;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ScannerRun for collecting domain model classes.
@@ -27,18 +28,17 @@ class CollectorScannerRun extends ScannerRun<ModelCollector> {
     }
 
     void registerModelTypes(ModelType[] types) {
-        List<ModelCollector> collectors = new ArrayList<>();
-        for (ModelType t : types) {
-            ModelCollector c = new ModelCollector(t);
-            collectors.add(c);
-        }
+        List<ModelCollector> collectors = Arrays.stream(types)
+                .map(ModelCollector::new)
+                .collect(Collectors.toList());
         registerCheckInstances(collectors);
     }
 
     @Override
-    void inject(ModelCollector check) {
+    ModelCollector inject(ModelCollector check) {
         check.setBuilder(collectionBuilder);
         check.setSettings(settings);
+        return check;
     }
 
     ModelCollection build() {

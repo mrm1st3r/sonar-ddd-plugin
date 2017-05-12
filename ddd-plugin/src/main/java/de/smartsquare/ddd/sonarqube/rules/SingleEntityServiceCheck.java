@@ -26,17 +26,19 @@ public class SingleEntityServiceCheck extends DDDAwareCheck {
             return;
         }
 
-        classTree.members().stream().filter(m -> m.is(Tree.Kind.METHOD)).forEach(m -> {
-            if (usesOnlyOneEntity(m)) {
-                reportIssue(m, "A Service should incorporate multiple Entity types");
-            }
-        });
+        classTree.members()
+                .stream()
+                .filter(m -> m.is(Tree.Kind.METHOD))
+                .map(m -> (MethodTree) m)
+                .filter(this::usesOnlyOneEntity)
+                .forEach(m -> reportIssue(m, "A Service should incorporate multiple Entity types"));
     }
 
-    private boolean usesOnlyOneEntity(Tree methodTree) {
-        return ((MethodTree) methodTree).parameters().stream()
-                .filter(p -> isEntity(p.type().symbolType().fullyQualifiedName()))
+    private boolean usesOnlyOneEntity(MethodTree methodTree) {
+        return methodTree.parameters()
+                .stream()
                 .map(p -> p.type().symbolType().fullyQualifiedName())
+                .filter(this::isEntity)
                 .distinct().count() < 2;
     }
 }

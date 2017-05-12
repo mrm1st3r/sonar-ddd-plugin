@@ -28,17 +28,15 @@ public class ImmutabilityCheck extends DDDAwareCheck {
             return;
         }
         searchForSetters(classTree);
+        //todo: check for final properties
     }
 
     private void searchForSetters(ClassTree classTree) {
-        classTree.members().stream()
+        classTree.members()
+                .stream()
                 .filter(m -> m.is(Tree.Kind.METHOD))
                 .map(m -> (MethodTree) m)
-                .forEach(m -> {
-                    if (m.simpleName().name().startsWith("set")) {
-                        reportIssue(m, "Value objects should be immutable");
-                    }
-                });
+                .filter(m -> m.simpleName().name().startsWith("set"))
+                .forEach(m -> reportIssue(m, "Value objects should be immutable"));
     }
-
 }

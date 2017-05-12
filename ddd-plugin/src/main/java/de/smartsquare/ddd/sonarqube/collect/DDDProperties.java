@@ -6,6 +6,7 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.sonar.api.config.PropertyDefinition.builder;
@@ -34,9 +35,8 @@ public class DDDProperties {
      */
     public static List<PropertyDefinition> propertyDefinitions() {
         ImmutableList.Builder<PropertyDefinition> properties = ImmutableList.builder();
-        for (ModelType t : ModelType.values()) {
-            properties.add(modelTypeProperties(t));
-        }
+        Arrays.stream(ModelType.values())
+                .forEachOrdered(t -> properties.add(modelTypeProperties(t)));
         properties.add(newTypeProperty(ModelType.ENTITY, "identityMethods", "Identity Methods", "getId"));
         properties.add(newProperty("applicationPackage", "Application Package", CAT_GENERAL, null));
         return properties.build();

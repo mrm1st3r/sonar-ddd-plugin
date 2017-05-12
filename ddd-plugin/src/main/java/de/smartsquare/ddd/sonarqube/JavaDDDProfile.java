@@ -7,7 +7,6 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.ValidationMessages;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.Java;
-import org.sonar.plugins.java.api.JavaCheck;
 
 /**
  * Definition for a quality profile containing all rules contained in this plugin.
@@ -32,10 +31,10 @@ public class JavaDDDProfile extends ProfileDefinition {
     @Override
     public RulesProfile createProfile(ValidationMessages validation) {
         RulesProfile profile = RulesProfile.create(PROFILE_NAME, Java.KEY);
-        for (Class<? extends JavaCheck> check : RulesList.checkClasses()) {
-            String ruleKey = check.getAnnotation(Rule.class).key();
-            profile.activateRule(rules.findByKey(RulesList.REPOSITORY_KEY, ruleKey), null);
-        }
+        RulesList.checkClasses().forEach(check -> {
+                    String ruleKey = check.getAnnotation(Rule.class).key();
+                    profile.activateRule(rules.findByKey(RulesList.REPOSITORY_KEY, ruleKey), null);
+                });
         return profile;
     }
 }
