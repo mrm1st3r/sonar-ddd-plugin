@@ -28,9 +28,14 @@ public class IdentityProvidedCheck extends DDDAwareCheck {
             return;
         }
         IdentifierTree className = classTree.simpleName();
-        if (!hasGetIdMethod(classTree) && className != null) {
+        if (!hasIdentity(classTree) && className != null) {
             reportIssue(className, "DDD Entity should have an identity");
         }
+    }
+
+    private boolean hasIdentity(ClassTree classTree) {
+        return hasGetIdMethod(classTree)
+                || classTree.superClass() != null && hasGetIdMethod(classTree.superClass().symbolType().symbol().declaration());
     }
 
     private boolean hasGetIdMethod(ClassTree classTree) {

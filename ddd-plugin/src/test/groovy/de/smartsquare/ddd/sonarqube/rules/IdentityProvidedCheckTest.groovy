@@ -14,11 +14,12 @@ class IdentityProvidedCheckTest extends Specification {
         check.setModelCollection(collection)
 
         when:
-        JavaCheckVerifier.verify("src/test/files/EntityWithId.java", check)
+        JavaCheckVerifier.verify("src/test/files/IdentityProvidedCheck_sample.java", check)
 
         then:
         collection.hasEntity("SampleEntity") >> true
         collection.hasEntity("SampleEntity2") >> true
+        collection.hasEntity("ExtendedEntity") >> true
         collection.hasEntity(_) >> false
     }
 }
