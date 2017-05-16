@@ -1,11 +1,12 @@
 package de.smartsquare.ddd.sonarqube.util;
 
 import org.sonar.java.resolve.JavaSymbol;
-import org.sonar.plugins.java.api.tree.ClassTree;
-import org.sonar.plugins.java.api.tree.MethodTree;
-import org.sonar.plugins.java.api.tree.Tree;
-import org.sonar.plugins.java.api.tree.VariableTree;
+import org.sonar.plugins.java.api.semantic.Symbol;
+import org.sonar.plugins.java.api.semantic.Type;
+import org.sonar.plugins.java.api.tree.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -49,5 +50,24 @@ public class TreeUtil {
                 .stream()
                 .filter(m -> m.is(Tree.Kind.METHOD))
                 .map(m -> (MethodTree) m);
+    }
+
+    /**
+     * Create a stream of a classes super classes, excluding java.lang.Object.
+     * @param classTree class to lookup it's super classes
+     * @return a stream of all super classes
+     */
+    public static Stream<Symbol.TypeSymbol> superClasses(ClassTree classTree) {
+        List<Symbol.TypeSymbol> superClasses = new ArrayList<>();
+        TypeTree superClass = classTree.superClass();
+        if (superClass != null) {
+            Type superClassType = superClass.symbolType();
+            while (superClassType.symbol().isTypeSymbol() && !superClassType.is("java.lang.Object")) {
+                Symbol.TypeSymbol superClassSymbol = superClassType.symbol();
+                superClasses.add(superClassSymbol);
+                superClassType = superClassSymbol.superClass();
+            }
+        }
+        return superClasses.stream();
     }
 }

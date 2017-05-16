@@ -1,10 +1,11 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
+import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 import org.sonar.check.Rule;
+import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.IdentifierTree;
-import org.sonar.plugins.java.api.tree.MethodTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
@@ -34,15 +35,13 @@ public class IdentityProvidedCheck extends DDDAwareCheck {
     }
 
     private boolean hasIdentity(ClassTree classTree) {
-        return hasGetIdMethod(classTree)
-                || classTree.superClass() != null && hasGetIdMethod(classTree.superClass().symbolType().symbol().declaration());
+        return hasGetIdMethod(classTree.symbol())
+                ||TreeUtil.superClasses(classTree).anyMatch(this::hasGetIdMethod);
     }
 
-    private boolean hasGetIdMethod(ClassTree classTree) {
-        return classTree.members()
+    private boolean hasGetIdMethod(Symbol.TypeSymbol classTree) {
+        return classTree.lookupSymbols("getId")
                 .stream()
-                .filter(m -> m.is(Kind.METHOD))
-                .map(m -> (MethodTree) m)
-                .anyMatch(m -> "getId".equals(m.simpleName().name()));
+                .anyMatch(Symbol::isMethodSymbol);
     }
 }
