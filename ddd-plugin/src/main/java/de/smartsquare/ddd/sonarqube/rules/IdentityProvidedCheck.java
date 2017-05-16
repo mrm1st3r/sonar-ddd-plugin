@@ -10,12 +10,16 @@ import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /**
  * Rule to check Entities for identity.
  */
 @Rule(key = "IdentityProvided")
 public class IdentityProvidedCheck extends DDDAwareCheck {
+
+    private Predicate<String> nameMatcher;
 
     @Override
     public List<Kind> nodesToVisit() {
@@ -40,8 +44,17 @@ public class IdentityProvidedCheck extends DDDAwareCheck {
     }
 
     private boolean hasGetIdMethod(Symbol.TypeSymbol classTree) {
-        return classTree.lookupSymbols("getId")
+        return classTree.memberSymbols()
                 .stream()
-                .anyMatch(Symbol::isMethodSymbol);
+                .filter(Symbol::isMethodSymbol)
+                .map(Symbol::name)
+                .anyMatch(matchName());
+    }
+
+    private Predicate<String> matchName() {
+        if (nameMatcher == null) {
+            nameMatcher = Pattern.compile(settings.getString("sonar.ddd.entity.identityMethods")).asPredicate();
+        }
+        return nameMatcher;
     }
 }

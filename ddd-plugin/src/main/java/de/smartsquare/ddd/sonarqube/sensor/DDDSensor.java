@@ -72,7 +72,7 @@ public class DDDSensor implements Sensor {
         collectorRun.registerModelTypes(ModelType.values());
         collectorRun.scan(getSourceFiles());
 
-        RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), collectorRun.build());
+        RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), collectorRun.build(), settings);
         rulesRun.registerChecks(RulesList.checkClasses());
         rulesRun.scan(getSourceFiles());
 

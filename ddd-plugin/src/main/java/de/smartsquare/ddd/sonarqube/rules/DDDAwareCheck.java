@@ -2,6 +2,7 @@ package de.smartsquare.ddd.sonarqube.rules;
 
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import de.smartsquare.ddd.sonarqube.util.TreeUtil;
+import org.sonar.api.config.Settings;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
 
@@ -11,9 +12,14 @@ import org.sonar.plugins.java.api.tree.ClassTree;
 public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
     private ModelCollection modelCollection;
+    Settings settings;
 
     public void setModelCollection(ModelCollection modelCollection) {
         this.modelCollection = modelCollection;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     boolean isEntity(ClassTree classTree) {
