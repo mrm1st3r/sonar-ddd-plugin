@@ -10,6 +10,7 @@ import org.sonar.plugins.java.api.tree.Tree;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.methodStream;
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.propertyStream;
 
@@ -32,9 +33,11 @@ public class AnaemicModelCheck extends DDDAwareCheck {
         if (!belongsToModel(classTree)) {
             return;
         }
-        IdentifierTree className = classTree.simpleName();
-        if ((complexityBelowThreshold(classTree) || isBean(classTree)) && className != null) {
-            reportIssue(className, "Anaemic model class");
+        IdentifierTree className = checkNotNull(classTree.simpleName());
+        if (complexityBelowThreshold(classTree)) {
+            reportIssue(className, "Model class contains no complexity");
+        } else if (isBean(classTree)) {
+            reportIssue(className, "Model class has only getters and setters");
         }
     }
 

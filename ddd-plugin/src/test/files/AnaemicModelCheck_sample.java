@@ -1,6 +1,9 @@
 @de.smartsquare.ddd.annotations.DDDEntity
 class BeanEntity { // Noncompliant
     private int key;
+
+    BeanEntity(int key) {this.key = key;}
+
     int getKey() {
         if (key < 0) {
             return 0;
