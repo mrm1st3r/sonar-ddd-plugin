@@ -21,6 +21,7 @@ import static de.smartsquare.ddd.sonarqube.util.TreeUtil.propertyStream;
 public class AnaemicModelCheck extends DDDAwareCheck {
 
     private static final double COMPLEXITY_THRESHOLD = 1.2;
+    private static final List<String> IGNORED_METHODS = ImmutableList.of("toString", "equals", "hashCode");
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
@@ -58,10 +59,12 @@ public class AnaemicModelCheck extends DDDAwareCheck {
     }
 
     private boolean hasOnlyAccessors(ClassTree classTree) {
-        List<String> properties = propertyStream(classTree).map(p -> StringUtils.capitalize(p.simpleName().name())).collect(Collectors.toList());
+        List<String> properties = propertyStream(classTree)
+                .map(p -> StringUtils.capitalize(p.simpleName().name()))
+                .collect(Collectors.toList());
         return methodStream(classTree)
                 .map(m -> m.simpleName().name())
-                .filter(name -> !(name.equals("toString") || name.equals("equals") || name.equals("hashCode")))
+                .filter(name -> !IGNORED_METHODS.contains(name))
                 .allMatch(name -> (name.startsWith("get") || name.startsWith("set")) && properties.contains(name.substring(3)));
     }
 }
