@@ -34,10 +34,10 @@ public class AnaemicModelCheck extends DDDAwareCheck {
             return;
         }
         IdentifierTree className = checkNotNull(classTree.simpleName());
-        if (complexityBelowThreshold(classTree)) {
-            reportIssue(className, "Model class contains no complexity");
-        } else if (isBean(classTree)) {
+        if (isBean(classTree)) {
             reportIssue(className, "Model class has only getters and setters");
+        } else if (complexityBelowThreshold(classTree)) {
+            reportIssue(className, "Model class contains no complexity");
         }
     }
 
