@@ -38,7 +38,7 @@ public class ImmutabilityCheck extends DDDAwareCheck {
                 .filter(m -> m.is(Tree.Kind.METHOD))
                 .map(m -> (MethodTree) m)
                 .filter(m -> m.simpleName().name().startsWith("set"))
-                .forEach(m -> reportIssue(m, "Value objects should be immutable"));
+                .forEach(m -> reportIssue(m, "Value objects should not have setters"));
     }
 
     private void searchNonFinalProperties(ClassTree classTree) {
