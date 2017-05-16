@@ -5,6 +5,7 @@ import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.MethodTree;
 import org.sonar.plugins.java.api.tree.Tree;
+import org.sonar.plugins.java.api.tree.VariableTree;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ImmutabilityCheck extends DDDAwareCheck {
             return;
         }
         searchForSetters(classTree);
-        //todo: check for final properties
+        searchNonFinalProperties(classTree);
     }
 
     private void searchForSetters(ClassTree classTree) {
@@ -38,5 +39,14 @@ public class ImmutabilityCheck extends DDDAwareCheck {
                 .map(m -> (MethodTree) m)
                 .filter(m -> m.simpleName().name().startsWith("set"))
                 .forEach(m -> reportIssue(m, "Value objects should be immutable"));
+    }
+
+    private void searchNonFinalProperties(ClassTree classTree) {
+        classTree.members()
+                .stream()
+                .filter(m -> m.is(Tree.Kind.VARIABLE))
+                .map(m -> ((VariableTree) m))
+                .filter(m -> !m.symbol().isFinal())
+                .forEach(m -> reportIssue(m, "Value object properties should be final"));
     }
 }
