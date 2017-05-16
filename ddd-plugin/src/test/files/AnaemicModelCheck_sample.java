@@ -28,3 +28,13 @@ class NoncomplexEntity { // Noncompliant
         bar = 0xba9;
     }
 }
+
+@de.smartsquare.dd.annotations.DDDEntity
+class ExtendedBeanEntity {
+    private int foo;
+
+    int getFoo() {return foo;}
+    void setFoo(int foo) {this.foo = foo;}
+
+    int blub() {return 0xb10b;}
+}

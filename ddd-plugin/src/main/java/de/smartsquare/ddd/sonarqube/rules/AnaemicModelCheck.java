@@ -8,6 +8,7 @@ import org.sonar.plugins.java.api.tree.IdentifierTree;
 import org.sonar.plugins.java.api.tree.Tree;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.methodStream;
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.propertyStream;
@@ -18,7 +19,7 @@ import static de.smartsquare.ddd.sonarqube.util.TreeUtil.propertyStream;
 @Rule(key = "AnaemicModel")
 public class AnaemicModelCheck extends DDDAwareCheck {
 
-    private static final double COMPLEXITY_THRESHOLD = 1.8;
+    private static final double COMPLEXITY_THRESHOLD = 1.2;
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
@@ -50,10 +51,14 @@ public class AnaemicModelCheck extends DDDAwareCheck {
     private boolean isBean(ClassTree classTree) {
         boolean hasProperties = propertyStream(classTree)
                 .count() > 0;
-        return hasProperties && propertyStream(classTree)
-                .map(v -> StringUtils.capitalize(v.simpleName().name()))
-                .allMatch(name -> methodStream(classTree).anyMatch(m -> ("get" + name).equals(m.simpleName().name()))
-                        && methodStream(classTree).anyMatch(m -> ("set" + name).equals(m.simpleName().name())));
-        //todo: check for other methods
+        return hasProperties && hasOnlyAccessors(classTree);
+    }
+
+    private boolean hasOnlyAccessors(ClassTree classTree) {
+        List<String> properties = propertyStream(classTree).map(p -> StringUtils.capitalize(p.simpleName().name())).collect(Collectors.toList());
+        return methodStream(classTree)
+                .map(m -> m.simpleName().name())
+                .filter(name -> !(name.equals("toString") || name.equals("equals") || name.equals("hashCode")))
+                .allMatch(name -> (name.startsWith("get") || name.startsWith("set")) && properties.contains(name.substring(3)));
     }
 }
