@@ -41,4 +41,13 @@ class DDDSensorTest extends Specification {
         profile.getActiveRulesByRepository(RulesList.REPOSITORY_KEY) >> Collections.emptyList()
         0 * components.setSensorContext(_)
     }
+
+    def "should execute with active rules"() {
+        when:
+        sensor.execute(SensorContextTester.create(new File("")))
+
+        then:
+        profile.getActiveRulesByRepository(RulesList.REPOSITORY_KEY) >> RulesList.checkClasses()
+        1 * components.setSensorContext(_)
+    }
 }
