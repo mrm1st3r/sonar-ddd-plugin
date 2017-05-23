@@ -2,6 +2,7 @@ package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.sonarqube.util.TreeUtil;
+import org.sonar.api.config.Settings;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.tree.ClassTree;
@@ -19,7 +20,19 @@ import java.util.regex.Pattern;
 @Rule(key = "IdentityProvided")
 public class IdentityProvidedCheck extends DDDAwareCheck {
 
+    private static final String DEFAULT_PATTERN = "^getId$";
+
     private Predicate<String> nameMatcher;
+
+    @Override
+    public void setSettings(Settings settings) {
+        super.setSettings(settings);
+        String identityPattern = settings.getString("sonar.ddd.entity.identityMethods");
+        if (identityPattern == null) {
+            identityPattern = DEFAULT_PATTERN;
+        }
+        nameMatcher = Pattern.compile(identityPattern).asPredicate();
+    }
 
     @Override
     public List<Kind> nodesToVisit() {
@@ -44,17 +57,11 @@ public class IdentityProvidedCheck extends DDDAwareCheck {
     }
 
     private boolean hasGetIdMethod(Symbol.TypeSymbol classTree) {
+
         return classTree.memberSymbols()
                 .stream()
                 .filter(Symbol::isMethodSymbol)
                 .map(Symbol::name)
-                .anyMatch(matchName());
-    }
-
-    private Predicate<String> matchName() {
-        if (nameMatcher == null) {
-            nameMatcher = Pattern.compile(settings.getString("sonar.ddd.entity.identityMethods")).asPredicate();
-        }
-        return nameMatcher;
+                .anyMatch(nameMatcher);
     }
 }

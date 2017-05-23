@@ -13,6 +13,7 @@ class IdentityProvidedCheckTest extends Specification {
         def check = new IdentityProvidedCheck()
         def collection = Mock(ModelCollection)
         def settings = Mock(Settings)
+        settings.getString("sonar.ddd.entity.identityMethods") >> "getId"
         check.setModelCollection(collection)
         check.setSettings(settings)
 
@@ -24,6 +25,5 @@ class IdentityProvidedCheckTest extends Specification {
         collection.hasEntity("SampleEntity2") >> true
         collection.hasEntity("ExtendedEntity") >> true
         collection.hasEntity(_) >> false
-        settings.getString("sonar.ddd.entity.identityMethods") >> "getId"
     }
 }
