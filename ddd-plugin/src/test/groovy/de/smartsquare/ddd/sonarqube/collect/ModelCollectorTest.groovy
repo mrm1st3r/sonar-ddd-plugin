@@ -4,7 +4,6 @@ import org.sonar.api.config.MapSettings
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static CollectUtils.runCollector
 import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey
 
 class ModelCollectorTest extends Specification {
@@ -20,7 +19,7 @@ class ModelCollectorTest extends Specification {
         settings.setProperty(buildKey(type, "namePattern"), "^" + namePattern + ".*")
 
         when:
-        def collection = de.smartsquare.ddd.sonarqube.collect.CollectUtils.runCollector(collector, builder, type.getPropertyKey())
+        def collection = CollectUtils.runCollector(collector, builder, type.getPropertyKey())
 
         then:
         collection.has(type, "Annotated" + cname)

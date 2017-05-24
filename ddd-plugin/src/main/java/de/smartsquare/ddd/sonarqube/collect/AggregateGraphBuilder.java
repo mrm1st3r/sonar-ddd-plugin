@@ -35,16 +35,20 @@ public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
     @Override
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
-        if (!modelCollection.hasEntity(getFqn(classTree))) {
+        String className = getFqn(classTree);
+        if (!(isRelevantType(className))) {
             return;
         }
-        String className = getFqn(classTree);
         classTree.members()
                 .stream()
                 .filter(m -> m.is(Tree.Kind.VARIABLE))
                 .map(m -> ((VariableTree) m).type().symbolType().fullyQualifiedName())
-                .filter(modelCollection::hasEntity)
+                .filter(this::isRelevantType)
                 .forEach(member -> addAggregateRelation(className, member));
+    }
+
+    private boolean isRelevantType(String fqn) {
+        return modelCollection.hasEntity(fqn) || modelCollection.hasValueObject(fqn);
     }
 
     /**
