@@ -10,7 +10,7 @@ class ModelCollectionTest extends Specification {
         def collection = new ModelCollection(
                 ImmutableList.of("com.example.app.model.SampleEntity"),
                 ImmutableList.of("com.example.app.model.SampleValueObject"),
-                ImmutableList.of(), ImmutableList.of())
+                ImmutableList.of(), ImmutableList.of(), ImmutableList.of())
 
         when:
         def pack = collection.findModelPackages()
@@ -24,7 +24,7 @@ class ModelCollectionTest extends Specification {
         given:
         def collection = new ModelCollection(
                 ImmutableList.of("com.example.app.model.a.SampleEntity", "com.example.app.model.b.SampleEntity"),
-                ImmutableList.of(), ImmutableList.of(), ImmutableList.of()
+                ImmutableList.of(), ImmutableList.of(), ImmutableList.of(), ImmutableList.of()
         )
         when:
         def pack = collection.findModelPackages()
