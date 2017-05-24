@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
+import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import de.smartsquare.ddd.sonarqube.collect.ModelType;
 import de.smartsquare.ddd.sonarqube.rules.RulesList;
 import org.slf4j.Logger;
@@ -72,7 +73,12 @@ public class DDDSensor implements Sensor {
         collectorRun.registerModelTypes(ModelType.values());
         collectorRun.scan(getSourceFiles());
 
-        RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), collectorRun.build(), settings);
+        ModelCollection modelCollection = collectorRun.build();
+        AggregateGraphScannerRun aggregateRun = new AggregateGraphScannerRun(
+                sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection);
+        aggregateRun.scan(getSourceFiles());
+
+        RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection, settings);
         rulesRun.registerChecks(RulesList.checkClasses());
         rulesRun.scan(getSourceFiles());
 

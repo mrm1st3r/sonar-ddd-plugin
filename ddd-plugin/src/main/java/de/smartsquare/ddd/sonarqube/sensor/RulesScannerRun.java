@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Scanner run for active rules.
  */
-public class RulesScannerRun extends ScannerRun<DDDAwareCheck> {
+class RulesScannerRun extends ScannerRun<DDDAwareCheck> {
 
     private final ModelCollection collection;
     private final Settings settings;

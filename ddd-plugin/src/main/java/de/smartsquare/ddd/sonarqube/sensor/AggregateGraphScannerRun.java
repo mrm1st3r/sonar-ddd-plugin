@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
+import com.google.common.collect.ImmutableList;
 import de.smartsquare.ddd.sonarqube.collect.AggregateGraphBuilder;
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import org.sonar.java.SonarComponents;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Scanner run for building the aggregate structure as a graph.
  */
-public class AggregateGraphScannerRun extends ScannerRun<AggregateGraphBuilder> {
+class AggregateGraphScannerRun extends ScannerRun<AggregateGraphBuilder> {
 
     private final ModelCollection modelCollection;
 
@@ -19,6 +20,7 @@ public class AggregateGraphScannerRun extends ScannerRun<AggregateGraphBuilder> 
                              JavaVersion javaVersion, ModelCollection modelCollection) {
         super(sonarComponents, classpath, javaVersion);
         this.modelCollection = modelCollection;
+        this.registerChecks(ImmutableList.of(AggregateGraphBuilder.class));
     }
 
     @Override
