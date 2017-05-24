@@ -14,12 +14,14 @@ public class ModelCollection {
 
     private final ImmutableMap<ModelType, ImmutableList<String>> types;
 
-    ModelCollection(ImmutableList<String> entities, ImmutableList<String> valueObjects, ImmutableList<String> services, ImmutableList<String> repositories) {
+    ModelCollection(ImmutableList<String> entities, ImmutableList<String> valueObjects, ImmutableList<String> services,
+                    ImmutableList<String> repositories, ImmutableList<String> aggregateRoots) {
         types = ImmutableMap.<ModelType, ImmutableList<String>>builder()
                 .put(ModelType.ENTITY, entities)
                 .put(ModelType.VALUE_OBJECT, valueObjects)
                 .put(ModelType.SERVICE, services)
                 .put(ModelType.REPOSITORY, repositories)
+                .put(ModelType.AGGREGATE_ROOT, aggregateRoots)
                 .build();
     }
 

@@ -23,7 +23,9 @@ public class DDDProperties {
             .put(ModelType.ENTITY, "Entities")
             .put(ModelType.VALUE_OBJECT, "Value Objects")
             .put(ModelType.SERVICE, "Services")
-            .put(ModelType.REPOSITORY, "Repositories").build();
+            .put(ModelType.REPOSITORY, "Repositories")
+            .put(ModelType.AGGREGATE_ROOT, "Aggregate Roots")
+            .build();
 
     private DDDProperties() throws InstantiationException {
         throw new InstantiationException("You shall not construct!");

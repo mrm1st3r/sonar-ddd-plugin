@@ -1,9 +1,6 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
-import de.smartsquare.ddd.annotations.DDDEntity;
-import de.smartsquare.ddd.annotations.DDDRepository;
-import de.smartsquare.ddd.annotations.DDDService;
-import de.smartsquare.ddd.annotations.DDDValueObject;
+import de.smartsquare.ddd.annotations.*;
 
 import java.lang.annotation.Annotation;
 
@@ -18,7 +15,9 @@ public enum ModelType {
 
     SERVICE(DDDService.class, "service"),
 
-    REPOSITORY(DDDRepository.class, "repository");
+    REPOSITORY(DDDRepository.class, "repository"),
+
+    AGGREGATE_ROOT(AggregateRoot.class, "aggregateRoot");
 
     private final Class<? extends Annotation> staticAnnotation;
     private final String propertyKey;

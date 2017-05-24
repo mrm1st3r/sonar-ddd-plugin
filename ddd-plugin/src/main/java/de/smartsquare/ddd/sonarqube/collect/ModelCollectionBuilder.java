@@ -14,6 +14,7 @@ public class ModelCollectionBuilder {
             .put(ModelType.VALUE_OBJECT, new ImmutableList.Builder<>())
             .put(ModelType.REPOSITORY, new ImmutableList.Builder<>())
             .put(ModelType.SERVICE, new ImmutableList.Builder<>())
+            .put(ModelType.AGGREGATE_ROOT, new ImmutableList.Builder<>())
             .build();
 
     /**
@@ -34,6 +35,7 @@ public class ModelCollectionBuilder {
                 listBuilders.get(ModelType.ENTITY).build(),
                 listBuilders.get(ModelType.VALUE_OBJECT).build(),
                 listBuilders.get(ModelType.SERVICE).build(),
-                listBuilders.get(ModelType.REPOSITORY).build());
+                listBuilders.get(ModelType.REPOSITORY).build(),
+                listBuilders.get(ModelType.AGGREGATE_ROOT).build());
     }
 }
