@@ -30,4 +30,3 @@ class WellFormedAggregateCheckTest extends Specification {
         collection.hasAggregateRoot("Root2") >> true
     }
 }
-

@@ -42,7 +42,9 @@ public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
         classTree.members()
                 .stream()
                 .filter(m -> m.is(Tree.Kind.VARIABLE))
-                .map(m -> ((VariableTree) m).type().symbolType().fullyQualifiedName())
+                .map(m -> ((VariableTree) m).symbol())
+                .filter(m -> !(m.isStatic() && m.isFinal()))
+                .map(m -> m.type().fullyQualifiedName())
                 .filter(modelCollection::isAggregateRelevantType)
                 .forEach(member -> addAggregateRelation(className, member));
     }

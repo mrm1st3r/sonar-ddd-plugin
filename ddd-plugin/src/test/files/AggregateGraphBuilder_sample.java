@@ -8,7 +8,9 @@ class Root1 {
 class Child1 {}
 
 @de.smartsquare.ddd.annotations.DDDValueObject
-class Child2 {}
+class Child2 {
+    static final Child2 CONST = null;
+}
 
 @de.smartsquare.ddd.annotations.AggregateRoot
 class Root2 {
