@@ -55,10 +55,19 @@ public class ModelCollection {
     /**
      * Check if the given class represents a repository in the collected model.
      * @param fqn Fully qualified name class name
-     * @return True if the class is a service, false otherwise
+     * @return True if the class is a repository, false otherwise
      */
     public boolean hasRepository(String fqn) {
         return has(ModelType.REPOSITORY, fqn);
+    }
+
+    /**
+     * Check if the given class represents an aggregate root in the collected model.
+     * @param fqn Fully qualified name class name
+     * @return True if the class is an aggregate root, false otherwise
+     */
+    public boolean hasAggregateRoot(String fqn) {
+        return has(ModelType.AGGREGATE_ROOT, fqn);
     }
 
     private boolean has(ModelType type, String fqn) {

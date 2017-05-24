@@ -23,6 +23,9 @@ public class ModelCollectionBuilder {
      * @param fqn Fully qualified class name
      */
     public void add(ModelType type, String fqn) {
+        if (type.equals(ModelType.AGGREGATE_ROOT)) {
+            listBuilders.get(ModelType.ENTITY).add(fqn);
+        }
         listBuilders.get(type).add(fqn);
     }
 
