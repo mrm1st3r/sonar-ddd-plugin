@@ -1,7 +1,6 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
@@ -17,15 +16,15 @@ import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
  */
 public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
 
-    private final MutableGraph<String> aggregates;
+    private MutableGraph<String> aggregates;
     private ModelCollection modelCollection;
-
-    public AggregateGraphBuilder() {
-        aggregates = GraphBuilder.directed().allowsSelfLoops(false).build();
-    }
 
     public void setModelCollection(ModelCollection modelCollection) {
         this.modelCollection = modelCollection;
+    }
+
+    public void setAggregateGraph(MutableGraph<String> aggregateGraph) {
+        this.aggregates = aggregateGraph;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
      * Add an edge to the aggregate graph.
      * Nodes will be created automatically, if needed.
      */
-    private void addAggregateRelation(String className, String member) {
-        aggregates.putEdge(className, member);
+    private void addAggregateRelation(String parentType, String childType) {
+        aggregates.putEdge(parentType, childType);
     }
 }
