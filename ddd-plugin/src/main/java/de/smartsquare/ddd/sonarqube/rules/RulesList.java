@@ -25,6 +25,7 @@ public class RulesList {
                 .add(ImmutabilityCheck.class)
                 .add(AnaemicModelCheck.class)
                 .add(SingleEntityServiceCheck.class)
+                .add(WellFormedAggregateCheck.class)
                 .build();
     }
 }

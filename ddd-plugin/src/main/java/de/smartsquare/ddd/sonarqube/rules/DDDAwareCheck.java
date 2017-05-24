@@ -55,4 +55,8 @@ public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
     boolean isAggregateRelevant(ClassTree classTree) {
         return modelCollection.isAggregateRelevantType(TreeUtil.getFqn(classTree));
     }
+
+    boolean isAggregateRoot(String fqn) {
+        return modelCollection.hasAggregateRoot(fqn);
+    }
 }
