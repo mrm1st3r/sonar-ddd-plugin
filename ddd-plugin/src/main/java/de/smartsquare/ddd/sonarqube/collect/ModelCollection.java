@@ -102,6 +102,11 @@ public class ModelCollection {
                 .anyMatch(t -> t.getValue().contains(fqn));
     }
 
+    /**
+     * Check if a given class is relevant to the aggregate structure.
+     * @param fqn fully qualified class name to check
+     * @return true if class is relevant, false otherwise
+     */
     public boolean isAggregateRelevantType(String fqn) {
         return hasEntity(fqn) || hasValueObject(fqn);
     }

@@ -34,4 +34,17 @@ class ModelCollectionTest extends Specification {
         pack.contains("com.example.app.model.a")
         pack.contains("com.example.app.model.b")
     }
+
+    def "should identify aggregate relevant types"() {
+        given:
+        def collection = new ModelCollection(ImmutableList.of("EntityA", "EntityB"), ImmutableList.of("ValueObjectC"),
+                ImmutableList.of(), ImmutableList.of(), ImmutableList.of())
+
+        expect:
+        collection.isAggregateRelevantType("EntityA")
+        collection.isAggregateRelevantType("EntityB")
+        collection.isAggregateRelevantType("ValueObjectC")
+        !collection.isAggregateRelevantType("ServiceD")
+        !collection.isAggregateRelevantType("RepositoryE")
+    }
 }

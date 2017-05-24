@@ -18,3 +18,5 @@ class Root2 {
 
 @de.smartsquare.ddd.annotations.DDDValueObject
 class Child3 {}
+
+class IrrelevantClass {}
