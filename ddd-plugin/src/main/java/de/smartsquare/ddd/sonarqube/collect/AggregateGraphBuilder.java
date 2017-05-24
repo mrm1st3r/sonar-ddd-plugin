@@ -12,7 +12,7 @@ import java.util.List;
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 
 /**
- * Builds an aggregate tree and checks if it's well formed.
+ * Builds a graph representing the aggregate structure.
  */
 public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
 
@@ -36,19 +36,15 @@ public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
         String className = getFqn(classTree);
-        if (!(isRelevantType(className))) {
+        if (!(modelCollection.isAggregateRelevantType(className))) {
             return;
         }
         classTree.members()
                 .stream()
                 .filter(m -> m.is(Tree.Kind.VARIABLE))
                 .map(m -> ((VariableTree) m).type().symbolType().fullyQualifiedName())
-                .filter(this::isRelevantType)
+                .filter(modelCollection::isAggregateRelevantType)
                 .forEach(member -> addAggregateRelation(className, member));
-    }
-
-    private boolean isRelevantType(String fqn) {
-        return modelCollection.hasEntity(fqn) || modelCollection.hasValueObject(fqn);
     }
 
     /**

@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
+import com.google.common.graph.ImmutableGraph;
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 import org.sonar.api.config.Settings;
@@ -13,6 +14,7 @@ public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
     private ModelCollection modelCollection;
     Settings settings;
+    ImmutableGraph<String> aggregateGraph;
 
     public void setModelCollection(ModelCollection modelCollection) {
         this.modelCollection = modelCollection;
@@ -20,6 +22,10 @@ public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
     public void setSettings(Settings settings) {
         this.settings = settings;
+    }
+
+    public void setAggregateGraph(ImmutableGraph<String> aggregateGraph) {
+        this.aggregateGraph = aggregateGraph;
     }
 
     boolean isEntity(ClassTree classTree) {
@@ -44,5 +50,9 @@ public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
     boolean belongsToModel(ClassTree classTree) {
         return modelCollection.contains(TreeUtil.getFqn(classTree));
+    }
+
+    boolean isAggregateRelevant(ClassTree classTree) {
+        return modelCollection.isAggregateRelevantType(TreeUtil.getFqn(classTree));
     }
 }

@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
+import com.google.common.graph.ImmutableGraph;
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import de.smartsquare.ddd.sonarqube.collect.ModelType;
 import de.smartsquare.ddd.sonarqube.rules.RulesList;
@@ -69,7 +70,8 @@ public class DDDSensor implements Sensor {
         LOG.info("Starting DDD Analysis");
         sonarComponents.setSensorContext(context);
 
-        CollectorScannerRun collectorRun = new CollectorScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), settings);
+        CollectorScannerRun collectorRun = new CollectorScannerRun(
+                sonarComponents, classpath.getElements(), getJavaVersion(), settings);
         collectorRun.registerModelTypes(ModelType.values());
         collectorRun.scan(getSourceFiles());
 
@@ -77,8 +79,10 @@ public class DDDSensor implements Sensor {
         AggregateGraphScannerRun aggregateRun = new AggregateGraphScannerRun(
                 sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection);
         aggregateRun.scan(getSourceFiles());
+        ImmutableGraph<String> aggregateGraph = aggregateRun.getGraph();
 
-        RulesScannerRun rulesRun = new RulesScannerRun(sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection, settings);
+        RulesScannerRun rulesRun = new RulesScannerRun(
+                sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection, settings, aggregateGraph);
         rulesRun.registerChecks(RulesList.checkClasses());
         rulesRun.scan(getSourceFiles());
 

@@ -101,4 +101,8 @@ public class ModelCollection {
                 .stream()
                 .anyMatch(t -> t.getValue().contains(fqn));
     }
+
+    public boolean isAggregateRelevantType(String fqn) {
+        return hasEntity(fqn) || hasValueObject(fqn);
+    }
 }

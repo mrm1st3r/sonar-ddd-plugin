@@ -1,5 +1,7 @@
 package de.smartsquare.ddd.sonarqube.sensor
 
+import com.google.common.graph.GraphBuilder
+import com.google.common.graph.ImmutableGraph
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection
 import de.smartsquare.ddd.sonarqube.rules.RulesList
 import org.sonar.api.config.Settings
@@ -17,11 +19,12 @@ class RulesScannerRunTest extends Specification {
         def model = Mock(ModelCollection)
         def settings = Mock(Settings)
         def components = Mock(SonarComponents)
+        def graph = GraphBuilder.directed().build()
         def run = new RulesScannerRun(components,
-                 JavaCheckVerifier.getFilesRecursively(Paths.get("target/test-jars"), ["jar"] as String[]),
+                JavaCheckVerifier.getFilesRecursively(Paths.get("target/test-jars"), ["jar"] as String[]),
                 Mock(JavaVersion),
                 model,
-                settings)
+                settings, ImmutableGraph.copyOf(graph))
 
         when:
         run.registerChecks(RulesList.checkClasses())

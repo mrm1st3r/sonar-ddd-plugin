@@ -24,10 +24,10 @@ class AggregateGraphBuilderTest extends Specification {
         graph.predecessors("Root1").contains("Root2")
         graph.successors("Root2").containsAll(["Child3", "Root1"])
 
-        collection.hasEntity("Root1") >> true
-        collection.hasEntity("Child1") >> true
-        collection.hasValueObject("Child2") >> true
-        collection.hasEntity("Root2") >> true
-        collection.hasValueObject("Child3") >> true
+        collection.isAggregateRelevantType("Root1") >> true
+        collection.isAggregateRelevantType("Child1") >> true
+        collection.isAggregateRelevantType("Child2") >> true
+        collection.isAggregateRelevantType("Root2") >> true
+        collection.isAggregateRelevantType("Child3") >> true
     }
 }
