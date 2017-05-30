@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Checks whether any domain model classes have dependencies
  * outside the domain packages but inside the project.
@@ -19,24 +17,23 @@ public class ModelDependencyCheck extends DDDAwareCheck {
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
-        return ImmutableList.of(Tree.Kind.CLASS);
+        return ImmutableList.of(Tree.Kind.COMPILATION_UNIT);
     }
 
     @Override
     public void visitNode(Tree tree) {
-        ClassTree classTree = (ClassTree) tree;
-        if (!belongsToModel(classTree)) {
+        CompilationUnitTree unitTree = (CompilationUnitTree) tree;
+        if (unitTree.types().stream().map(t -> (ClassTree) t).noneMatch(this::belongsToModel)) {
             return;
         }
-        long illegalDependencies = countIllegalDependencies(classTree);
+        long illegalDependencies = countIllegalDependencies(unitTree);
 
-        IdentifierTree name = checkNotNull(classTree.simpleName());
         if (illegalDependencies > 0) {
-            reportIssue(name, String.format("Model class has %d illegal dependencies.", illegalDependencies));
+            reportIssue(unitTree, String.format("Model class has %d illegal dependencies.", illegalDependencies));
         }
     }
 
-    private long countIllegalDependencies(ClassTree classTree) {
+    private long countIllegalDependencies(CompilationUnitTree classTree) {
         String applicationPackage = settings.getString("sonar.ddd.applicationPackage");
         if (applicationPackage == null || "".equals(applicationPackage)) {
             return 0;
@@ -50,12 +47,8 @@ public class ModelDependencyCheck extends DDDAwareCheck {
                 .count();
     }
 
-    private Stream<String> importedClasses(ClassTree classTree) {
-        CompilationUnitTree parent = (CompilationUnitTree) classTree.parent();
-        if (parent == null) {
-            return Stream.empty();
-        }
-        return parent.imports().stream().map(i -> (ImportTree) i)
+    private Stream<String> importedClasses(CompilationUnitTree unitTree) {
+        return unitTree.imports().stream().map(i -> (ImportTree) i)
                 .map(i -> ((MemberSelectExpressionTree) i.qualifiedIdentifier()))
                 .map(i -> i.symbolType().fullyQualifiedName());
     }
