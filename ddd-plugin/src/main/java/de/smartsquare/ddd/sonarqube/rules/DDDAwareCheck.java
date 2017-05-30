@@ -12,7 +12,7 @@ import org.sonar.plugins.java.api.tree.ClassTree;
  */
 public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
-    private ModelCollection modelCollection;
+    ModelCollection modelCollection;
     Settings settings;
     ImmutableGraph<String> aggregateGraph;
 
