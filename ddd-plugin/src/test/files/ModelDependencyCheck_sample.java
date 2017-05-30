@@ -1,4 +1,4 @@
-package dependencyTest.model;
+package dependencyTest.model; // Noncompliant
 
 import dependencyTest.ui.SampleController;
 

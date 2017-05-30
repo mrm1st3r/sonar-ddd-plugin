@@ -2,6 +2,7 @@ package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
 import org.sonar.check.Rule;
+import org.sonar.java.checks.helpers.ExpressionsHelper;
 import org.sonar.plugins.java.api.tree.*;
 
 import java.util.List;
@@ -49,7 +50,6 @@ public class ModelDependencyCheck extends DDDAwareCheck {
 
     private Stream<String> importedClasses(CompilationUnitTree unitTree) {
         return unitTree.imports().stream().map(i -> (ImportTree) i)
-                .map(i -> ((MemberSelectExpressionTree) i.qualifiedIdentifier()))
-                .map(i -> i.symbolType().fullyQualifiedName());
+                .map(i -> (ExpressionsHelper.concatenate((ExpressionTree) i.qualifiedIdentifier())));
     }
 }

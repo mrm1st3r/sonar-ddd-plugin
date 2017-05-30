@@ -3,10 +3,8 @@ package de.smartsquare.ddd.sonarqube.rules
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection
 import org.sonar.api.config.MapSettings
 import org.sonar.java.checks.verifier.JavaCheckVerifier
-import spock.lang.Ignore
 import spock.lang.Specification
 
-@Ignore
 class ModelDependencyCheckTest extends Specification {
 
     def "test"() {
@@ -18,10 +16,7 @@ class ModelDependencyCheckTest extends Specification {
         check.setSettings(settings)
 
         when:
-        JavaCheckVerifier.verify("src/test/files/dependencyTest/model/TestEntity.java",
-                check,
-                [new File("src/test/files/dependencyTest/ui/SampleController.java")])
-
+        JavaCheckVerifier.verify("src/test/files/ModelDependencyCheck_sample.java", check)
         then:
         collection.contains("dependencyTest.model.TestEntity") >> true
         collection.contains(_) >> false
