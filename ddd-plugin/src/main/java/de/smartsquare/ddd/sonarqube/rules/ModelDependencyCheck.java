@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Checks whether any domain model classes have dependencies
  * outside the domain packages but inside the project.
@@ -26,12 +28,21 @@ public class ModelDependencyCheck extends DDDAwareCheck {
         if (!belongsToModel(classTree)) {
             return;
         }
+        long illegalDependencies = countIllegalDependencies(classTree);
+
+        IdentifierTree name = checkNotNull(classTree.simpleName());
+        if (illegalDependencies > 0) {
+            reportIssue(name, String.format("Model class has %d illegal dependencies.", illegalDependencies));
+        }
+    }
+
+    private long countIllegalDependencies(ClassTree classTree) {
         String applicationPackage = settings.getString("sonar.ddd.applicationPackage");
         if (applicationPackage == null || "".equals(applicationPackage)) {
-            return;
+            return 0;
         }
         Set<String> modelPackages = modelCollection.findModelPackages();
-        long count = importedClasses(classTree)
+        return importedClasses(classTree)
                 .filter(fqn -> fqn.startsWith(applicationPackage))
                 .filter(fqn -> modelPackages
                         .stream()
