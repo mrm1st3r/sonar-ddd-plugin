@@ -1,6 +1,7 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
 import com.google.common.collect.ImmutableList;
+import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.tree.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
  * Checks whether any domain model classes have dependencies
  * outside the domain packages but inside the project.
  */
+@Rule(key = "ModelDependency")
 public class ModelDependencyCheck extends DDDAwareCheck {
 
     @Override

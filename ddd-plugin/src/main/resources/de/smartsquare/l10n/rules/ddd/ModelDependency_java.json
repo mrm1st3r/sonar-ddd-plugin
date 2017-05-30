@@ -1,0 +1,12 @@
+{
+  "title": "Model classes should not have dependencies outside model packages",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Major"
+}
