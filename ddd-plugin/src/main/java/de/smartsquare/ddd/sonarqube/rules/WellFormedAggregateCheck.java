@@ -3,10 +3,12 @@ package de.smartsquare.ddd.sonarqube.rules;
 import com.google.common.collect.ImmutableList;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.tree.ClassTree;
+import org.sonar.plugins.java.api.tree.IdentifierTree;
 import org.sonar.plugins.java.api.tree.Tree;
 
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 
 /**
@@ -23,15 +25,19 @@ public class WellFormedAggregateCheck extends DDDAwareCheck {
     @Override
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
-        if (!isAggregateRelevant(classTree)) {
+        if (!isEntity(classTree)) {
             return;
         }
+        IdentifierTree className = checkNotNull(classTree.simpleName());
         if (countRootElements(classTree) > 1) {
-            reportIssue(classTree, "Belongs to more than one aggregate root");
+            reportIssue(className, "Belongs to more than one aggregate root");
         }
     }
 
     private long countRootElements(ClassTree classTree) {
+        if (!aggregateGraph.nodes().contains(getFqn(classTree))) {
+            return 0;
+        }
         return aggregateGraph.predecessors(getFqn(classTree)).stream()
                 .filter(this::isAggregateRoot)
                 .count();

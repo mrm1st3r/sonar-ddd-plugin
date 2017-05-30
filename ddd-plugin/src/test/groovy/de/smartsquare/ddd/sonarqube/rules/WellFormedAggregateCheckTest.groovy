@@ -26,6 +26,8 @@ class WellFormedAggregateCheckTest extends Specification {
 
         then:
         collection.isAggregateRelevantType(_) >> true
+        collection.hasEntity("Child1") >> true
+        collection.hasValueObject("Child2") >> true
         collection.hasAggregateRoot("Root1") >> true
         collection.hasAggregateRoot("Root2") >> true
     }
