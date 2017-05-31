@@ -44,8 +44,8 @@ public class AggregateSizeCheck extends DDDAwareCheck {
         iteratePredecessors(fqn, INITIAL_DEPTH);
     }
 
-    private void iteratePredecessors(String fqn, int depth) {
-        depth++;
+    private void iteratePredecessors(String fqn, int previousDepth) {
+        int depth = previousDepth + 1;
         for (String predecessor : aggregateGraph.predecessors(fqn)) {
             if (isAggregateRoot(predecessor) && depth > MAX_DEPTH) {
                 reportIssue(className, String.format("Is nested at %d level in aggregate %s", depth, predecessor));
