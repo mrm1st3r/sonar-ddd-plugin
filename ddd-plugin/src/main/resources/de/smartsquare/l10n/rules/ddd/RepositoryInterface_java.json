@@ -1,0 +1,12 @@
+{
+  "title": "Repositories should be implemented as interfaces",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Major"
+}
