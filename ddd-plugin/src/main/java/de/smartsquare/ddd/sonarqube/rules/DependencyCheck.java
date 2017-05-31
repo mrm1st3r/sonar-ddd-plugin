@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * outside the domain packages but inside the project.
  */
 @Rule(key = "ModelDependency")
-public class ModelDependencyCheck extends DDDAwareCheck {
+public class DependencyCheck extends DDDAwareCheck {
 
     @Override
     public List<Tree.Kind> nodesToVisit() {

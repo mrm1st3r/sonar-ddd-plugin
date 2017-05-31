@@ -26,7 +26,7 @@ public class RulesList {
                 .add(AnaemicModelCheck.class)
                 .add(SingleEntityServiceCheck.class)
                 .add(WellFormedAggregateCheck.class)
-                .add(ModelDependencyCheck.class)
+                .add(DependencyCheck.class)
                 .add(AggregateSizeCheck.class)
                 .build();
     }
