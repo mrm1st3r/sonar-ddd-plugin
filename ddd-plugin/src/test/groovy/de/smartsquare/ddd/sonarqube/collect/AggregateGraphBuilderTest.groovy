@@ -19,15 +19,17 @@ class AggregateGraphBuilderTest extends Specification {
         JavaCheckVerifier.verifyNoIssue("src/test/files/AggregateGraphBuilder_sample.java", builder)
 
         then:
-        graph.nodes().size() == 5
+        graph.nodes().size() == 6
         graph.successors("Root1").containsAll(["Child1", "Child2"])
         graph.predecessors("Root1").contains("Root2")
         graph.successors("Root2").containsAll(["Child3", "Root1"])
+        graph.nodes().contains("SingleEntityAggregate")
 
         collection.isAggregateRelevantType("Root1") >> true
         collection.isAggregateRelevantType("Child1") >> true
         collection.isAggregateRelevantType("Child2") >> true
         collection.isAggregateRelevantType("Root2") >> true
         collection.isAggregateRelevantType("Child3") >> true
+        collection.isAggregateRelevantType("SingleEntityAggregate") >> true
     }
 }

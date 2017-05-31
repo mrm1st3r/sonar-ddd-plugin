@@ -22,3 +22,6 @@ class Root2 {
 class Child3 {}
 
 class IrrelevantClass {}
+
+@de.smartsquare.ddd.annotations.AggregateRoot
+class SingleEntityAggregate {}
