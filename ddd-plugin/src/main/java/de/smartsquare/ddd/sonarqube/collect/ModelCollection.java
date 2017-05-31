@@ -110,4 +110,8 @@ public class ModelCollection {
     public boolean isAggregateRelevantType(String fqn) {
         return hasEntity(fqn) || hasValueObject(fqn);
     }
+
+    public ImmutableMap<ModelType, ImmutableList<String>> getContents() {
+        return types;
+    }
 }
