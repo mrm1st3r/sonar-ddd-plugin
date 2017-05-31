@@ -7,7 +7,7 @@
     <groupId>de.smartsquare.ddd</groupId>
     <artifactId>sonar-ddd-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
 
     <modules>
         <module>annotations</module>
