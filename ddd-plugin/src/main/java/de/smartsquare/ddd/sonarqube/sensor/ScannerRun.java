@@ -28,8 +28,9 @@ abstract class ScannerRun<T extends JavaCheck> {
 
     private final SonarComponents sonarComponents;
     private final JavaVersion javaVersion;
+    private final List<File> javaClasspath;
+
     private Iterable<T> javaChecks;
-    private List<File> javaClasspath;
 
     ScannerRun(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion) {
         this.sonarComponents = sonarComponents;

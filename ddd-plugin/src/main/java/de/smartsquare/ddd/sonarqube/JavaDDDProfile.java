@@ -18,7 +18,7 @@ public class JavaDDDProfile extends ProfileDefinition {
 
     private static final String PROFILE_NAME = "Domain Driven Design";
 
-    private RuleFinder rules;
+    private final RuleFinder rules;
 
     /**
      * Dependency injection constructor.

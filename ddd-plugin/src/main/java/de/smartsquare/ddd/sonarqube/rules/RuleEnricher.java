@@ -21,7 +21,7 @@ class RuleEnricher {
 
     private final RulesDefinition.NewRepository repository;
     private final String languageKey;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     RuleEnricher(RulesDefinition.NewRepository repository, String languageKey) {
         this.repository = repository;

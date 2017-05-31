@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableMap;
  */
 public class ModelCollectionBuilder {
 
-    private ImmutableMap<ModelType, ImmutableList.Builder<String>> listBuilders =
+    private final ImmutableMap<ModelType, ImmutableList.Builder<String>> listBuilders =
             ImmutableMap.<ModelType, ImmutableList.Builder<String>>builder()
             .put(ModelType.ENTITY, new ImmutableList.Builder<>())
             .put(ModelType.VALUE_OBJECT, new ImmutableList.Builder<>())
