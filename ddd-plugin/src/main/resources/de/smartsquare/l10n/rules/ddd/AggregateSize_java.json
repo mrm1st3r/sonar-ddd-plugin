@@ -1,0 +1,12 @@
+{
+  "title": "Aggregate size should be limited",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Major"
+}

@@ -27,6 +27,7 @@ public class RulesList {
                 .add(SingleEntityServiceCheck.class)
                 .add(WellFormedAggregateCheck.class)
                 .add(ModelDependencyCheck.class)
+                .add(AggregateSizeCheck.class)
                 .build();
     }
 }
