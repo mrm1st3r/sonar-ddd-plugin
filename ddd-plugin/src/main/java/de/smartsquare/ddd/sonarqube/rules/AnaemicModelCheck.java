@@ -31,7 +31,7 @@ public class AnaemicModelCheck extends DDDAwareCheck {
     @Override
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
-        if (!belongsToModel(classTree)) {
+        if (!belongsToModel(classTree) || isValueObject(classTree)) {
             return;
         }
         IdentifierTree className = checkNotNull(classTree.simpleName());
