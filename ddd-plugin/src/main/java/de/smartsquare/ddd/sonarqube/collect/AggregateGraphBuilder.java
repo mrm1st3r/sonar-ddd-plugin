@@ -39,6 +39,7 @@ public class AggregateGraphBuilder extends IssuableSubscriptionVisitor {
         if (!(modelCollection.isAggregateRelevantType(className))) {
             return;
         }
+        aggregates.addNode(className);
         classTree.members()
                 .stream()
                 .filter(m -> m.is(Tree.Kind.VARIABLE))
