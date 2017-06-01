@@ -1,20 +1,20 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Builder for immutable type {@link ModelCollection}.
  */
 public class ModelCollectionBuilder {
 
-    private final ImmutableMap<ModelType, ImmutableList.Builder<String>> listBuilders =
-            ImmutableMap.<ModelType, ImmutableList.Builder<String>>builder()
-            .put(ModelType.ENTITY, new ImmutableList.Builder<>())
-            .put(ModelType.VALUE_OBJECT, new ImmutableList.Builder<>())
-            .put(ModelType.REPOSITORY, new ImmutableList.Builder<>())
-            .put(ModelType.SERVICE, new ImmutableList.Builder<>())
-            .put(ModelType.AGGREGATE_ROOT, new ImmutableList.Builder<>())
+    private final ImmutableMap<ModelType, ImmutableSet.Builder<String>> listBuilders =
+            ImmutableMap.<ModelType, ImmutableSet.Builder<String>>builder()
+            .put(ModelType.ENTITY, new ImmutableSet.Builder<>())
+            .put(ModelType.VALUE_OBJECT, new ImmutableSet.Builder<>())
+            .put(ModelType.REPOSITORY, new ImmutableSet.Builder<>())
+            .put(ModelType.SERVICE, new ImmutableSet.Builder<>())
+            .put(ModelType.AGGREGATE_ROOT, new ImmutableSet.Builder<>())
             .build();
 
     /**

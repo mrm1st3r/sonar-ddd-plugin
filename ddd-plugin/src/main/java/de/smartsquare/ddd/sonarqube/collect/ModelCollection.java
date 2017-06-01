@@ -1,5 +1,6 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -12,11 +13,11 @@ import java.util.Set;
  */
 public class ModelCollection {
 
-    private final ImmutableMap<ModelType, ImmutableList<String>> types;
+    private final ImmutableMap<ModelType, ImmutableCollection<String>> types;
 
-    ModelCollection(ImmutableList<String> entities, ImmutableList<String> valueObjects, ImmutableList<String> services,
-                    ImmutableList<String> repositories, ImmutableList<String> aggregateRoots) {
-        types = ImmutableMap.<ModelType, ImmutableList<String>>builder()
+    ModelCollection(ImmutableCollection<String> entities, ImmutableCollection<String> valueObjects, ImmutableCollection<String> services,
+                    ImmutableCollection<String> repositories, ImmutableCollection<String> aggregateRoots) {
+        types = ImmutableMap.<ModelType, ImmutableCollection<String>>builder()
                 .put(ModelType.ENTITY, entities)
                 .put(ModelType.VALUE_OBJECT, valueObjects)
                 .put(ModelType.SERVICE, services)
@@ -111,7 +112,7 @@ public class ModelCollection {
         return hasEntity(fqn) || hasValueObject(fqn);
     }
 
-    public ImmutableMap<ModelType, ImmutableList<String>> getContents() {
+    public ImmutableMap<ModelType, ImmutableCollection<String>> getContents() {
         return types;
     }
 }

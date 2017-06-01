@@ -1,6 +1,6 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.graph.ImmutableGraph;
 import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
 import de.smartsquare.ddd.sonarqube.collect.ModelType;
@@ -103,7 +103,7 @@ public class DDDSensor implements Sensor {
 
     private void logCollectedModel(ModelCollection modelCollection, ImmutableGraph<String> aggregateGraph) {
         LOG.info("Collected Domain Model Classes:");
-        for (Map.Entry<ModelType, ImmutableList<String>> typeMapping : modelCollection.getContents().entrySet()) {
+        for (Map.Entry<ModelType, ImmutableCollection<String>> typeMapping : modelCollection.getContents().entrySet()) {
             LOG.info("- {} Classes", typeMapping.getKey());
             typeMapping.getValue().forEach(c -> LOG.info("--- {}", c));
         }
