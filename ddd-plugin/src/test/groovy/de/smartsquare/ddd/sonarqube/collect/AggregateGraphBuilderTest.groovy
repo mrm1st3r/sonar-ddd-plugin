@@ -31,5 +31,11 @@ class AggregateGraphBuilderTest extends Specification {
         collection.isAggregateRelevantType("Root2") >> true
         collection.isAggregateRelevantType("Child3") >> true
         collection.isAggregateRelevantType("SingleEntityAggregate") >> true
+        collection.hasEntity("Root1") >> true
+        collection.hasEntity("Child1") >> true
+        collection.hasEntity("Child2") >> true
+        collection.hasEntity("Root2") >> true
+        collection.hasEntity("Child3") >> true
+        collection.hasEntity("SingleEntityAggregate") >> true
     }
 }

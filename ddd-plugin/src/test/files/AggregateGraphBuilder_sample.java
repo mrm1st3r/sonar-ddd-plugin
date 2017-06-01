@@ -7,7 +7,7 @@ class Root1 {
 @de.smartsquare.ddd.annotations.DDDEntity
 class Child1 {}
 
-@de.smartsquare.ddd.annotations.DDDValueObject
+@de.smartsquare.ddd.annotations.DDDEntity
 class Child2 {
     static final Child2 CONST = null;
 }
@@ -18,7 +18,7 @@ class Root2 {
     private Root1 root1;
 }
 
-@de.smartsquare.ddd.annotations.DDDValueObject
+@de.smartsquare.ddd.annotations.DDDEntity
 class Child3 {}
 
 class IrrelevantClass {}
