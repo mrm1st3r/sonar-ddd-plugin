@@ -42,7 +42,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
-        return ImmutableList.of(Tree.Kind.CLASS);
+        return ImmutableList.of(Tree.Kind.CLASS, Tree.Kind.INTERFACE);
     }
 
     @Override
