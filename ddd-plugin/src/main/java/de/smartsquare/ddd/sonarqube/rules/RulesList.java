@@ -29,6 +29,7 @@ public class RulesList {
                 .add(DependencyCheck.class)
                 .add(AggregateSizeCheck.class)
                 .add(RepositoryInterfaceCheck.class)
+                .add(AggregateDepthCheck.class)
                 .build();
     }
 }

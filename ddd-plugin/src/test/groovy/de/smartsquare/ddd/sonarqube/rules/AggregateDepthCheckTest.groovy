@@ -7,28 +7,26 @@ import de.smartsquare.ddd.sonarqube.collect.ModelType
 import org.sonar.java.checks.verifier.JavaCheckVerifier
 import spock.lang.Specification
 
-class AggregateSizeCheckTest extends Specification {
+class AggregateDepthCheckTest extends Specification {
 
-    def "should detect aggregates with too many entities"() {
+    def "should detect aggregates with high depth"() {
         given:
-        def check = new AggregateSizeCheck()
+        def check = new AggregateDepthCheck()
         def builder = new ModelCollectionBuilder()
         builder.add(ModelType.ENTITY, "Entity1")
         builder.add(ModelType.ENTITY, "Entity2")
-        builder.add(ModelType.ENTITY, "Entity3")
-        builder.add(ModelType.AGGREGATE_ROOT, "Root")
+        builder.add(ModelType.AGGREGATE_ROOT, "Root1")
         def collection = builder.build()
         def graph = GraphBuilder.directed().build()
 
-        graph.putEdge("Root", "Entity1")
-        graph.putEdge("Root", "Entity2")
-        graph.putEdge("Root", "Entity3")
+        graph.putEdge("Root1", "Entity1")
+        graph.putEdge("Entity1", "Entity2")
         def immutableGraph = ImmutableGraph.copyOf(graph)
 
         check.setAggregateGraph(immutableGraph)
         check.setModelCollection(collection)
 
         expect:
-        JavaCheckVerifier.verify("src/test/files/AggregateSizeCheck_sample.java", check)
+        JavaCheckVerifier.verify("src/test/files/AggregateDepthCheck_sample.java", check)
     }
 }

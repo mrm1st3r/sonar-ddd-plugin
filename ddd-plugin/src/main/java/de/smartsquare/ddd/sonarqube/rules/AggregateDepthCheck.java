@@ -12,12 +12,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 
 /**
- * Checks the size (number of entities) of aggregates.
+ * Checks the depth of nested entities for exceeding a given maximum.
  */
-@Rule(key = "AggregateSize")
-public class AggregateSizeCheck extends DDDAwareCheck {
+@Rule(key = "AggregateDepth")
+public class AggregateDepthCheck extends DDDAwareCheck {
 
-    private static final int MAX_SIZE = 3;
+    private static final int MAX_DEPTH = 1;
     private IdentifierTree className;
 
     @Override
@@ -34,21 +34,21 @@ public class AggregateSizeCheck extends DDDAwareCheck {
 
         this.className = checkNotNull(classTree.simpleName());
         String fqn = getFqn(classTree);
-        checkSize(fqn);
+        checkDepth(fqn);
     }
 
-    private void checkSize(String fqn) {
-        int size = countSuccessors(fqn) + 1;
-        if (size > MAX_SIZE) {
-            reportIssue(className, String.format("Aggregate size %d is bigger than allowed maximum of %d", size, MAX_SIZE));
-        }
+    private void checkDepth(String fqn) {
+        iteratePredecessors(fqn, 0);
     }
 
-    private int countSuccessors(String fqn) {
-        int size = aggregateGraph.outDegree(fqn);
-        for (String successor : aggregateGraph.successors(fqn)) {
-            size += countSuccessors(successor);
+    private void iteratePredecessors(String fqn, int previousDepth) {
+        int depth = previousDepth + 1;
+        for (String predecessor : aggregateGraph.predecessors(fqn)) {
+            if (isAggregateRoot(predecessor) && depth > MAX_DEPTH) {
+                reportIssue(className, String.format("Is nested at %d level in aggregate %s", depth, predecessor));
+                return;
+            }
+            iteratePredecessors(predecessor, depth);
         }
-        return size;
     }
 }

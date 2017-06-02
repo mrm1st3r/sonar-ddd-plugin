@@ -1,0 +1,12 @@
+{
+  "title": "Depth of nested entities in aggregates should be limited",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "60min"
+  },
+  "tags": [
+    "ddd"
+  ],
+  "defaultSeverity": "Major"
+}
