@@ -31,7 +31,7 @@ public class BeanEntityCheck extends DDDAwareCheck {
     @Override
     public void visitNode(Tree tree) {
         ClassTree classTree = (ClassTree) tree;
-        if (!(isEntity(classTree) || isService(classTree))) {
+        if (!isEntity(classTree)) {
             return;
         }
         IdentifierTree className = checkNotNull(classTree.simpleName());

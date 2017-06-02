@@ -18,7 +18,6 @@ import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 public class AggregateSizeCheck extends DDDAwareCheck {
 
     private static final int MAX_SIZE = 3;
-    private IdentifierTree className;
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
@@ -32,13 +31,8 @@ public class AggregateSizeCheck extends DDDAwareCheck {
             return;
         }
 
-        this.className = checkNotNull(classTree.simpleName());
-        String fqn = getFqn(classTree);
-        checkSize(fqn);
-    }
-
-    private void checkSize(String fqn) {
-        int size = countSuccessors(fqn) + 1;
+        IdentifierTree className = checkNotNull(classTree.simpleName());
+        int size = countSuccessors(getFqn(classTree)) + 1;
         if (size > MAX_SIZE) {
             reportIssue(className, String.format("Aggregate size %d is bigger than allowed maximum of %d", size, MAX_SIZE));
         }

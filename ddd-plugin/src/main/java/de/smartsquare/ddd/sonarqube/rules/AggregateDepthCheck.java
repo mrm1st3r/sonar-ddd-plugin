@@ -18,7 +18,6 @@ import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 public class AggregateDepthCheck extends DDDAwareCheck {
 
     private static final int MAX_DEPTH = 1;
-    private IdentifierTree className;
 
     @Override
     public List<Tree.Kind> nodesToVisit() {
@@ -32,23 +31,19 @@ public class AggregateDepthCheck extends DDDAwareCheck {
             return;
         }
 
-        this.className = checkNotNull(classTree.simpleName());
+        IdentifierTree className = checkNotNull(classTree.simpleName());
         String fqn = getFqn(classTree);
-        checkDepth(fqn);
+        iteratePredecessors(className, fqn, 0);
     }
 
-    private void checkDepth(String fqn) {
-        iteratePredecessors(fqn, 0);
-    }
-
-    private void iteratePredecessors(String fqn, int previousDepth) {
+    private void iteratePredecessors(IdentifierTree className, String fqn, int previousDepth) {
         int depth = previousDepth + 1;
         for (String predecessor : aggregateGraph.predecessors(fqn)) {
             if (isAggregateRoot(predecessor) && depth > MAX_DEPTH) {
                 reportIssue(className, String.format("Is nested at %d level in aggregate %s", depth, predecessor));
                 return;
             }
-            iteratePredecessors(predecessor, depth);
+            iteratePredecessors(className, predecessor, depth);
         }
     }
 }
