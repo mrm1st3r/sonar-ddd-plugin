@@ -9,14 +9,21 @@ class AggregateGraphBuilderTest extends Specification {
 
     def "should build graph"() {
         given:
-        def builder = new AggregateGraphBuilder()
-        def collection = Mock(ModelCollection)
+        def graphBuilder = new AggregateGraphBuilder()
+        def builder = new ModelCollectionBuilder()
+        builder.add(ModelType.ENTITY, "Root1")
+        builder.add(ModelType.ENTITY, "Child1")
+        builder.add(ModelType.ENTITY, "Child2")
+        builder.add(ModelType.ENTITY, "Root2")
+        builder.add(ModelType.ENTITY, "Child3")
+        builder.add(ModelType.ENTITY, "SingleEntityAggregate")
+        def collection = builder.build()
         MutableGraph<String> graph = GraphBuilder.directed().build()
-        builder.setModelCollection(collection)
-        builder.setAggregateGraph(graph)
+        graphBuilder.setModelCollection(collection)
+        graphBuilder.setAggregateGraph(graph)
 
         when:
-        JavaCheckVerifier.verifyNoIssue("src/test/files/AggregateGraphBuilder_sample.java", builder)
+        JavaCheckVerifier.verifyNoIssue("src/test/files/AggregateGraphBuilder_sample.java", graphBuilder)
 
         then:
         graph.nodes().size() == 6
@@ -24,18 +31,5 @@ class AggregateGraphBuilderTest extends Specification {
         graph.predecessors("Root1").contains("Root2")
         graph.successors("Root2").containsAll(["Child3", "Root1"])
         graph.nodes().contains("SingleEntityAggregate")
-
-        collection.isAggregateRelevantType("Root1") >> true
-        collection.isAggregateRelevantType("Child1") >> true
-        collection.isAggregateRelevantType("Child2") >> true
-        collection.isAggregateRelevantType("Root2") >> true
-        collection.isAggregateRelevantType("Child3") >> true
-        collection.isAggregateRelevantType("SingleEntityAggregate") >> true
-        collection.hasEntity("Root1") >> true
-        collection.hasEntity("Child1") >> true
-        collection.hasEntity("Child2") >> true
-        collection.hasEntity("Root2") >> true
-        collection.hasEntity("Child3") >> true
-        collection.hasEntity("SingleEntityAggregate") >> true
     }
 }

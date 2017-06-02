@@ -2,7 +2,8 @@ package de.smartsquare.ddd.sonarqube.rules
 
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.ImmutableGraph
-import de.smartsquare.ddd.sonarqube.collect.ModelCollection
+import de.smartsquare.ddd.sonarqube.collect.ModelCollectionBuilder
+import de.smartsquare.ddd.sonarqube.collect.ModelType
 import org.sonar.java.checks.verifier.JavaCheckVerifier
 import spock.lang.Specification
 
@@ -11,7 +12,12 @@ class WellFormedAggregateCheckTest extends Specification {
     def "should detect aggregates with multiple roots"() {
         given:
         def check = new WellFormedAggregateCheck()
-        def collection = Mock(ModelCollection)
+        def builder = new ModelCollectionBuilder()
+        builder.add(ModelType.ENTITY, "Child1")
+        builder.add(ModelType.VALUE_OBJECT, "Child2")
+        builder.add(ModelType.AGGREGATE_ROOT, "Root1")
+        builder.add(ModelType.AGGREGATE_ROOT, "Root2")
+        def collection = builder.build()
         def graph = GraphBuilder.directed().build()
 
         graph.putEdge("Root1", "Child1")
@@ -21,14 +27,7 @@ class WellFormedAggregateCheckTest extends Specification {
         check.setAggregateGraph(immutableGraph)
         check.setModelCollection(collection)
 
-        when:
+        expect:
         JavaCheckVerifier.verify("src/test/files/WellFormedAggregateCheck_sample.java", check)
-
-        then:
-        collection.isAggregateRelevantType(_) >> true
-        collection.hasEntity("Child1") >> true
-        collection.hasValueObject("Child2") >> true
-        collection.hasAggregateRoot("Root1") >> true
-        collection.hasAggregateRoot("Root2") >> true
     }
 }
