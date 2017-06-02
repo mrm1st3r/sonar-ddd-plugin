@@ -15,13 +15,13 @@ import java.util.List;
 /**
  * Scanner run for building the aggregate structure as a graph.
  */
-class AggregateGraphScannerRun extends ScannerRun<AggregateGraphBuilder> {
+class AggregateGraphScanner extends Scanner<AggregateGraphBuilder> {
 
     private final ModelCollection modelCollection;
     private final MutableGraph<String> aggregateGraph = GraphBuilder.directed().build();
 
-    AggregateGraphScannerRun(SonarComponents sonarComponents, List<File> classpath,
-                             JavaVersion javaVersion, ModelCollection modelCollection) {
+    AggregateGraphScanner(SonarComponents sonarComponents, List<File> classpath,
+                          JavaVersion javaVersion, ModelCollection modelCollection) {
         super(sonarComponents, classpath, javaVersion);
         this.modelCollection = modelCollection;
         this.registerChecks(ImmutableList.of(AggregateGraphBuilder.class));

@@ -8,11 +8,11 @@ import spock.lang.Specification
 
 import java.nio.file.Paths
 
-class CollectorScannerRunTest extends Specification {
+class ModelCollectionScannerTest extends Specification {
 
     def "should collect model classes"() {
         given:
-        def run = new CollectorScannerRun(null,
+        def run = new ModelCollectionScanner(null,
                  JavaCheckVerifier.getFilesRecursively(Paths.get("target/test-jars"), ["jar"] as String[]),
                 Mock(JavaVersion),
                 new MapSettings())

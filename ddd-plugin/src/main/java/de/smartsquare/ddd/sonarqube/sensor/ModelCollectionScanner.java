@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * ScannerRun for collecting domain model classes.
+ * Scanner for collecting domain model classes.
  */
-class CollectorScannerRun extends ScannerRun<ModelCollector> {
+class ModelCollectionScanner extends Scanner<ModelCollector> {
 
     private final ModelCollectionBuilder collectionBuilder = new ModelCollectionBuilder();
     private final Settings settings;
 
-    CollectorScannerRun(SonarComponents sonarComponents, List<File> classpath,
-                        JavaVersion javaVersion, Settings settings) {
+    ModelCollectionScanner(SonarComponents sonarComponents, List<File> classpath,
+                           JavaVersion javaVersion, Settings settings) {
         super(sonarComponents, classpath, javaVersion);
         this.settings = settings;
     }

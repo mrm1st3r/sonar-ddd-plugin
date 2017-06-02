@@ -77,7 +77,7 @@ public class DDDSensor implements Sensor {
     }
 
     private ModelCollection runCollectionScanner() {
-        CollectorScannerRun collectorRun = new CollectorScannerRun(
+        ModelCollectionScanner collectorRun = new ModelCollectionScanner(
                 sonarComponents,
                 classpath.getElements(),
                 getJavaVersion(),
@@ -88,14 +88,14 @@ public class DDDSensor implements Sensor {
     }
 
     private ImmutableGraph<String> runAggregateScanner(ModelCollection modelCollection) {
-        AggregateGraphScannerRun aggregateRun = new AggregateGraphScannerRun(
+        AggregateGraphScanner aggregateRun = new AggregateGraphScanner(
                 sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection);
         aggregateRun.scan(getSourceFiles());
         return aggregateRun.getGraph();
     }
 
     private void runRulesScanner(ModelCollection modelCollection, ImmutableGraph<String> aggregateGraph) {
-        RulesScannerRun rulesRun = new RulesScannerRun(
+        RulesScanner rulesRun = new RulesScanner(
                 sonarComponents, classpath.getElements(), getJavaVersion(), modelCollection, settings, aggregateGraph);
         rulesRun.registerChecks(RulesList.checkClasses());
         rulesRun.scan(getSourceFiles());

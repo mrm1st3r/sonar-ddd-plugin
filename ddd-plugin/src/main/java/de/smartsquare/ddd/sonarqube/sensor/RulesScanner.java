@@ -13,14 +13,14 @@ import java.util.List;
 /**
  * Scanner run for active rules.
  */
-class RulesScannerRun extends ScannerRun<DDDAwareCheck> {
+class RulesScanner extends Scanner<DDDAwareCheck> {
 
     private final ModelCollection collection;
     private final Settings settings;
     private final ImmutableGraph<String> aggregateGraph;
 
-    RulesScannerRun(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion,
-                    ModelCollection collection, Settings settings, ImmutableGraph<String> aggregateGraph) {
+    RulesScanner(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion,
+                 ModelCollection collection, Settings settings, ImmutableGraph<String> aggregateGraph) {
         super(sonarComponents, classpath, javaVersion);
         this.collection = collection;
         this.settings = settings;

@@ -12,7 +12,7 @@ import spock.lang.Specification
 
 import java.nio.file.Paths
 
-class RulesScannerRunTest extends Specification {
+class RulesScannerTest extends Specification {
 
     def "should collect model classes"() {
         given:
@@ -20,7 +20,7 @@ class RulesScannerRunTest extends Specification {
         def settings = Mock(Settings)
         def components = Mock(SonarComponents)
         def graph = GraphBuilder.directed().build()
-        def run = new RulesScannerRun(components,
+        def run = new RulesScanner(components,
                 JavaCheckVerifier.getFilesRecursively(Paths.get("target/test-jars"), ["jar"] as String[]),
                 Mock(JavaVersion),
                 model,

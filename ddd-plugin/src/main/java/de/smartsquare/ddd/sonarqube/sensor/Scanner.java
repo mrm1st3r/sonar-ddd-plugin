@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
  * to execute them on a given set of files.
  * Dependencies to checks can be injected by subclasses.
  */
-abstract class ScannerRun<T extends JavaCheck> {
+abstract class Scanner<T extends JavaCheck> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ScannerRun.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Scanner.class);
 
     private final SonarComponents sonarComponents;
     private final JavaVersion javaVersion;
@@ -32,7 +32,7 @@ abstract class ScannerRun<T extends JavaCheck> {
 
     private Iterable<T> javaChecks;
 
-    ScannerRun(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion) {
+    Scanner(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion) {
         this.sonarComponents = sonarComponents;
         this.javaClasspath = classpath;
         this.javaVersion = javaVersion;
