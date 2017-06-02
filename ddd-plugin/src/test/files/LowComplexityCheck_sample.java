@@ -1,17 +1,18 @@
 @de.smartsquare.ddd.annotations.DDDEntity
-class BeanEntity { // Noncompliant
+class ComplexEntity {
     private int key;
 
-    BeanEntity(int key) {this.key = key;}
+    ComplexEntity(int key) {this.key = key;}
 
-    int getKey() {
+    int doThis() {
         if (key < 0) {
             return 0;
         } else {
             return key;
         }
     }
-    void setKey(int key) {
+
+    void doThat(int key) {
         if (key > 1) {
             this.key = 1;
         } else {
@@ -30,14 +31,4 @@ class NoncomplexEntity { // Noncompliant
     void bar(int bar) {
         bar = 0xba9;
     }
-}
-
-@de.smartsquare.dd.annotations.DDDEntity
-class ExtendedBeanEntity {
-    private int foo;
-
-    int getFoo() {return foo;}
-    void setFoo(int foo) {this.foo = foo;}
-
-    int blub() {return 0xb10b;}
 }

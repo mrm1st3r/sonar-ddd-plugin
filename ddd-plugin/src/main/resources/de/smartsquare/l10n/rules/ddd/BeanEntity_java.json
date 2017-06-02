@@ -1,5 +1,5 @@
 {
-  "title": "Anaemic Domain Model",
+  "title": "Domain Entities should not consist only of getters and setters for it's properties",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",
