@@ -7,7 +7,7 @@
     <parent>
         <artifactId>sonar-ddd-parent</artifactId>
         <groupId>de.smartsquare.ddd</groupId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>ddd-annotations</artifactId>
