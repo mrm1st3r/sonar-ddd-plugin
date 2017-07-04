@@ -136,7 +136,7 @@
                     <pluginName>Java DDD</pluginName>
                     <pluginDescription>Domain Driven Design Analyzer for Java</pluginDescription>
                     <sonarQubeMinVersion>5.6</sonarQubeMinVersion>
-                    <sonarLintSupported>true</sonarLintSupported>
+                    <sonarLintSupported>false</sonarLintSupported>
                     <pluginOrganizationName>Smartsquare</pluginOrganizationName>
                     <pluginOrganizationUrl>http://www.smartsquare.de/</pluginOrganizationUrl>
                 </configuration>
