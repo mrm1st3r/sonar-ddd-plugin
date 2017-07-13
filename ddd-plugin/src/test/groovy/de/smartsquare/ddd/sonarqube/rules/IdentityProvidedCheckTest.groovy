@@ -17,7 +17,7 @@ class IdentityProvidedCheckTest extends Specification {
         builder.add(ModelType.ENTITY, "ExtendedEntity")
         def collection = builder.build()
         def settings = new MapSettings()
-        settings.getString("sonar.ddd.entity.identityMethods") >> "getId"
+        settings.setProperty("sonar.ddd.entity.identityMethods", "getId")
         check.setModelCollection(collection)
         check.setSettings(settings)
 
