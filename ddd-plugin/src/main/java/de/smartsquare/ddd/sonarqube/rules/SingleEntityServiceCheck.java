@@ -31,7 +31,9 @@ public class SingleEntityServiceCheck extends DDDAwareCheck {
                 .filter(m -> m.is(Tree.Kind.METHOD))
                 .map(m -> (MethodTree) m)
                 .filter(this::usesOnlyOneEntity)
-                .forEach(m -> reportIssue(m, "A Service should incorporate multiple Entity types"));
+                .map(MethodTree::parameters)
+                .forEach(m -> reportIssue(m.get(0), m.get(m.size()-1),
+                        "A Service should incorporate multiple Entity types"));
     }
 
     private boolean usesOnlyOneEntity(MethodTree methodTree) {
