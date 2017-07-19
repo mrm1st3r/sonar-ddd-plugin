@@ -30,6 +30,7 @@ public class SingleEntityServiceCheck extends DDDAwareCheck {
                 .stream()
                 .filter(m -> m.is(Tree.Kind.METHOD))
                 .map(m -> (MethodTree) m)
+                .filter(m -> !m.symbol().isPrivate())
                 .filter(this::usesOnlyOneEntity)
                 .map(MethodTree::parameters)
                 .forEach(m -> reportIssue(m.get(0), m.get(m.size()-1),
