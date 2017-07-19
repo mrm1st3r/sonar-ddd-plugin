@@ -38,7 +38,11 @@ public class WellFormedAggregateCheck extends DDDAwareCheck {
         if (!aggregateGraph.nodes().contains(getFqn(classTree))) {
             return 0;
         }
-        return aggregateGraph.predecessors(getFqn(classTree)).stream()
+        int isRootItself = 0;
+        if (isAggregateRoot(getFqn(classTree))) {
+            isRootItself = 1;
+        }
+        return isRootItself + aggregateGraph.predecessors(getFqn(classTree)).stream()
                 .filter(this::isAggregateRoot)
                 .count();
     }
