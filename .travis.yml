@@ -1,0 +1,11 @@
+language: java
+
+jdk: oraclejdk8
+
+addons:
+  sonarqube:
+    organization: "mrm1st3r-github"
+    branches:
+      - master
+
+script: mvn test sonar:sonar -Dmaven.javadoc.skip=true -Dsonar.language=java
