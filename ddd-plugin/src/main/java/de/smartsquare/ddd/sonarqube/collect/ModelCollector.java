@@ -23,6 +23,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
     private ModelCollectionBuilder builder;
     private Settings settings;
     private Predicate<String> namePattern;
+    private String namePatternSetting;
 
     /**
      * Create a new ModelCollector to collect model classes of a given type.
@@ -52,7 +53,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
         }
         ClassTree classTree = (ClassTree) tree;
         if (isAnnotated(classTree) || isInHierarchy(classTree) || matchesNamePattern(classTree)) {
-            builder.add(getModelType(), getFqn(classTree));
+            builder.add(type, getFqn(classTree));
         }
     }
 
@@ -83,36 +84,19 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
 
     private List<String> getConfiguredAnnotations() {
         return ImmutableList.<String>builder()
-                .add(getStaticAnnotation())
-                .add(settings.getStringArray(buildKey(getAnnotationSetting())))
+                .add(type.getStaticAnnotation().getName())
+                .add(settings.getStringArray(buildKey(type, "annotations")))
                 .build();
     }
 
     private List<String> getConfiguredSuperClasses() {
-        return ImmutableList.copyOf(settings.getStringArray(buildKey(getHierarchySetting())));
+        return ImmutableList.copyOf(settings.getStringArray(buildKey(type, "hierarchy")));
     }
 
     private String getNamePattern() {
-        return settings.getString(buildKey(getNamePatternSetting()));
-    }
-
-    private ModelType getModelType() {
-        return type;
-    }
-
-    private String getStaticAnnotation() {
-        return type.getStaticAnnotation().getName();
-    }
-
-    private String getAnnotationSetting() {
-        return type.getPropertyKey() + ".annotations";
-    }
-
-    private String getHierarchySetting() {
-        return type.getPropertyKey() + ".hierarchy";
-    }
-
-    private String getNamePatternSetting() {
-        return type.getPropertyKey() + ".namePattern";
+        if (this.namePatternSetting == null) {
+            this.namePatternSetting = settings.getString(buildKey(type, "namePattern"));
+        }
+        return namePatternSetting;
     }
 }
