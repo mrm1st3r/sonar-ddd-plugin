@@ -41,6 +41,7 @@ public class DDDProperties {
                 .forEachOrdered(t -> properties.add(collectionPropertiesFor(t)));
         properties.add(newTypeProperty(ModelType.ENTITY, "identityMethods", "Identity Methods", "getId"));
         properties.add(newProperty("applicationPackage", "Application Package", CAT_GENERAL, null));
+        properties.add(newProperty("modelPackage", "Domain Model Package", CAT_GENERAL, null));
         return properties.build();
     }
 
