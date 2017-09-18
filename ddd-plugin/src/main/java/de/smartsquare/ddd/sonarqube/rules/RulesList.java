@@ -24,7 +24,6 @@ public class RulesList {
                 .add(IdentityProvidedCheck.class)
                 .add(ImmutabilityCheck.class)
                 .add(BeanEntityCheck.class)
-                .add(LowComplexityCheck.class)
                 .add(SingleEntityServiceCheck.class)
                 .add(WellFormedAggregateCheck.class)
                 .add(DependencyCheck.class)
