@@ -1,6 +1,7 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
 import com.google.common.collect.ImmutableList;
+import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.Type;
@@ -52,9 +53,23 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
             throw new IllegalStateException("Cannot collect before ModelCollectionBuilder is set");
         }
         ClassTree classTree = (ClassTree) tree;
+        if (!isInModelPackage(classTree)) {
+            return;
+        }
         if (isAnnotated(classTree) || isInHierarchy(classTree) || matchesNamePattern(classTree)) {
             builder.add(type, getFqn(classTree));
         }
+    }
+
+    /**
+     * If a model package is set, check if the class is inside it.
+     * If model package is not set, return true.
+     */
+    private boolean isInModelPackage(ClassTree classTree) {
+        String modelPackage = settings.getString("sonar.ddd.modelPackage");
+        return modelPackage == null
+                || modelPackage.length() == 0
+                || TreeUtil.getFqn(classTree).startsWith(modelPackage);
     }
 
     private boolean isAnnotated(ClassTree classTree) {
