@@ -1,21 +1,23 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import com.sonar.sslr.api.typed.ActionParser;
+import java.io.File;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.java.SonarComponents;
 import org.sonar.java.ast.JavaAstScanner;
 import org.sonar.java.ast.parser.JavaParser;
 import org.sonar.java.model.VisitorsBridge;
+import org.sonar.java.se.SymbolicExecutionMode;
 import org.sonar.plugins.java.api.JavaCheck;
 import org.sonar.plugins.java.api.JavaVersion;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.squidbridge.api.CodeVisitor;
 
-import java.io.File;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import com.sonar.sslr.api.typed.ActionParser;
 
 /**
  * Helper class to instantiate check classes and to run a code scanner
@@ -77,7 +79,7 @@ abstract class Scanner<T extends JavaCheck> {
         ActionParser<Tree> parser = JavaParser.createParser();
         JavaAstScanner astScanner = new JavaAstScanner(parser, sonarComponents);
         VisitorsBridge visitorsBridge = new VisitorsBridge(visitors,
-                javaClasspath, sonarComponents, false);
+                javaClasspath, sonarComponents, SymbolicExecutionMode.DISABLED);
         visitorsBridge.setJavaVersion(javaVersion);
         astScanner.setVisitorBridge(visitorsBridge);
         return astScanner;

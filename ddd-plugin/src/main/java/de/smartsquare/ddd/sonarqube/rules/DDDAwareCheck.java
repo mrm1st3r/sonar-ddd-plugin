@@ -1,11 +1,13 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
-import com.google.common.graph.ImmutableGraph;
-import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
-import de.smartsquare.ddd.sonarqube.util.TreeUtil;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
+
+import com.google.common.graph.ImmutableGraph;
+
+import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
+import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 
 /**
  * Superclass for all ddd related checks.
@@ -13,14 +15,14 @@ import org.sonar.plugins.java.api.tree.ClassTree;
 public abstract class DDDAwareCheck extends IssuableSubscriptionVisitor {
 
     ModelCollection modelCollection;
-    Settings settings;
+    Configuration settings;
     ImmutableGraph<String> aggregateGraph;
 
     public void setModelCollection(ModelCollection modelCollection) {
         this.modelCollection = modelCollection;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(Configuration settings) {
         this.settings = settings;
     }
 

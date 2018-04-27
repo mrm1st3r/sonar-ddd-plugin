@@ -1,14 +1,16 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import com.google.common.graph.ImmutableGraph;
-import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
-import de.smartsquare.ddd.sonarqube.rules.DDDAwareCheck;
-import org.sonar.api.config.Settings;
+import java.io.File;
+import java.util.List;
+
+import org.sonar.api.config.Configuration;
 import org.sonar.java.SonarComponents;
 import org.sonar.plugins.java.api.JavaVersion;
 
-import java.io.File;
-import java.util.List;
+import com.google.common.graph.ImmutableGraph;
+
+import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
+import de.smartsquare.ddd.sonarqube.rules.DDDAwareCheck;
 
 /**
  * Scanner run for active rules.
@@ -16,11 +18,11 @@ import java.util.List;
 class RulesScanner extends Scanner<DDDAwareCheck> {
 
     private final ModelCollection collection;
-    private final Settings settings;
+    private final Configuration settings;
     private final ImmutableGraph<String> aggregateGraph;
 
     RulesScanner(SonarComponents sonarComponents, List<File> classpath, JavaVersion javaVersion,
-                 ModelCollection collection, Settings settings, ImmutableGraph<String> aggregateGraph) {
+                 ModelCollection collection, Configuration settings, ImmutableGraph<String> aggregateGraph) {
         super(sonarComponents, classpath, javaVersion);
         this.collection = collection;
         this.settings = settings;

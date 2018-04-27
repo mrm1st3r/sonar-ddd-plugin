@@ -1,13 +1,18 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
-import com.google.common.collect.ImmutableList;
-import org.sonar.check.Rule;
-import org.sonar.java.checks.helpers.ExpressionsHelper;
-import org.sonar.plugins.java.api.tree.*;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.sonar.check.Rule;
+import org.sonar.java.checks.helpers.ExpressionsHelper;
+import org.sonar.plugins.java.api.tree.ClassTree;
+import org.sonar.plugins.java.api.tree.CompilationUnitTree;
+import org.sonar.plugins.java.api.tree.ExpressionTree;
+import org.sonar.plugins.java.api.tree.ImportTree;
+import org.sonar.plugins.java.api.tree.Tree;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Checks whether any domain model classes have dependencies
@@ -35,7 +40,7 @@ public class DependencyCheck extends DDDAwareCheck {
     }
 
     private long countIllegalDependencies(CompilationUnitTree classTree) {
-        String applicationPackage = settings.getString("sonar.ddd.applicationPackage");
+        String applicationPackage = settings.get("sonar.ddd.applicationPackage").orElse(null);
         if (applicationPackage == null || "".equals(applicationPackage)) {
             return 0;
         }

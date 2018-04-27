@@ -1,16 +1,18 @@
 package de.smartsquare.ddd.sonarqube.sensor;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.graph.ImmutableGraph;
-import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
-import de.smartsquare.ddd.sonarqube.collect.ModelType;
-import de.smartsquare.ddd.sonarqube.rules.RulesList;
+import java.io.File;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
-import org.sonar.api.config.Settings;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -20,11 +22,12 @@ import org.sonar.java.model.JavaVersionImpl;
 import org.sonar.plugins.java.Java;
 import org.sonar.plugins.java.api.JavaVersion;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.io.File;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.graph.ImmutableGraph;
+
+import de.smartsquare.ddd.sonarqube.collect.ModelCollection;
+import de.smartsquare.ddd.sonarqube.collect.ModelType;
+import de.smartsquare.ddd.sonarqube.rules.RulesList;
 
 /**
  * Sensor class to detect DDD relevant classes and execute checks on them.
@@ -35,7 +38,7 @@ public class DDDSensor implements Sensor {
 
     private static final Logger LOG = Loggers.get(DDDSensor.class);
 
-    private final Settings settings;
+    private final Configuration settings;
     private final RulesProfile profile;
     private final SonarComponents sonarComponents;
     private final JavaClasspath classpath;
@@ -48,7 +51,7 @@ public class DDDSensor implements Sensor {
      * @param fs the current projects file system
      * @param sonarComponents main integration point to sonar api
      */
-    public DDDSensor(Settings settings, RulesProfile profile, FileSystem fs, DDDSonarComponents sonarComponents) {
+    public DDDSensor(Configuration settings, RulesProfile profile, FileSystem fs, DDDSonarComponents sonarComponents) {
         this.fs = fs;
         this.settings = settings;
         this.profile = profile;
@@ -116,7 +119,7 @@ public class DDDSensor implements Sensor {
     }
 
     private JavaVersion getJavaVersion() {
-        return JavaVersionImpl.fromString(settings.getString(Java.SOURCE_VERSION));
+        return JavaVersionImpl.fromString(settings.get(Java.SOURCE_VERSION).orElse(null));
     }
 
     private Iterable<File> getSourceFiles() {

@@ -15,8 +15,8 @@
     </modules>
 
     <properties>
-        <sonar.version>6.3</sonar.version>
-        <java.plugin.version>4.8.0.9441</java.plugin.version>
+        <sonar.version>6.7</sonar.version>
+        <java.plugin.version>5.1.1.13214</java.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

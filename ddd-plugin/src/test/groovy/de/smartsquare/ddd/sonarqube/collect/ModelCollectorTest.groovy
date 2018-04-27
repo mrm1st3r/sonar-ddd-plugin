@@ -1,6 +1,7 @@
 package de.smartsquare.ddd.sonarqube.collect
 
-import org.sonar.api.config.MapSettings
+import org.sonar.api.config.internal.ConfigurationBridge
+import org.sonar.api.config.internal.MapSettings
 import org.sonar.java.checks.verifier.JavaCheckVerifier
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -15,7 +16,7 @@ class ModelCollectorTest extends Specification {
         def settings = new MapSettings()
         def builder = new ModelCollectionBuilder()
         def collector = new ModelCollector(type)
-        collector.setSettings(settings)
+        collector.setSettings(new ConfigurationBridge(settings))
         settings.setProperty(buildKey(type, "hierarchy"), cname + "Interface, Abstract" + cname)
         settings.setProperty(buildKey(type, "namePattern"), "^" + namePattern + ".*")
 
@@ -42,7 +43,7 @@ class ModelCollectorTest extends Specification {
         def collector = new ModelCollector(ModelType.AGGREGATE_ROOT)
         def builder = new ModelCollectionBuilder()
         collector.setBuilder(builder)
-        collector.setSettings(new MapSettings())
+        collector.setSettings(new ConfigurationBridge(new MapSettings()))
 
         when:
         JavaCheckVerifier.verifyNoIssue("src/test/files/AggregateGraphBuilder_sample.java", collector)

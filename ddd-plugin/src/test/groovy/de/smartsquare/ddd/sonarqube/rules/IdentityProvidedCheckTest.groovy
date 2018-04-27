@@ -2,7 +2,8 @@ package de.smartsquare.ddd.sonarqube.rules
 
 import de.smartsquare.ddd.sonarqube.collect.ModelCollectionBuilder
 import de.smartsquare.ddd.sonarqube.collect.ModelType
-import org.sonar.api.config.MapSettings
+import org.sonar.api.config.internal.ConfigurationBridge
+import org.sonar.api.config.internal.MapSettings
 import org.sonar.java.checks.verifier.JavaCheckVerifier
 import spock.lang.Specification
 
@@ -19,7 +20,7 @@ class IdentityProvidedCheckTest extends Specification {
         def settings = new MapSettings()
         settings.setProperty("sonar.ddd.entity.identityMethods", "getId")
         check.setModelCollection(collection)
-        check.setSettings(settings)
+        check.setSettings(new ConfigurationBridge(settings))
 
         expect:
         JavaCheckVerifier.verify("src/test/files/IdentityProvidedCheck_sample.java", check)

@@ -19,7 +19,7 @@ class RuleEnricherTest extends Specification {
 
     def "should enrich rules"() {
         given:
-        rule = new RulesDefinition.NewRule("ddd", "Immutability")
+        rule = new RulesDefinition.NewRule("java-ddd", "ddd", "Immutability")
 
         when:
         enricher.enrich()
@@ -34,7 +34,7 @@ class RuleEnricherTest extends Specification {
 
     def "should notice missing files"() {
         given:
-        rule = new RulesDefinition.NewRule("ddd", "Missing")
+        rule = new RulesDefinition.NewRule("java-ddd", "ddd", "Missing")
 
         when:
         enricher.enrich()

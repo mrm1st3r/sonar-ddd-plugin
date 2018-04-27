@@ -1,19 +1,21 @@
 package de.smartsquare.ddd.sonarqube.collect;
 
-import com.google.common.collect.ImmutableList;
-import de.smartsquare.ddd.sonarqube.util.TreeUtil;
-import org.sonar.api.config.Settings;
-import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
-import org.sonar.plugins.java.api.semantic.Type;
-import org.sonar.plugins.java.api.tree.ClassTree;
-import org.sonar.plugins.java.api.tree.Tree;
+import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey;
+import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
 
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
-import static de.smartsquare.ddd.sonarqube.collect.DDDProperties.buildKey;
-import static de.smartsquare.ddd.sonarqube.util.TreeUtil.getFqn;
+import org.sonar.api.config.Configuration;
+import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.semantic.Type;
+import org.sonar.plugins.java.api.tree.ClassTree;
+import org.sonar.plugins.java.api.tree.Tree;
+
+import com.google.common.collect.ImmutableList;
+
+import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 
 /**
  * Abstract class to collect domain model parts
@@ -22,7 +24,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
 
     private final ModelType type;
     private ModelCollectionBuilder builder;
-    private Settings settings;
+    private Configuration settings;
     private Predicate<String> namePattern;
     private String namePatternSetting;
 
@@ -34,7 +36,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
         this.type = type;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(Configuration settings) {
         this.settings = settings;
     }
 
@@ -66,7 +68,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
      * If model package is not set, return true.
      */
     private boolean isInModelPackage(ClassTree classTree) {
-        String modelPackage = settings.getString("sonar.ddd.modelPackage");
+        String modelPackage = settings.get("sonar.ddd.modelPackage").orElse(null);
         return modelPackage == null
                 || modelPackage.length() == 0
                 || TreeUtil.getFqn(classTree).startsWith(modelPackage);
@@ -110,7 +112,7 @@ public class ModelCollector extends IssuableSubscriptionVisitor {
 
     private String getNamePattern() {
         if (this.namePatternSetting == null) {
-            this.namePatternSetting = settings.getString(buildKey(type, "namePattern"));
+            this.namePatternSetting = settings.get(buildKey(type, "namePattern")).orElse("");
         }
         return namePatternSetting;
     }

@@ -1,8 +1,10 @@
 package de.smartsquare.ddd.sonarqube.rules;
 
-import com.google.common.collect.ImmutableList;
-import de.smartsquare.ddd.sonarqube.util.TreeUtil;
-import org.sonar.api.config.Settings;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
+import org.sonar.api.config.Configuration;
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.semantic.Symbol;
 import org.sonar.plugins.java.api.tree.ClassTree;
@@ -10,9 +12,9 @@ import org.sonar.plugins.java.api.tree.IdentifierTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
+import com.google.common.collect.ImmutableList;
+
+import de.smartsquare.ddd.sonarqube.util.TreeUtil;
 
 /**
  * Rule to check Entities for identity.
@@ -25,9 +27,9 @@ public class IdentityProvidedCheck extends DDDAwareCheck {
     private Predicate<String> nameMatcher;
 
     @Override
-    public void setSettings(Settings settings) {
+    public void setSettings(Configuration settings) {
         super.setSettings(settings);
-        String identityPattern = settings.getString("sonar.ddd.entity.identityMethods");
+        String identityPattern = settings.get("sonar.ddd.entity.identityMethods").orElse(null);
         if (identityPattern == null) {
             identityPattern = DEFAULT_PATTERN;
         }

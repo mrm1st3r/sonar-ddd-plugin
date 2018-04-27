@@ -4,10 +4,13 @@ import de.smartsquare.ddd.sonarqube.rules.RulesList
 import org.sonar.api.batch.fs.internal.DefaultFileSystem
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor
 import org.sonar.api.batch.sensor.internal.SensorContextTester
-import org.sonar.api.config.MapSettings
+import org.sonar.api.config.internal.ConfigurationBridge
+import org.sonar.api.config.internal.MapSettings
 import org.sonar.api.profiles.RulesProfile
 import org.sonar.plugins.java.Java
 import spock.lang.Specification
+
+import java.nio.file.Path
 
 class DDDSensorTest extends Specification {
     private DefaultFileSystem fileSystem
@@ -17,10 +20,10 @@ class DDDSensorTest extends Specification {
     private DDDSonarComponents components
 
     def setup() {
-        fileSystem = new DefaultFileSystem((File) null)
+        fileSystem = new DefaultFileSystem((Path) null)
         profile = Mock(RulesProfile)
         components = Mock(DDDSonarComponents)
-        sensor = new DDDSensor(new MapSettings(), profile,
+        sensor = new DDDSensor(new ConfigurationBridge(new MapSettings()), profile,
                 this.fileSystem, components)
     }
 
